@@ -102,16 +102,6 @@ while curr_row < num_rows:
 		else:
 			charters[school_IRN]['Public Funding']		= transfer
 
-for charter in charters:
-	if 'Public Funding' in charters[charter]:
-		charters[charter]['Public Funding']			= \
-			'%.2f' % charters[charter]['Public Funding']
-
-for district in districts:
-	if 'Charter Transfer' in districts[district]:
-		districts[district]['Charter Transfer']			= \
-			'%.2f' % districts[district]['Charter Transfer']
-
 write_file.close()
 
 # Charter-District Third Grade Reading Guarantee
