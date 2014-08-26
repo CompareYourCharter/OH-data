@@ -3395,35 +3395,35 @@ wr.writerow(headers)
 
 for school in charters:
 	try:
-		enrollment		= charters[school]['# of students']
-		teachers		= charters[school]['# of FT teachers']
-		student_teacher		= '%.1f' % enrollment/teachers
+		enrollment		= float(charters[school]['# of students'])
+		teachers		= float(charters[school]['# of FT teachers'])
+		student_teacher		= '%.1f' % (enrollment/teachers)
 		charters[school]['Student-teacher ratio'] = student_teacher
 	except:
 		pass
 	try:
-		poverty			= charters[school]['Poverty Enrollment']
-		poverty_percent		= '%.1f' % 100 * (poverty/enrollment)
+		poverty			= float(charters[school]['Poverty Enrollment'])
+		poverty_percent		= '%.1f' % (100 * (poverty/enrollment))
 		charters[school]['% of kids in poverty'] = poverty_percent
 	except:
 		pass
 	try:
-		disabled		= charters[school]['Disable Enrollment']
-		disabled_percent	= '%.1f' % 100 * (disabled/enrollment)
+		disabled		= float(charters[school]['Disable Enrollment'])
+		disabled_percent	= '%.1f' % (100 * (disabled/enrollment))
 		charters[school]['% of kids with special needs'] = disabled_percent
 	except:
 		pass
 	try:
-		gifted			= charters[school]['Gifted Enrollment']
-		gifted_percent		= '%.1f' % 100 * (gifted/enrollment)
+		gifted			= float(charters[school]['Gifted Enrollment'])
+		gifted_percent		= '%.1f' % (100 * (gifted/enrollment))
 		charters[school]['% gifted'] = gifted_percent
 	except:
 		pass
 	try:
-		white			= charters[school]['White Enrollment']
+		white			= float(charters[school]['White Enrollment'])
 		nonwhite		= enrollment - white
-		white_percent		= '%.1f' % 100 * (white/enrollment)
-		nonwhite_percent	= '%.1f' % 100 * (nonwhite/enrollment)
+		white_percent		= '%.1f' % (100 * (white/enrollment))
+		nonwhite_percent	= '%.1f' % (100 * (nonwhite/enrollment))
 		charters[school]['% white'] 	= white_percent
 		charters[school]['% non-white'] = nonwhite_percent
 	except:
