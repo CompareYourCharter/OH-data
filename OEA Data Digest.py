@@ -52,7 +52,7 @@ wr 		= csv.writer(write_file, quoting=csv.QUOTE_ALL)
 
 csv_file2	= web_path + 'Transfer Data.csv'
 write_file2	= open(csv_file2, 'w')
-wr2 		= csv.writer(write_file, quoting=csv.QUOTE_ALL)
+wr2 		= csv.writer(write_file2, quoting=csv.QUOTE_ALL)
 
 num_rows 					= worksheet.nrows - 1
 num_cells 					= worksheet.ncols - 1
