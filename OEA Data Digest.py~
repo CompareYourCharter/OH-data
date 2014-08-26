@@ -233,9 +233,7 @@ while curr_row < num_rows:
 		else:
 			wr.writerow(row)
 			district_IRN			= worksheet.cell_value(curr_row, 1)
-			if type(district_IRN) is float:
-				district_IRN		= str(round(district_IRN)).rstrip('0').rstrip('.')
-			district_IRN			= district_IRN.zfill(6)
+			district_IRN			= fixIRN(district_IRN)
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -326,7 +324,7 @@ while curr_row < num_rows:
 					total_expenses		+= worksheet.cell_value(curr_row, 6)
 					total_expenses		+= worksheet.cell_value(curr_row, 7)
 					total_expenses		+= worksheet.cell_value(curr_row, 8)
-					classroom_percent	= total_expenses 
+					classroom_percent	= float(total_expenses)
 					classroom_percent	-= worksheet.cell_value(curr_row, 7)
 					classroom_percent	= classroom_percent / total_expenses
 					admin_percent		= 1 - classroom_percent
@@ -350,7 +348,7 @@ while curr_row < num_rows:
 					total_expenses		+= worksheet.cell_value(curr_row, 6)
 					total_expenses		+= worksheet.cell_value(curr_row, 7)
 					total_expenses		+= worksheet.cell_value(curr_row, 8)
-					classroom_percent	= total_expenses 
+					classroom_percent	= float(total_expenses)
 					classroom_percent	-= worksheet.cell_value(curr_row, 7)
 					classroom_percent	= classroom_percent / total_expenses
 					admin_percent		= 1 - classroom_percent
@@ -573,10 +571,30 @@ while curr_row < num_rows:
 			wr.writerow(row)
 			district_IRN			= worksheet.cell_value(curr_row, 0)
 			district_IRN			= fixIRN(district_IRN)
+
+			if district_IRN not in districts:
+				districts[district_IRN]	= {}
+
 			district_name			= worksheet.cell_value(curr_row, 1)
 			district_address		= worksheet.cell_value(curr_row, 4)
-			district_grade			= worksheet.cell_value(curr_row, 14)
 
+			district_ltr_stand		= worksheet.cell_value(curr_row, 11)
+			district_perf_score		= worksheet.cell_value(curr_row, 12)
+			district_ltr_perf		= worksheet.cell_value(curr_row, 13)
+			district_ltr_overall_value	= worksheet.cell_value(curr_row, 14)
+			district_ltr_gifted_value	= worksheet.cell_value(curr_row, 15)
+			district_ltr_disable_value	= worksheet.cell_value(curr_row, 16)
+			district_ltr_bottom_value	= worksheet.cell_value(curr_row, 17)
+			district_ltr_AMO		= worksheet.cell_value(curr_row, 18)
+			district_enrollment		= worksheet.cell_value(curr_row, 24)
+			district_attend_rate		= worksheet.cell_value(curr_row, 97)
+			try:
+				district_grad_rate	= float(worksheet.cell_value(curr_row, 102))
+				district_grad_rate	= school_grad_rate \
+							/ float(worksheet.cell_value(curr_row, 103))
+				district_grad_rate	= '%.1f' % school_grad_rate
+			except:
+				district_grad_rate	= '--'
 			city_state_zip				= worksheet.cell_value(curr_row, 5)
 			group					= city_state_zip.split(",")
 			district_city				= group[0]
@@ -584,12 +602,45 @@ while curr_row < num_rows:
 			district_state				= district_group[1]
 			district_postal_code			= district_group[-1]
 
-			districts[district_IRN]['Name']		= district_name
-			districts[district_IRN]['Address']	= district_address
-			districts[district_IRN]['City']		= district_city
-			districts[district_IRN]['State']	= district_state
-			districts[district_IRN]['Postal Code']	= district_postal_code
-			districts[district_IRN]['Letter grade performance index'] = district_grade
+			# Basic School Information
+				# School Name
+			districts[district_IRN]['Name']			= district_name
+				# Address
+			districts[district_IRN]['Address']		= district_address
+			districts[district_IRN]['City']			= district_city
+			districts[district_IRN]['State']		= district_state
+			districts[district_IRN]['Postal Code']		= district_postal_code
+
+			# Studnets and Faculty
+				# # of students
+			districts[district_IRN]['# of students']	= district_enrollment
+
+			# Performance Data
+				# Report Card metrics
+					# Letter grade standards met
+			districts[district_IRN]['Letter grade standards met']	= school_ltr_stand
+					# Letter grade performance index
+			districts[district_IRN]['Letter grade performance index']	= school_ltr_perf
+					# Performance index score
+			districts[district_IRN]['Performance index score']	= school_perf_score
+					# Letter grade overall value-add
+			districts[district_IRN]['Letter grade overall value-add']	= \
+									school_ltr_overall_value
+					# Letter grade gifted value-add
+			districts[district_IRN]['Letter grade gifted value-add']	= \
+									school_ltr_gifted_value
+					# Letter grade disabled value-add
+			districts[district_IRN]['Letter grade disabled value-add']	= \
+									school_ltr_disable_value
+					# Letter grade lowest 20% value-add
+			districts[district_IRN]['Letter grade lowest 20% value-add']	= \
+									school_ltr_bottom_value
+					# Letter grade of AMO
+			districts[district_IRN]['Letter grade of AMO']	= school_ltr_AMO
+				# Attendance rate
+			districts[district_IRN]['Attendance rate']	= school_attend_rate
+				# Graduation rate
+			districts[district_IRN]['Graduation rate']	= school_grad_rate
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -1227,6 +1278,9 @@ while curr_row < num_rows:
 				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
 				if row_type == 'Disabled':
 					row_constant	= -5
+					district_enroll_disable = worksheet.cell_value(curr_row, 32)
+					districts[district_IRN]['Disable Enrollment'] = \
+										district_enroll_disable
 				else:
 					row_constant	= 24
 				header			= headers[curr_cell + row_constant]
@@ -1480,6 +1534,9 @@ while curr_row < num_rows:
 				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
 				if row_type == 'Gifted':
 					row_constant	= -5
+					district_enroll_disable = worksheet.cell_value(curr_row, 37)
+					districts[district_IRN]['Gifted Enrollment'] = \
+										district_enroll_disable
 				else:
 					row_constant	= 24
 				header			= headers[curr_cell + row_constant]
@@ -1983,6 +2040,9 @@ while curr_row < num_rows:
 				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
 				if row_type == 'Disadvantaged':
 					row_constant	= -5
+					district_enroll_disable = worksheet.cell_value(curr_row, 37)
+					districts[district_IRN]['Poverty Enrollment'] = \
+										district_enroll_disable
 				else:
 					row_constant	= 24
 				header			= headers[curr_cell + row_constant]
@@ -2799,7 +2859,9 @@ while curr_row < num_rows:
 					row_constant	= 111
 				else:
 					row_constant	= 140
-
+					district_enroll_white	= worksheet.cell_value(curr_row, 32)
+					districts[district_IRN]['White Enrollment'] = \
+									district_enroll_white
 				header			= headers[curr_cell + row_constant]
 				if district_IRN in districts:
 					districts[district_IRN][header]			= cell_value
@@ -2933,8 +2995,15 @@ while curr_row < num_rows:
 			district_IRN			= worksheet.cell_value(curr_row, 0)
 			district_IRN			= fixIRN(district_IRN)
 
-			dist_teach_exp			= worksheet.cell_value(curr_row, 5)
+			dist_teach_exp				= worksheet.cell_value(curr_row, 5)
+			dist_teach_attend			= worksheet.cell_value(curr_row, 4)
+			dist_no_teachers			= worksheet.cell_value(curr_row, 6)
+			dist_per_masters			= worksheet.cell_value(curr_row, 11)
+
+			districts[district_IRN]['Teacher attendance %'] = dist_teach_attend
 			districts[district_IRN]['Avg Teacher Exp']	= dist_teach_exp
+			districts[district_IRN]['# of FT teachers'] 	= dist_no_teachers
+			districts[district_IRN]['% of teachers with masters degrees'] = dist_per_masters
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -3403,27 +3472,27 @@ for school in charters:
 		pass
 	try:
 		poverty			= float(charters[school]['Poverty Enrollment'])
-		poverty_percent		= '%.1f' % 100 * (poverty/enrollment)
+		poverty_percent		= '%.1f' % (100 * (poverty/enrollment))
 		charters[school]['% of kids in poverty'] = poverty_percent
 	except:
 		pass
 	try:
 		disabled		= float(charters[school]['Disable Enrollment'])
-		disabled_percent	= '%.1f' % 100 * (disabled/enrollment)
+		disabled_percent	= '%.1f' % (100 * (disabled/enrollment))
 		charters[school]['% of kids with special needs'] = disabled_percent
 	except:
 		pass
 	try:
 		gifted			= float(charters[school]['Gifted Enrollment'])
-		gifted_percent		= '%.1f' % 100 * (gifted/enrollment)
+		gifted_percent		= '%.1f' % (100 * (gifted/enrollment))
 		charters[school]['% gifted'] = gifted_percent
 	except:
 		pass
 	try:
 		white			= float(charters[school]['White Enrollment'])
 		nonwhite		= enrollment - white
-		white_percent		= '%.1f' % 100 * (white/enrollment)
-		nonwhite_percent	= '%.1f' % 100 * (nonwhite/enrollment)
+		white_percent		= '%.1f' % (100 * (white/enrollment))
+		nonwhite_percent	= '%.1f' % (100 * (nonwhite/enrollment))
 		charters[school]['% white'] 	= white_percent
 		charters[school]['% non-white'] = nonwhite_percent
 	except:
@@ -3446,35 +3515,83 @@ wr 					= csv.writer(write_file, quoting=csv.QUOTE_ALL)
 
 headers					= [\
 						'District IRN', \
-						'District Name', 
-						'Street Address', \
+						'Name', \
+						'Address', \
 						'City', \
 						'State', \
 						'Postal Code', \
-						'Performance Index', \
-						'Charter Transfer', \
-						'% Spent in Classroom', \
-						'Avg Teacher Experience']
+						'Avg Teacher Exp', \
+						'% of teachers with masters degrees', \
+						'Teacher attendance %',\
+						\
+						'# of students',\
+						'# of FT teachers',\
+						'Student-teacher ratio',\
+						'% of kids in poverty',\
+						'% of kids with special needs',\
+						'% gifted',\
+						'% white',\
+						'% non-white',\
+						\
+						'Letter grade standards met',\
+						'Letter grade performance index',\
+						'Performance index score',\
+						'Letter grade overall value-add',\
+						'Letter grade gifted value-add',\
+						'Letter grade disabled value-add',\
+						'Letter grade lowest 20% value-add',\
+						'Letter grade of AMO',\
+						'Attendance rate',\
+						'Graduation rate',\
+						\
+						'% Spent in Classroom',\
+						'% Spent on Administration']
 
 wr.writerow(headers)
 
 for district in districts:
 	try:
-		row 			= []
-		row.append(district)
-		row.append(charters[district]['Name'])
-		row.append(charters[district]['Address'])
-		row.append(charters[district]['City'])
-		row.append(charters[district]['State'])
-		row.append(charters[district]['Postal Code'])
-		row.append(charters[district]['Letter grade performance index'])
-		row.append(charters[district]['Charter Transfer'])
-		row.append(charters[district]['% Spent in Classroom'])
-		row.append(charters[district]['Avg Teacher Exp'])
-		wr.writerow(row)
+		enrollment		= float(districts[district]['# of students'])
+		teachers		= float(districts[district]['# of FT teachers'])
+		student_teacher		= '%.1f' % (enrollment/teachers)
+		districts[district]['Student-teacher ratio'] = student_teacher
 	except:
 		pass
+	try:
+		poverty			= float(districts[district]['Poverty Enrollment'])
+		poverty_percent		= '%.1f' % (100 * (poverty/enrollment))
+		districts[district]['% of kids in poverty'] = poverty_percent
+	except:
+		pass
+	try:
+		disabled		= float(districts[district]['Disable Enrollment'])
+		disabled_percent	= '%.1f' % (100 * (disabled/enrollment))
+		districts[district]['% of kids with special needs'] = disabled_percent
+	except:
+		pass
+	try:
+		gifted			= float(districts[district]['Gifted Enrollment'])
+		gifted_percent		= '%.1f' % (100 * (gifted/enrollment))
+		districts[district]['% gifted'] = gifted_percent
+	except:
+		pass
+	try:
+		white			= float(districts[district]['White Enrollment'])
+		nonwhite		= enrollment - white
+		white_percent		= '%.1f' % (100 * (white/enrollment))
+		nonwhite_percent	= '%.1f' % (100 * (nonwhite/enrollment))
+		districts[district]['% white'] 	= white_percent
+		districts[district]['% non-white'] = nonwhite_percent
+	except:
+		pass
+		
+	row 			= []
+	row.append(school)
+	
+	for i in range(1,len(headers)):
+		row.append(pull(districts[district], headers[i]))
+		
+	if 'Name' in districts[district]:
+		wr.writerow(row)
 
 write_file.close()
-
-
