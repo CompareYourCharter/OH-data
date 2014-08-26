@@ -642,16 +642,6 @@ while curr_row < num_rows:
 				# Graduation rate
 			districts[district_IRN]['Graduation rate']	= school_grad_rate
 
-			curr_cell			= -1
-			while curr_cell < num_cells:
-				curr_cell 		+= 1
-				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
-				if district_IRN in districts:
-					districts[district_IRN][headers[curr_cell]]	= cell_value
-				else:
-					districts[district_IRN]				= {}
-					districts[district_IRN][headers[curr_cell]]	= cell_value
-
 write_file.close()
 
 #################### ANNUAL CHARTER REPORTS ######################
