@@ -590,9 +590,9 @@ while curr_row < num_rows:
 			district_attend_rate		= worksheet.cell_value(curr_row, 97)
 			try:
 				district_grad_rate	= float(worksheet.cell_value(curr_row, 102))
-				district_grad_rate	= school_grad_rate \
+				district_grad_rate	= district_grad_rate \
 							/ float(worksheet.cell_value(curr_row, 103))
-				district_grad_rate	= '%.1f' % school_grad_rate
+				district_grad_rate	= '%.1f' % district_grad_rate
 			except:
 				district_grad_rate	= '--'
 			city_state_zip				= worksheet.cell_value(curr_row, 5)
