@@ -618,29 +618,29 @@ while curr_row < num_rows:
 			# Performance Data
 				# Report Card metrics
 					# Letter grade standards met
-			districts[district_IRN]['Letter grade standards met']	= school_ltr_stand
+			districts[district_IRN]['Letter grade standards met']	= district_ltr_stand
 					# Letter grade performance index
-			districts[district_IRN]['Letter grade performance index']	= school_ltr_perf
+			districts[district_IRN]['Letter grade performance index']= district_ltr_perf
 					# Performance index score
-			districts[district_IRN]['Performance index score']	= school_perf_score
+			districts[district_IRN]['Performance index score']	= district_perf_score
 					# Letter grade overall value-add
 			districts[district_IRN]['Letter grade overall value-add']	= \
-									school_ltr_overall_value
+									district_ltr_overall_value
 					# Letter grade gifted value-add
 			districts[district_IRN]['Letter grade gifted value-add']	= \
-									school_ltr_gifted_value
+									district_ltr_gifted_value
 					# Letter grade disabled value-add
 			districts[district_IRN]['Letter grade disabled value-add']	= \
-									school_ltr_disable_value
+									district_ltr_disable_value
 					# Letter grade lowest 20% value-add
 			districts[district_IRN]['Letter grade lowest 20% value-add']	= \
-									school_ltr_bottom_value
+									district_ltr_bottom_value
 					# Letter grade of AMO
-			districts[district_IRN]['Letter grade of AMO']	= school_ltr_AMO
+			districts[district_IRN]['Letter grade of AMO']	= district_ltr_AMO
 				# Attendance rate
-			districts[district_IRN]['Attendance rate']	= school_attend_rate
+			districts[district_IRN]['Attendance rate']	= district_attend_rate
 				# Graduation rate
-			districts[district_IRN]['Graduation rate']	= school_grad_rate
+			districts[district_IRN]['Graduation rate']	= district_grad_rate
 
 write_file.close()
 
