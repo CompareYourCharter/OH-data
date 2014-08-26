@@ -4,6 +4,7 @@ import sys
 
 xls_path	= "./charter-sheets/"
 csv_path	= "./charter-csv/"
+web_path	= "./charter-web/"
 districts	= {}
 charters	= {}
 
@@ -49,10 +50,17 @@ csv_file	= csv_path + filename + '.csv'
 write_file	= open(csv_file, 'w')
 wr 		= csv.writer(write_file, quoting=csv.QUOTE_ALL)
 
+csv_file2	= web_path + 'Transfer Data.csv'
+write_file2	= open(csv_file2, 'w')
+wr2 		= csv.writer(write_file, quoting=csv.QUOTE_ALL)
+
 num_rows 					= worksheet.nrows - 1
 num_cells 					= worksheet.ncols - 1
 header_row					= True
 headers						= ['']
+
+web_headers	= ['District IRN', 'District Name', 'School IRN', 'School Name', 'Transfer']
+wr2.writerow(web_headers)
 
 curr_row 					= 5
 while curr_row < num_rows:
@@ -94,11 +102,17 @@ while curr_row < num_rows:
 	else:
 		row				= worksheet.row_values(curr_row)
 		wr.writerow(row)
+
 		district_IRN			= worksheet.cell_value(curr_row, 0)
+		district_Name			= worksheet.cell_value(curr_row, 1)
 		school_IRN			= worksheet.cell_value(curr_row, 22)
+		school_Name			= worksheet.cell_value(curr_row, 23)
 		transfer			= worksheet.cell_value(curr_row, 59)
 		district_IRN			= fixIRN(district_IRN)
 		school_IRN			= fixIRN(school_IRN)
+
+		short_row	= [district_IRN, district_Name, school_IRN, school_Name, transfer]
+		wr2.writerow(short_row)
 
 		if 'Charter Transfer' in districts[district_IRN]:
 			districts[district_IRN]['Charter Transfer'] 	+= transfer
@@ -121,6 +135,7 @@ for district in districts:
 			'%.2f' % districts[district]['Charter Transfer']
 
 write_file.close()
+write_file2.close()
 
 # Charter-District Third Grade Reading Guarantee
 
@@ -592,7 +607,7 @@ while curr_row < num_rows:
 				district_grad_rate	= float(worksheet.cell_value(curr_row, 102))
 				district_grad_rate	= district_grad_rate \
 							/ float(worksheet.cell_value(curr_row, 103))
-				district_grad_rate	= '%.1f' % district_grad_rate
+				district_grad_rate	= '%.1f' % (100 * district_grad_rate)
 			except:
 				district_grad_rate	= '--'
 			city_state_zip				= worksheet.cell_value(curr_row, 5)
@@ -3322,7 +3337,7 @@ write_file.close()
 
 #### ZIP TABLES ####
 
-csv_file				= csv_path + 'Zip Search - Charters.csv'
+csv_file				= web_path + 'Zip Search - Charters.csv'
 write_file				= open(csv_file, 'w')
 wr 					= csv.writer(write_file, quoting=csv.QUOTE_ALL)
 
@@ -3363,7 +3378,7 @@ for school in charters:
 
 write_file.close()
 
-csv_file				= csv_path + 'Zip Search - Districts.csv'
+csv_file				= web_path + 'Zip Search - Districts.csv'
 write_file				= open(csv_file, 'w')
 wr 					= csv.writer(write_file, quoting=csv.QUOTE_ALL)
 
@@ -3402,7 +3417,7 @@ write_file.close()
 
 #### Detail Files ####
 
-csv_file				= csv_path + 'Detail - Charters.csv'
+csv_file				= web_path + 'Detail - Charters.csv'
 write_file				= open(csv_file, 'w')
 wr 					= csv.writer(write_file, quoting=csv.QUOTE_ALL)
 
@@ -3499,7 +3514,7 @@ for school in charters:
 
 write_file.close()
 
-csv_file				= csv_path + 'Detail - Districts.csv'
+csv_file				= web_path + 'Detail - Districts.csv'
 write_file				= open(csv_file, 'w')
 wr 					= csv.writer(write_file, quoting=csv.QUOTE_ALL)
 
