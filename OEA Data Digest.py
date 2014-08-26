@@ -433,6 +433,7 @@ while curr_row < num_rows:
 
 			school_county			= worksheet.cell_value(curr_row, 4)
 			school_gradespan		= worksheet.cell_value(curr_row, 10)
+			school_open			= worksheet.cell_value(curr_row, 11)
 
 			school_ltr_stand		= worksheet.cell_value(curr_row, 16)
 			school_perf_score		= worksheet.cell_value(curr_row, 18)
@@ -442,7 +443,7 @@ while curr_row < num_rows:
 			school_ltr_disable_value	= worksheet.cell_value(curr_row, 22)
 			school_ltr_bottom_value		= worksheet.cell_value(curr_row, 23)
 			school_ltr_AMO			= worksheet.cell_value(curr_row, 24)
-			school_enrollment		= worksheet.cell_value(curr_row, 34)
+			school_enrollment		= worksheet.cell_value(curr_row, 29)
 			school_attend_rate		= worksheet.cell_value(curr_row, 102)
 			try:
 				school_grad_rate	= float(worksheet.cell_value(curr_row, 107))
@@ -473,6 +474,8 @@ while curr_row < num_rows:
 			charters[school_IRN]['District Name']	= school_district_name
 				# Grades served
 			charters[school_IRN]['Grades Served']	= school_gradespan
+				# Open Status
+			charters[school_IRN]['Open Status']	= school_open
 
 			# Studnets and Faculty
 				# # of students
@@ -665,11 +668,12 @@ while curr_row < num_rows:
 			except:
 				charters[school_IRN]['Years in operation']		= '--'
 
-			
+			school_sponsor			= worksheet.cell_value(curr_row, 1)
 			school_virtual			= worksheet.cell_value(curr_row, 7)
 			school_spec			= worksheet.cell_value(curr_row, 8)
 			charters[school_IRN]['Virtual']		= school_virtual
 			charters[school_IRN]['Specialization']	= school_spec
+			charters[school_IRN]['Sponsor']	= school_sponsor
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -852,9 +856,6 @@ while curr_row < num_rows:
 
 			if school_IRN not in charters:
 				charters[school_IRN]	= {}
-
-			school_sponsor			= worksheet.cell_value(curr_row, 1)
-			charters[school_IRN]['Sponsor']	= school_sponsor
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -3274,6 +3275,7 @@ headers					= [\
 						'State', \
 						'Postal Code', \
 						'Virtual', \
+						'Open Status', \
 						'Avg Grade', \
 						'Public Funding', \
 						'% Spent in Classroom', \
@@ -3291,6 +3293,7 @@ for school in charters:
 		row.append(charters[school]['State'])
 		row.append(charters[school]['Postal Code'])
 		row.append(charters[school]['Virtual'])
+		row.append(charters[school]['Open Status'])
 		row.append(charters[school]['Letter grade performance index'])
 		row.append(charters[school]['Public Funding'])
 		row.append(charters[school]['% Spent in Classroom'])
@@ -3351,6 +3354,8 @@ headers					= [\
 						'City', \
 						'State', \
 						'Postal Code', \
+						'Virtual', \
+						'Open Status', \
 						'County', \
 						'District IRN', \
 						'District Name', \
