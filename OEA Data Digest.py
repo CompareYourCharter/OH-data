@@ -3593,7 +3593,7 @@ for district in districts:
 		pass
 		
 	row 			= []
-	row.append(school)
+	row.append(district)
 	
 	for i in range(1,len(headers)):
 		row.append(pull(districts[district], headers[i]))

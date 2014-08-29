@@ -111,7 +111,9 @@ while curr_row < num_rows:
 		district_IRN			= fixIRN(district_IRN)
 		school_IRN			= fixIRN(school_IRN)
 
-		short_row	= [district_IRN, district_Name, school_IRN, school_Name, transfer]
+		str_transfer			= '%.2f' % transfer
+
+		short_row	= [district_IRN, district_Name, school_IRN, school_Name, str_transfer]
 		wr2.writerow(short_row)
 
 		if 'Charter Transfer' in districts[district_IRN]:
