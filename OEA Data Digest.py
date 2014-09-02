@@ -22,6 +22,7 @@ def clean(value):
 def fixIRN(value):
 	if type(value) is float:
 		value		= '%.0f' % value
+	value			= str(value)
 	value			= value.zfill(6)
 	return value
 
@@ -3152,7 +3153,6 @@ while curr_row < num_rows:
 
 write_file.close()
 
-
 ################## DISTRICT SPECIFIC DATA #####################
 
 # District Profile Report Data
@@ -3270,9 +3270,189 @@ while curr_row < num_rows:
 
 write_file.close()
 
+# District Profile Report Data
+
+filename	= 'June Funding Report'
+xls_file	= xls_path + 'RAW' + ' ' + filename + '.xlsx'
+workbook	= xlrd.open_workbook(xls_file)
+
+worksheet 	= workbook.sheet_by_name('FY14_SFPR_JUN_2')
+
+# One row per district
+
+csv_file	= csv_path + filename + '.csv'
+write_file	= open(csv_file, 'w')
+wr 		= csv.writer(write_file, quoting=csv.QUOTE_ALL)
+
+num_rows 					= worksheet.nrows - 1
+num_cells 					= worksheet.ncols - 1
+curr_row 					= 8
+header_row					= True
+headers						= ['IRN',\
+						'DISTRICT',\
+						'COUNTY',\
+						'COUNTY NUMBER',\
+						'DISTRICT TYPE',\
+						'CALCULATED OPPORTUNITY GRANT',\
+						'CAPPED OPPORTUNITY GRANT',\
+						'CALCULATED TARGETED ASSISTANCE',\
+						'CAPPED TARGETED ASSISTANCE',\
+						'CALCULATED K-3 LITERACY FUNDING',\
+						'CAPPED K-3 LITERACY FUNDING',\
+						'CALCULATED ECONOMIC DISADVANTAGED FUNDING',\
+						'CAPPED ECONOMIC DISADVANTAGED FUNDING',\
+						'CALCULATED LIMITED ENGLISH PROFICIENCY FUNDING',\
+						'CAPPED LIMITED ENGLISH PROFICIENCY FUNDING',\
+						'CALCULATED GIFTED EDUCATION FUNDING',\
+						'CAPPED GIFTED EDUCATION FUNDING',\
+						'CALCULATED TRANSPORTATION FUNDING',\
+						'CAPPED TRANSPORTATION FUNDING',\
+						'CALCULATED SPECIAL EDUCATION ADDITIONAL FUNDING',\
+						'CAPPED SPECIAL EDUCATION ADDITIONAL FUNDING',\
+						'CALCULATED CAREER TECH EDUCATION FUNDING',\
+						'CAPPED CAREER TECH EDUCATION FUNDING',\
+						'CALCULATED FUNDING BEFORE GUARANTEE',\
+						'CAPPED FUNDING BEFORE GUARANTEE',\
+						'TRANSITIONAL GUARANTEE BASE',\
+						'TRANSITIONAL GUARANTEE',\
+						'TOTAL CALCULATED STATE FUNDING',\
+						'PRESCHOOL SPECIAL EDUCATION FUNDING',\
+						'SPECIAL EDUCATION TRANSPORTATION FUNDING',\
+						'TOTAL ADDITIONAL AID ITEMS',\
+						'EDUCATION SERVICE CENTER TRANSFER',\
+						'OPEN ENROLLMENT ADJUSTMENT',\
+						'COMMUNITY SCHOOL TRANSFER',\
+						'STEM SCHOOL TRANSFER',\
+						'SCHOLARSHIP TRANSFER',\
+						'OTHER ADJUSTMENTS',\
+						'TOTAL TRANSFERS & ADJUSTMENTS',\
+						'NET STATE FOUNDATION FUNDING',\
+						'STATEWIDE TOTAL ADM',\
+						'STATEWIDE FORMULA ADM',\
+						'STATEWIDE ECONOMIC DISADVANTAGED RATIO',\
+						'STATEWIDE MEDIAN INCOME',\
+						'STATEWIDE 3 YEAR AVERAGE VALUATION',\
+						'STATEWIDE 3 YEAR AVERAGE ADJUSTED VALUATION',\
+						'STATEWIDE 3 YEAR FEDERAL GROSS INCOME',\
+						'ADJUSTED TOTAL ADM',\
+						'TOTAL ADM',\
+						'TUITION KINDERGARTEN ADM',\
+						'JOINTURE JVS ADM',\
+						'FORMULA ADM',\
+						'CATEGORY 1 SPECIAL EDUCATION ADM',\
+						'CATEGORY 2 SPECIAL EDUCATION ADM',\
+						'CATEGORY 3 SPECIAL EDUCATION ADM',\
+						'CATEGORY 4 SPECIAL EDUCATION ADM',\
+						'CATEGORY 5 SPECIAL EDUCATION ADM',\
+						'CATEGORY 6 SPECIAL EDUCATION ADM',\
+						'CATEGORY 1 CAREER TECH FTE',\
+						'CATEGORY 2 CAREER TECH FTE',\
+						'CATEGORY 3 CAREER TECH FTE',\
+						'CATEGORY 4 CAREER TECH FTE',\
+						'CATEGORY 5 CAREER TECH FTE',\
+						'CATEGORY 1 LEP ADM',\
+						'CATEGORY 2 LEP ADM',\
+						'CATEGORY 3 LEP ADM',\
+						'K-3 FORMULA ADM',\
+						'K-3 E-SCHOOL FORMULA ADM',\
+						'PRESCHOOL AUTISM SCHOLARSHIP ADM',\
+						'BRICK & MORTAR & STEM SCHOOL ADM',\
+						'E-SCHOOL FORMULA ADM',\
+						'NET FORMULA ADM',\
+						'JON PETERSON SCHOLARSHIP ADM',\
+						'AUTISM SCHOLARSHIP ADM',\
+						'EDCHOICE SCHOLARSHIP ADM',\
+						'ECONOMIC DISADVANTAGED ADM',\
+						'ECONOMIC DISADVANTAGED RATIO',\
+						'E-SCHOOL ECONOMIC DISADVANTAGED ADM',\
+						'3 YEAR AVERAGE FEDERAL GROSS INCOME',\
+						'3 YEAR AVERAGE TOTAL REAL VALUATION',\
+						'3 YEAR AVERAGE AGRICULTURAL REAL VALUATION',\
+						'3 YEAR AVERAGE ADJSUTED TOTAL VALUATION',\
+						'3 YEAR AVERAGE TOTAL VALUATION',\
+						'EXEMPT PROPERTY VALUATION',\
+						'POTENTIAL PROPERTY VALUATION',\
+						'MEDIAN INCOME TY11',\
+						'STATE SHARE INDEX',\
+						'ECONIMC DISADVANTAGED INDEX',\
+						'INCOMING OPEN ENROLLMENT ADM',\
+						'OUTGOING OPEN ENROLLMENT ADM',\
+						'RESIDENT COMMUNITY SCHOOL ADM',\
+						'RESIDENT SPECIAL ED PRESCHOOL CATEGORY 1 ADM',\
+						'RESIDENT SPECIAL ED PRESCHOOL CATEGORY 2 ADM',\
+						'RESIDENT SPECIAL ED PRESCHOOL CATEGORY 3 ADM',\
+						'RESIDENT SPECIAL ED PRESCHOOL CATEGORY 4 ADM',\
+						'RESIDENT SPECIAL ED PRESCHOOL CATEGORY 5 ADM',\
+						'RESIDENT SPECIAL ED PRESCHOOL CATEGORY 6 ADM']
+wr.writerow(headers)
+
+footer_row					= False
+district_count					= 0
+new_district					= 0
+
+while curr_row < num_rows:
+	curr_row 				+= 1
+	if not(footer_row):
+		row				= worksheet.row_values(curr_row)
+		if len(str(row[0])) > 0:
+			district_count			+= 1
+			wr.writerow(row)
+			district_IRN			= int(row[0])
+			district_IRN			= fixIRN(district_IRN)
+
+			if district_IRN not in districts:
+				districts[district_IRN]	= {}
+				new_district		+= 1
+
+			totalADM			= row[47]
+			charterADM			= row[89]
+			statefunding			= row[27]
+			adjustedADM			= totalADM - charterADM
+
+			districts[district_IRN]['Total ADM']				= totalADM
+			districts[district_IRN]['In District Charter ADM']		= charterADM
+			districts[district_IRN]['State Funding']			= statefunding
+			districts[district_IRN]['Charter Adjusted District ADM']	= adjustedADM
+			
+			curr_cell			= -1
+			while curr_cell < num_cells:
+				curr_cell 		+= 1
+				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
+				districts[district_IRN][headers[curr_cell]]	= cell_value
+
+write_file.close()
+
+###### DATA PROCESSING #######
+
+#sys.exit()
+
 for charter in charters:
-	if 'Virtual' not in charters[charter]:
-		charters[charter]['Virtual'] = 'Site Based'
+	try:
+		if 'Virtual' not in charters[charter]:
+			charters[charter]['Virtual'] = 'Site Based'
+		stateFund		= float(charters[charter]['Public Funding'])
+		ADM			= float(charters[charter]['# of students'])
+		stateFundADM		= stateFund / ADM
+		charters[charter]['State Funding per Student'] = '%.2F' % stateFundADM
+	except:
+		pass
+
+for district in districts:
+	breakpoint			= 'stateFunding'
+	try:
+		stateFunding		= float(districts[district]['State Funding'])
+		breakpoint		= 'charterTrans'
+		charterTrans		= float(districts[district]['Charter Transfer'])
+		breakpoint		= 'adjADM'
+		adjADM			= float(districts[district]['Charter Adjusted District ADM'])
+		breakpoint		= 'adjStateFunding'
+		adjStateFunding		= stateFunding - charterTrans
+		breakpoint		= 'stateFundADM'
+		stateFundADM		= adjStateFunding / adjADM
+		breakpoint		= 'Dictionary Assign'
+		districts[district]['State Funding per Student'] = '%.2F' % stateFundADM
+	except:
+		pass
 
 ############ OUTPUT COMPLETE CHARTER AND DISTRICT TABLES #########
 
@@ -3464,6 +3644,7 @@ headers					= [\
 						'Attendance rate',\
 						'Graduation rate',\
 						\
+						'State Funding per Student',\
 						'% Spent in Classroom',\
 						'% Spent on Administration']
 
@@ -3551,6 +3732,7 @@ headers					= [\
 						'Attendance rate',\
 						'Graduation rate',\
 						\
+						'State Funding per Student',\
 						'% Spent in Classroom',\
 						'% Spent on Administration']
 
