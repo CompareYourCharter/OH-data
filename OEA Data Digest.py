@@ -345,10 +345,10 @@ while curr_row < num_rows:
 					classroom_percent	= float(total_expenses)
 					classroom_percent	-= worksheet.cell_value(curr_row, 7)
 					classroom_percent	= classroom_percent / total_expenses
-					admin_percent		= 1 - classroom_percent
 					classroom_percent	= classroom_percent * 100
+					classroom_percent	= round(classroom_percent, 1)
+					admin_percent		= 100.0 - classroom_percent
 					classroom_percent	= "%.1f" % classroom_percent
-					admin_precent		= admin_percent * 100
 					admin_percent		= "%.1f" % admin_percent
 					
 					charters[IRN]['% Spent in Classroom']	= classroom_percent
@@ -369,10 +369,10 @@ while curr_row < num_rows:
 					classroom_percent	= float(total_expenses)
 					classroom_percent	-= worksheet.cell_value(curr_row, 7)
 					classroom_percent	= classroom_percent / total_expenses
-					admin_percent		= 1 - classroom_percent
 					classroom_percent	= classroom_percent * 100
+					classroom_percent	= round(classroom_percent, 1)
+					admin_percent		= 100.0 - classroom_percent
 					classroom_percent	= "%.1f" % classroom_percent
-					admin_precent		= admin_percent * 100
 					admin_percent		= "%.1f" % admin_percent
 					
 					districts[IRN]['% Spent in Classroom']	= classroom_percent
