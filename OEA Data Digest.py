@@ -1542,7 +1542,7 @@ while curr_row < num_rows:
 				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
 				if row_type == 'Gifted':
 					row_constant	= -5
-					district_enroll_disable = worksheet.cell_value(curr_row, 3)
+					district_enroll_disable = worksheet.cell_value(curr_row, 32)
 					districts[district_IRN]['Gifted Enrollment'] = \
 										district_enroll_disable
 				else:
