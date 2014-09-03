@@ -452,7 +452,7 @@ while curr_row < num_rows:
 			school_open			= worksheet.cell_value(curr_row, 11)
 
 			school_ltr_stand		= worksheet.cell_value(curr_row, 16)
-			school_perf_score		= worksheet.cell_value(curr_row, 18)
+			school_perf_score		= worksheet.cell_value(curr_row, 17)
 			school_ltr_perf			= worksheet.cell_value(curr_row, 19)
 			school_ltr_overall_value	= worksheet.cell_value(curr_row, 20)
 			school_ltr_gifted_value		= worksheet.cell_value(curr_row, 21)
@@ -465,7 +465,7 @@ while curr_row < num_rows:
 				school_grad_rate	= float(worksheet.cell_value(curr_row, 107))
 				school_grad_rate	= school_grad_rate \
 							/ float(worksheet.cell_value(curr_row, 108))
-				school_grad_rate	= '%.1f' % school_grad_rate
+				school_grad_rate	= '%.1f' % (100 * school_grad_rate)
 			except:
 				school_grad_rate	= '--'
 			city_state_zip				= worksheet.cell_value(curr_row, 7)
@@ -598,12 +598,12 @@ while curr_row < num_rows:
 
 			district_ltr_stand		= worksheet.cell_value(curr_row, 11)
 			district_perf_score		= worksheet.cell_value(curr_row, 12)
-			district_ltr_perf		= worksheet.cell_value(curr_row, 13)
-			district_ltr_overall_value	= worksheet.cell_value(curr_row, 14)
-			district_ltr_gifted_value	= worksheet.cell_value(curr_row, 15)
-			district_ltr_disable_value	= worksheet.cell_value(curr_row, 16)
-			district_ltr_bottom_value	= worksheet.cell_value(curr_row, 17)
-			district_ltr_AMO		= worksheet.cell_value(curr_row, 18)
+			district_ltr_perf		= worksheet.cell_value(curr_row, 14)
+			district_ltr_overall_value	= worksheet.cell_value(curr_row, 15)
+			district_ltr_gifted_value	= worksheet.cell_value(curr_row, 16)
+			district_ltr_disable_value	= worksheet.cell_value(curr_row, 17)
+			district_ltr_bottom_value	= worksheet.cell_value(curr_row, 18)
+			district_ltr_AMO		= worksheet.cell_value(curr_row, 19)
 			district_enrollment		= worksheet.cell_value(curr_row, 24)
 			district_attend_rate		= worksheet.cell_value(curr_row, 97)
 			try:
