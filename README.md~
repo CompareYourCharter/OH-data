@@ -36,7 +36,6 @@ The information between sheets is connected using the IRN.
 * **Public Funding** is the total of this column where the *School IRN matches that of the charter*.
 * **% Spent in Classroom** is computed in the following manner:
 
-
 	1. total expenses are computed by totaling columns 4 through 9
 	2. classroom expenditure is computed by subtracting column 8 (administrative) from total expenses
 	3. classroom percentage is then computed by dividing classroom expenditure by total expenses
@@ -65,7 +64,6 @@ The information between sheets is connected using the IRN.
 * **Charter Transfer** is the total of this column where the *District IRN matches that of the District*.
 * **% Spent in Classroom** is computed in the following manner:
 
-
 	1. total expenses are computed by totaling columns 4 through 9
 	2. classroom expenditure is computed by subtracting column 8 (administrative) from total expenses
 	3. classroom percentage is then computed by dividing classroom expenditure by total expenses
@@ -76,12 +74,4 @@ The information between sheets is connected using the IRN.
 ### Detail - Districts.csv
 
 ### Transfer Data.csv
-
-| CSV Column             | Origin Workbook                                                 | Worksheet                 | Col Name                             | #  | Transformed? |
-|------------------------|-----------------------------------------------------------------|---------------------------|--------------------------------------|----|--------------|
-| District IRN           | District to Charter Transfer by Performance Data                | Sheet1                    | IRN of District of Residence         | 1  | No           |
-| District Name          | District to Charter Transfer by Performance Data                | Sheet1                    | District                             | 2  | No           |
-| School IRN             | District to Charter Transfer by Performance Data                | Sheet1                    | Community School IRN                 | 23 | No           |
-| School Name            | District to Charter Transfer by Performance Data                | Sheet1                    | Community School                     | 24 | No           |
-| Transfer               | District to Charter Transfer by Performance Data                | Sheet1                    | FY13 Total Funding Transfer          | 59 | No           |
 
