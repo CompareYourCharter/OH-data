@@ -2731,6 +2731,7 @@ while curr_row < num_rows:
 						charters[school_IRN]['% non-white'] = '%.1f' % enroll_percent
 					else:
 						charters[school_IRN]['% white'] = enroll_percent
+					if enroll_percent == '>95.0':
 						charters[school_IRN]['% non-white'] = '<5.0'
 
 				header			= headers[curr_cell + row_constant]
@@ -2990,6 +2991,7 @@ while curr_row < num_rows:
 						districts[district_IRN]['% non-white'] = '%.1f' % enroll_percent
 					else:
 						districts[district_IRN]['% white'] = enroll_percent
+					if enroll_percent == '>95.0':
 						districts[district_IRN]['% non-white'] = '<5.0'
 
 				header			= headers[curr_cell + row_constant]
