@@ -1233,10 +1233,11 @@ while curr_row < num_rows:
 				if row_type == 'Disabled':
 					row_constant	= -10
 					enroll_percent	= worksheet.cell_value(curr_row, 38)
-					try:
+					if type(enroll_percent) is float:
 						charters[school_IRN]['% of kids with special needs'] = '%.1f' % enroll_percent
-					except:
-						pass
+					else:
+						charters[school_IRN]['% of kids with special needs'] = enroll_percent
+
 				else:
 					row_constant	= 19
 				header				= headers[curr_cell + row_constant]
@@ -1358,10 +1359,10 @@ while curr_row < num_rows:
 				if row_type == 'Disabled':
 					row_constant	= -5
 					enroll_percent	= worksheet.cell_value(curr_row, 33)
-					try:
+					if type(enroll_percent) is float:
 						districts[district_IRN]['% of kids with special needs'] = '%.1f' % enroll_percent
-					except:
-						pass
+					else:
+						districts[district_IRN]['% of kids with special needs'] = enroll_percent
 				else:
 					row_constant	= 24
 				header			= headers[curr_cell + row_constant]
@@ -1372,7 +1373,6 @@ while curr_row < num_rows:
 					districts[district_IRN][header]			= cell_value
 
 write_file.close()
-
 
 ##################### GIFTED DATA ########################
 
@@ -1490,10 +1490,11 @@ while curr_row < num_rows:
 				if row_type == 'Gifted':
 					row_constant	= -10
 					enroll_percent	= worksheet.cell_value(curr_row, 38)
-					try:
+					if type(enroll_percent) is float:
 						charters[school_IRN]['% gifted'] = '%.1f' % enroll_percent
-					except:
-						pass
+					else:
+						charters[school_IRN]['% gifted'] = enroll_percent
+
 				else:
 					row_constant	= 19
 				header			= headers[curr_cell + row_constant]
@@ -1619,10 +1620,10 @@ while curr_row < num_rows:
 				if row_type == 'Gifted':
 					row_constant	= -5
 					enroll_percent	= worksheet.cell_value(curr_row, 33)
-					try:
+					if type(enroll_percent) is float:
 						districts[district_IRN]['% gifted'] = '%.1f' % enroll_percent
-					except:
-						pass
+					else:
+						districts[district_IRN]['% gifted'] = enroll_percent
 				else:
 					row_constant	= 24
 				header			= headers[curr_cell + row_constant]
@@ -2000,10 +2001,10 @@ while curr_row < num_rows:
 				if row_type == 'Disadvantaged':
 					row_constant	= -10
 					enroll_percent	= worksheet.cell_value(curr_row, 38)
-					try:
+					if type(enroll_percent) is float:
 						charters[school_IRN]['% of kids in poverty'] = '%.1f' % enroll_percent
-					except:
-						pass
+					else:
+						charters[school_IRN]['% of kids in poverty'] = enroll_percent
 				else:
 					row_constant	= 19
 				header			= headers[curr_cell + row_constant]
@@ -2129,11 +2130,10 @@ while curr_row < num_rows:
 				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
 				if row_type == 'Disadvantaged':
 					row_constant	= -5
-					enroll_percent	= worksheet.cell_value(curr_row, 33)
-					try:
+					if type(enroll_percent) is float:
 						districts[district_IRN]['% of kids in poverty'] = '%.1f' % enroll_percent
-					except:
-						pass
+					else:
+						districts[district_IRN]['% of kids in poverty'] = enroll_percent
 				else:
 					row_constant	= 24
 				header			= headers[curr_cell + row_constant]
@@ -2295,11 +2295,11 @@ while curr_row < num_rows:
 				else:
 					row_constant	= 48
 					enroll_percent	= worksheet.cell_value(curr_row, 38)
-					try:
+					if type(enroll_percent) is float:
 						enroll_percent	= 100 - enroll_percent
 						charters[school_IRN]['% enrolled less than 3 years'] = '%.1f' % enroll_percent
-					except:
-						pass
+						charters[school_IRN]['% of kids in poverty'] = '%.1f' % enroll_percent
+
 				header			= headers[curr_cell + row_constant]
 				if school_IRN in charters:
 					charters[school_IRN][header]			= cell_value
@@ -2456,11 +2456,10 @@ while curr_row < num_rows:
 				else:
 					row_constant	= 53
 					enroll_percent	= worksheet.cell_value(curr_row, 33)
-					try:
+					if type(enroll_percent) is float:
 						enroll_percent	= 100 - enroll_percent
 						districts[district_IRN]['% enrolled less than 3 years'] = '%.1f' % enroll_percent
-					except:
-						pass
+
 				header			= headers[curr_cell + row_constant]
 				if district_IRN in districts:
 					districts[district_IRN][header]			= cell_value
@@ -2713,13 +2712,14 @@ while curr_row < num_rows:
 					row_constant	= 106
 				else:
 					row_constant	= 135
-					try:
-						enroll_percent	= worksheet.cell_value(curr_row, 38)
+					enroll_percent	= row[38]
+					if type(enroll_percent) is float:
 						charters[school_IRN]['% white'] = '%.1f' % enroll_percent
 						enroll_percent	= 100 - enroll_percent
 						charters[school_IRN]['% non-white'] = '%.1f' % enroll_percent
-					except:
-						pass
+					else:
+						charters[school_IRN]['% white'] = enroll_percent
+						charters[school_IRN]['% non-white'] = '<5.0'
 
 				header			= headers[curr_cell + row_constant]
 				charters[school_IRN][header]			= cell_value
@@ -2967,13 +2967,14 @@ while curr_row < num_rows:
 					row_constant	= 111
 				else:
 					row_constant	= 140
-					try:
-						enroll_percent	= worksheet.cell_value(curr_row, 33)
+					enroll_percent	= row[33]
+					if type(enroll_percent) is float:
 						districts[district_IRN]['% white'] = '%.1f' % enroll_percent
 						enroll_percent	= 100 - enroll_percent
 						districts[district_IRN]['% non-white'] = '%.1f' % enroll_percent
-					except:
-						pass
+					else:
+						districts[district_IRN]['% white'] = enroll_percent
+						districts[district_IRN]['% non-white'] = '<5.0'
 
 				header			= headers[curr_cell + row_constant]
 				if district_IRN in districts:
@@ -3828,8 +3829,8 @@ headers					= [\
 						'Graduation rate',\
 						\
 						'State Funding per Student',\
-						'Charter cost per student'
-						'Charter cost per classroom'
+						'Charter cost per student', \
+						'Charter cost per classroom', \
 						'% Spent in Classroom',\
 						'% Spent on Administration']
 
