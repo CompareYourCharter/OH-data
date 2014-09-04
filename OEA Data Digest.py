@@ -495,7 +495,7 @@ while curr_row < num_rows:
 
 			avg_cell = 17
 			grade_list = []
-			while avg_cel < 30:
+			while avg_cell < 30:
 				if row[avg_cell] in grade_dict:
 					grade_list.append(row[avg_cell])
 				avg_cell += 1
@@ -659,7 +659,7 @@ while curr_row < num_rows:
 
 			avg_cell = 12
 			grade_list = []			
-			while avg_cel < 25:
+			while avg_cell < 25:
 				if row[avg_cell] in grade_dict:
 					grade_list.append(row[avg_cell])
 				avg_cell += 1
@@ -2718,6 +2718,8 @@ while curr_row < num_rows:
 						charters[school_IRN]['% white'] = '%.1f' % enroll_percent
 						enroll_percent	= 100 - enroll_percent
 						charters[school_IRN]['% non-white'] = '%.1f' % enroll_percent
+					except:
+						pass
 
 				header			= headers[curr_cell + row_constant]
 				charters[school_IRN][header]			= cell_value
@@ -2970,6 +2972,8 @@ while curr_row < num_rows:
 						districts[district_IRN]['% white'] = '%.1f' % enroll_percent
 						enroll_percent	= 100 - enroll_percent
 						districts[district_IRN]['% non-white'] = '%.1f' % enroll_percent
+					except:
+						pass
 
 				header			= headers[curr_cell + row_constant]
 				if district_IRN in districts:
@@ -3509,16 +3513,28 @@ while curr_row < num_rows:
 			charterADM			= row[89]
 			statefunding			= row[27]
 			adjustedADM			= totalADM - charterADM
-			communitySchoolTrans		= row[33] * -1
-			costPerStudent			= communitySchoolTrans / adjustedADM
-			costPerClassroom		= communitySchoolTrans / districts[district_IRN]['# of FT teachers']
+			communitySchoolTrans		= float(row[33]) * -1.0
+			try:
+				costPerStudent		= communitySchoolTrans / float(adjustedADM)
+			except:
+				pass
+			try:
+				costPerClassroom	= communitySchoolTrans / float(districts[district_IRN]['# of FT teachers'])
+			except:
+				pass
 
 			districts[district_IRN]['Total ADM']				= totalADM
 			districts[district_IRN]['In District Charter ADM']		= charterADM
-			districts[district_IRN]['State Funding']			= statefunding
+			districts[district_IRN]['State Funding']			= '%.2f' % statefunding
 			districts[district_IRN]['Charter Adjusted District ADM']	= adjustedADM
-			districts[district_IRN]['Charter cost per student']		= costPerStudent
-			districts[district_IRN]['Charter cost per classroom']		= costPerClassroom
+			try:
+				districts[district_IRN]['Charter cost per student']	= '%.2f' % costPerStudent
+			except:
+				pass
+			if type(costPerClassroom) is float:
+				districts[district_IRN]['Charter cost per classroom']	= '%.2f' % costPerClassroom
+			else:
+				pass
 			
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -3736,7 +3752,7 @@ headers					= [\
 						'% gifted',\
 						'% white',\
 						'% non-white',\
-						'% enrolled less than 3 years',\a
+						'% enrolled less than 3 years',\
 						\
 						'Letter grade standards met',\
 						'Letter grade performance index',\
