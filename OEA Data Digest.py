@@ -2295,6 +2295,10 @@ while curr_row < num_rows:
 				else:
 					row_constant	= 48
 					enroll_percent	= worksheet.cell_value(curr_row, 38)
+					try:
+						enroll_percent	= float(enroll_percent)
+					except:
+						pass
 					if type(enroll_percent) is float:
 						enroll_percent	= 100 - enroll_percent
 						charters[school_IRN]['% enrolled less than 3 years'] = '%.1f' % enroll_percent
@@ -2456,6 +2460,10 @@ while curr_row < num_rows:
 				else:
 					row_constant	= 53
 					enroll_percent	= worksheet.cell_value(curr_row, 33)
+					try:
+						enroll_percent	= float(enroll_percent)
+					except:
+						pass
 					if type(enroll_percent) is float:
 						enroll_percent	= 100 - enroll_percent
 						districts[district_IRN]['% enrolled less than 3 years'] = '%.1f' % enroll_percent
@@ -2713,6 +2721,10 @@ while curr_row < num_rows:
 				else:
 					row_constant	= 135
 					enroll_percent	= row[38]
+					try:
+						enroll_percent	= float(enroll_percent)
+					except:
+						pass
 					if type(enroll_percent) is float:
 						charters[school_IRN]['% white'] = '%.1f' % enroll_percent
 						enroll_percent	= 100 - enroll_percent
@@ -2968,6 +2980,10 @@ while curr_row < num_rows:
 				else:
 					row_constant	= 140
 					enroll_percent	= row[33]
+					try:
+						enroll_percent	= float(enroll_percent)
+					except:
+						pass
 					if type(enroll_percent) is float:
 						districts[district_IRN]['% white'] = '%.1f' % enroll_percent
 						enroll_percent	= 100 - enroll_percent
