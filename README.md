@@ -24,7 +24,7 @@ The information between sheets is connected using the IRN.
 | Postal Code            | Charter Report Card                                             | COMMSCHL                  | City and Zip code                    | 8  | Yes          |
 | Virtual                | Charter Annual Report Academic Performance and Demographic Data | TABLE 1A_Trad Demo & Acad | School Type 2                        | 8  | Yes          |
 | Open Status            | Charter Report Card                                             | COMMSCHL                  | Open/Closed Status (as of 8/20/2013) | 12 | No           |
-| Avg Grade              | Charter Report Card                                             | COMMSCHL                  | Letter grade of performance index    | 20 | No           |
+| Avg Grade              | Charter Report Card                                             | COMMSCHL                  | *                                    | *  | Yes          |
 | Public Funding         | District to Charter Transfer by Performance Data                | Sheet1                    | FY13 Total Funding Transfer          | 59 | Yes          |
 | % Spent in Classroom   | Charter-District Expenditure Data                               | EFM_Data                  | *                                    | *  | Yes          |
 | Avg Teacher Experience | Charter Teacher Data                                            | TEACHER                   | Average Years of teacher experience  | 9  | No           |
@@ -33,9 +33,15 @@ The information between sheets is connected using the IRN.
 
 * **City**, **State**, and **Postal Code** are seperated out from a single text field.
 * All charters without data for **Virtual** are assumed to be *Site Based*.
+* **Avg Grade** is computed in the following manner:
+
+	1. all columns in the Charter Report Card which recieved a letter grade are collected
+	2. these letters are translated to point equivalent (4.0 - 0.0)
+	3. these points are averaged
+	4. the average is translated back into a letter grade
+
 * **Public Funding** is the total of this column where the *School IRN matches that of the charter*.
 * **% Spent in Classroom** is computed in the following manner:
-
 
 	1. total expenses are computed by totaling columns 4 through 9
 	2. classroom expenditure is computed by subtracting column 8 (administrative) from total expenses
@@ -54,7 +60,7 @@ The information between sheets is connected using the IRN.
 | City                   | District Report Card                                            | DISTRICT                  | City and Zip code                    | 6  | Yes          |
 | State                  | District Report Card                                            | DISTRICT                  | City and Zip code                    | 6  | Yes          |
 | Postal Code            | District Report Card                                            | DISTRICT                  | City and Zip code                    | 6  | Yes          |
-| Avg Grade              | District Report Card                                            | DISTRICT                  | Letter grade of performance index    | 15 | No           |
+| Avg Grade              | District Report Card                                            | DISTRICT                  | *                                    | *  | Yes          |
 | Charter Transfer       | District to Charter Transfer by Performance Data                | Sheet1                    | FY13 Total Funding Transfer          | 59 | Yes          |
 | % Spent in Classroom   | Charter-District Expenditure Data                               | EFM_Data                  | *                                    | *  | Yes          |
 | Avg Teacher Experience | District Teacher Data                                           | TEACHER                   | Average Years of teacher experience  | 6  | No           |
@@ -62,6 +68,13 @@ The information between sheets is connected using the IRN.
 #### Transformations
 
 * **City**, **State**, and **Postal Code** are seperated out from a single text field.
+* **Avg Grade** is computed in the following manner:
+
+	1. all columns in the District Report Card which recieved a letter grade are collected
+	2. these letters are translated to point equivalent (4.0 - 0.0)
+	3. these points are averaged
+	4. the average is translated back into a letter grade
+
 * **Charter Transfer** is the total of this column where the *District IRN matches that of the District*.
 * **% Spent in Classroom** is computed in the following manner:
 
@@ -86,8 +99,6 @@ The information between sheets is connected using the IRN.
 | Virtual                            | Charter Annual Report Academic Performance and Demographic Data | TABLE 1A_Trad Demo & Acad | School Type 2                             | 8   | Yes          |
 | Open Status                        | Charter Report Card                                             | COMMSCHL                  | Open/Closed Status (as of 8/20/2013)      | 12  | No           |
 | County                             | Charter Report Card                                             | COMMSCHL                  | County                                    | 5   | No           |
-| District IRN                       | Charter Report Card                                             | COMMSCHL                  | District IRN                              | 3   | No
-| District Name                      | Charter Report Card                                             | COMMSCHL                  | District Name                             | 4   | No
 | Sponsor                            | Charter Annual Report Academic Performance and Demographic Data | TABLE 1A_Trad Demo & Acad | Sponsor Name                              | 2   | No           |
 | Operator                           | Charter Operator Data                                           | Sheet1                    | Charter Operator                          | 3   | No           |
 | Years in operation                 | Charter Annual Report Academic Performance and Demographic Data | TABLE 1A_Trad Demo & Acad | First Year of Operation                   | 5   | Yes          |
@@ -99,11 +110,12 @@ The information between sheets is connected using the IRN.
 | # of students                      | Charter Report Card                                             | COMMSCHL                  | Enrollment                                | 30  | No           |
 | # of FT teachers                   | Charter Teacher Data                                            | TEACHER                   | Number of Full Time teachers              | 10  | No           |
 | Student-teacher ratio              | *                                                               | *                         | *                                         | *   | Yes          |       
-| % of kids in poverty               | Charter Economically Disadvantaged Data                         | BLDG_ECONOMIC_13          | Enrollment                                | 38  | Yes          |
-| % of kids with special needs       | Charter Disability Data                                         | BLDG_DISABILITY_13        | Enrollment                                | 38  | Yes          |
-| % gifted                           | Charter Gifted Data                                             | BLDG_GIFTED_13            | Enrollment                                | 38  | Yes          |
-| % white                            | Charter Racial Data                                             | BLDG_ETHNIC_13            | Enrollment                                | 38  | Yes          |
-| % non-white                        | *                                                               | *                         | *                                         | *   | Yes          |       
+| % of kids in poverty               | Charter Economically Disadvantaged Data                         | BLDG_ECONOMIC_13          | % of total enrollment                     | 39  | No           |
+| % of kids with special needs       | Charter Disability Data                                         | BLDG_DISABILITY_13        | % of total enrollment                     | 39  | No           |
+| % gifted                           | Charter Gifted Data                                             | BLDG_GIFTED_13            | % of total enrollment                     | 39  | No           |
+| % white                            | Charter Racial Data                                             | BLDG_ETHNIC_13            | % of total enrollment                     | 39  | No           |
+| % non-white                        | Charter Racial Data                                             | BLDG_ETHNIC_13            | % of total enrollment                     | 39  | Yes          |     
+| % enrolled less than 3 years       | Charter Mobility Data                                           | BLDG_ETHNIC_13            | % of total enrollment                     | 39  | Yes          |   
 | Letter grade standards met         | Charter Report Card                                             | COMMSCHL                  | Letter grade of standards met             | 17  | No           |
 | Letter grade performance index     | Charter Report Card                                             | COMMSCHL                  | Letter grade of performance index         | 20  | No           |
 | Performance index score            | Charter Report Card                                             | COMMSCHL                  | Performance Index Score 2012-13           | 18  | No           |
@@ -124,20 +136,15 @@ The information between sheets is connected using the IRN.
 * All charters without data for **Virtual** are assumed to be *Site Based*.
 * **Years in Operation** is computed by subtracting the first year in service from 14. If the result is zero, the value 'First' is returned.
 * **Student-teacher ratio** is computed by dividing the **# of students** by **# of FT teachers** and rounding to one decimal place.
-* **% of kids in poverty** is computed by dividing the enrollment for the *Disadvantaged* Economic Status by the **# of students** and rounding to three significant digits.
-* **% of kids with special needs** is computed by dividing the enrollment for the *Disabled* Disability Status by the **# of students** and rounding to three significant digits.
-* **% gifted** is computed by dividing the enrollment for the *Gifted* status by the **# of students** and rounding to three significant digits.
-* **% white** is computed by dividing the enrollment for the *White* Ethnicity by the **# of students** and rounding to three significant digits.
-* **% non-white** is computed by subtracting the enrollment for the *White* Ethnicity from the **# of students**, dividing by the **# of students**, and rounding to three significant digits.
+* **% non-white** is computed by subtracting **% white** from 1.
+* **% enrolled less than 3 years** is computed by subtracting *% of total enrollment* for *Longevity3orMore* from 1.
 * **Graduation rate** is computed in the following manner:
-
 
 	1. Four-Year Graduation Rate Numerator 2012 is divided by Four-Year Graduation Rate Denominator 2012. 
 	2. Graduation rate is then rounded to three significant digits
 
 * **State Funding per Student** is computed by taking the **Public Funding** (see Zip Search - Charters.csv) and dividing by **# of students**, then rounding to two decimal places.
 * **% Spent in Classroom** is computed in the following manner:
-
 
 	1. total expenses are computed by totaling columns 4 through 9
 	2. classroom expenditure is computed by subtracting column 8 (administrative) from total expenses
@@ -159,27 +166,30 @@ The information between sheets is connected using the IRN.
 | State                              | District Report Card                             | DISTRICT                  | City and Zip code                         | 6   | Yes          |
 | Postal Code                        | District Report Card                             | DISTRICT                  | City and Zip code                         | 6   | Yes          |
 | Avg Teacher Exp                    | District Teacher Data                            | TEACHER                   | Average Years of teacher experience       | 6   | No           |
-| % of teachers with masters degrees | District Teacher Data                            | TEACHER                   | % of Teachers who have at least a masters | 12  | No           |
+| % of teachers with masters degrees | District Teacher Data                            | TEACHER                   | % of Teachers who have at least a masters | 13  | No           |
 | Teacher attendance %               | District Teacher Data                            | TEACHER                   | Teachers attendance rate 2012-13          | 5   | No           |
 | # of students                      | District Report Card                             | DISTRICT                  | Enrollment                                | 25  | No           |
 | # of FT teachers                   | District Teacher Data                            | TEACHER                   | Number of Full Time teachers              | 7   | No           |
 | Student-teacher ratio              | *                                                | *                         | *                                         | *   | Yes          |       
-| % of kids in poverty               | District Economically Disadvantaged Data         | DIST_ECONOMIC_13          | Enrollment                                | 33  | Yes          |
-| % of kids with special needs       | District Disability Data                         | DIST_DISABILITY_13        | Enrollment                                | 33  | Yes          |
-| % gifted                           | District Gifted Data                             | DIST_GIFTED_13            | Enrollment                                | 33  | Yes          |
-| % white                            | District Racial Data                             | DIST_ETHNIC_13            | Enrollment                                | 33  | Yes          |
-| % non-white                        | *                                                | *                         | *                                         | *   | Yes          |       
-| Letter grade standards met         | District Report Card                             | DISTRICT                  | Letter grade of standards met             | 11  | No           |
-| Letter grade performance index     | District Report Card                             | DISTRICT                  | Letter grade of performance index         | 14  | No           |
-| Performance index score            | District Report Card                             | DISTRICT                  | Performance Index Score 2012-13           | 12  | No           |
-| Letter grade overall value-add     | District Report Card                             | DISTRICT                  | Letter grade of Overall Value-Added       | 15  | No           |
-| Letter grade gifted value-add      | District Report Card                             | DISTRICT                  | Letter grade of Gifted Value-Added        | 16  | No           |
-| Letter grade disabled value-add    | District Report Card                             | DISTRICT                  | Letter grade of Disabled Value-Added      | 17  | No           |
-| Letter grade lowest 20% value-add  | District Report Card                             | DISTRICT                  | Letter grade of Lowest 20% Value-Added    | 18  | No           |
-| Letter grade of AMO                | District Report Card                             | DISTRICT                  | Letter grade of AMO                       | 19  | No           |
+| % of kids in poverty               | District Economically Disadvantaged Data         | DIST_ECONOMIC_13          | % of total enrollment                     | 34  | No           |
+| % of kids with special needs       | District Disability Data                         | DIST_DISABILITY_13        | % of total enrollment                     | 34  | No           |
+| % gifted                           | District Gifted Data                             | DIST_GIFTED_13            | % of total enrollment                     | 34  | No           |
+| % white                            | District Racial Data                             | DIST_ETHNIC_13            | % of total enrollment                     | 34  | No           |
+| % non-white                        | District Racial Data                             | DIST_ETHNIC_13            | % of total enrollment                     | 34  | Yes          |     
+| % enrolled less than 3 years       | District Mobility Data                           | DIST_ETHNIC_13            | % of total enrollment                     | 34  | Yes          |   
+| Letter grade standards met         | District Report Card                             | DISTRICT                  | Letter grade of standards met             | 12  | No           |
+| Letter grade performance index     | District Report Card                             | DISTRICT                  | Letter grade of performance index         | 15  | No           |
+| Performance index score            | District Report Card                             | DISTRICT                  | Performance Index Score 2012-13           | 13  | No           |
+| Letter grade overall value-add     | District Report Card                             | DISTRICT                  | Letter grade of Overall Value-Added       | 16  | No           |
+| Letter grade gifted value-add      | District Report Card                             | DISTRICT                  | Letter grade of Gifted Value-Added        | 17  | No           |
+| Letter grade disabled value-add    | District Report Card                             | DISTRICT                  | Letter grade of Disabled Value-Added      | 18  | No           |
+| Letter grade lowest 20% value-add  | District Report Card                             | DISTRICT                  | Letter grade of Lowest 20% Value-Added    | 19  | No           |
+| Letter grade of AMO                | District Report Card                             | DISTRICT                  | Letter grade of AMO                       | 20  | No           |
 | Attendance rate                    | District Report Card                             | DISTRICT                  | Attendance 2012-13                        | 98  | No           |
 | Graduation rate                    | District Report Card                             | DISTRICT                  | Multiple Columns                          | *   | Yes          |
-| State Funding per Student          | *                                                | *                         | *                                         | *   | Yes          |       
+| State Funding per Student          | June Funding Report                              | FY14_SFPR_JUN_2           | Multiple Columns                          | *   | Yes          |       
+| Charter cost per student           | June Funding Report                              | FY14_SFPR_JUN_2           | Community School Transfer                 | 34  | Yes          |       
+| Charter cost per classroom         | June Funding Report                              | FY14_SFPR_JUN_2           | Community School Transfer                 | 34  | Yes          |       
 | % Spent in Classroom               | Charter-District Expenditure Data                | EFM_Data                  | Multiple Columns                          | *   | Yes          |
 | % Spent on Administration          | *                                                | *                         | *                                         | *   | Yes          |       
 
@@ -187,11 +197,8 @@ The information between sheets is connected using the IRN.
 
 * **City**, **State**, and **Postal Code** are seperated out from a single text field.
 * **Student-teacher ratio** is computed by dividing the **# of students** by **# of FT teachers** and rounding to one decimal place.
-* **% of kids in poverty** is computed by dividing the enrollment for the *Disadvantaged* Economic Status by the **# of students** and rounding to three significant digits.
-* **% of kids with special needs** is computed by dividing the enrollment for the *Disabled* Disability Status by the **# of students** and rounding to three significant digits.
-* **% gifted** is computed by dividing the enrollment for the *Gifted* status by the **# of students** and rounding to three significant digits.
-* **% white** is computed by dividing the enrollment for the *White* Ethnicity by the **# of students** and rounding to three significant digits.
-* **% non-white** is computed by subtracting the enrollment for the *White* Ethnicity from the **# of students**, dividing by the **# of students**, and rounding to three significant digits.
+* **% non-white** is computed by subtracting **% white** from 1.
+* **% enrolled less than 3 years** is computed by subtracting *% of total enrollment* for *Longevity3orMore* from 1.
 * **Graduation rate** is computed in the following manner:
 
 
@@ -204,6 +211,9 @@ The information between sheets is connected using the IRN.
 	1. Compute *State Funding* by taking *Charter Transfer* (see Zip Search - District.csv) and subtracting *Total Calculated State Funding* from the *June Funding Report*.
 	2. Compute *Adjusted ADM* by subtracting *Resident Community School ADM* from *Adjusted Total ADM* (both from the *June Funding Report*).
 	3. Divide *State Funding* by the *Adjusted ADM* and round to two decimal points.
+
+* **Charter cost per student** is computed by taking the *Community School Transfer* column and dividing by the *Adjusted ADM*.
+* **Charter cost per classroom** is computed by taking the *Community School Transfer* column and dividing by the *# of FT teachers* (this assumes approximately one classroom / FT teacher.
 
 * **% Spent in Classroom** is computed in the following manner:
 
