@@ -31,7 +31,7 @@ def pull(dictionary, key):
 		return 'NA'
 	else:
 		try:
-			if dictionary[key] == '--':
+			if dictionary[key] in ('--', 'NR'):
 				return 'NA'
 			else:
 				return dictionary[key]
