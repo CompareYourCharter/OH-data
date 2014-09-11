@@ -28,12 +28,15 @@ def fixIRN(value):
 
 def pull(dictionary, key):
 	if key not in dictionary:
-		return '--'
+		return 'NA'
 	else:
 		try:
-			return dictionary[key]
+			if dictionary[key] == '--':
+				return 'NA'
+			else:
+				return dictionary[key]
 		except:
-			return '--'
+			return 'NA'
 
 def point_to_grade(value):
 	if value < 0 or value > 4.0:
@@ -3699,18 +3702,18 @@ for school in charters:
 	try:
 		row 			= []
 		row.append(school)
-		row.append(charters[school]['Name'])
-		row.append(charters[school]['Address'])
-		row.append(charters[school]['City'])
-		row.append(charters[school]['State'])
-		row.append(charters[school]['Postal Code'])
-		row.append(charters[school]['Virtual'])
-		row.append(charters[school]['Open Status'])
-		row.append(charters[school]['Avg Grade'])
-		row.append(charters[school]['Letter grade performance index'])
-		row.append(charters[school]['Public Funding'])
-		row.append(charters[school]['% Spent in Classroom'])
-		row.append(charters[school]['Avg Teacher Exp'])
+		row.append(pull(charters[school], 'Name'))
+		row.append(pull(charters[school], 'Address'))
+		row.append(pull(charters[school], 'City'))
+		row.append(pull(charters[school], 'State'))
+		row.append(pull(charters[school], 'Postal Code'))
+		row.append(pull(charters[school], 'Virtual'))
+		row.append(pull(charters[school], 'Open Status'))
+		row.append(pull(charters[school], 'Avg Grade'))
+		row.append(pull(charters[school], 'Letter grade performance index'))
+		row.append(pull(charters[school], 'Public Funding'))
+		row.append(pull(charters[school], '% Spent in Classroom'))
+		row.append(pull(charters[school], 'Avg Teacher Exp'))
 		wr.writerow(row)
 	except:
 		pass
@@ -3740,16 +3743,16 @@ for district in districts:
 	try:
 		row 			= []
 		row.append(district)
-		row.append(districts[district]['Name'])
-		row.append(districts[district]['Address'])
-		row.append(districts[district]['City'])
-		row.append(districts[district]['State'])
-		row.append(districts[district]['Postal Code'])
-		row.append(districts[district]['Avg Grade'])
-		row.append(districts[district]['Letter grade performance index'])
-		row.append(districts[district]['Charter Transfer'])
-		row.append(districts[district]['% Spent in Classroom'])
-		row.append(districts[district]['Avg Teacher Exp'])
+		row.append(pull(districts[district], 'Name'))
+		row.append(pull(districts[district], 'Address'))
+		row.append(pull(districts[district], 'City'))
+		row.append(pull(districts[district], 'State'))
+		row.append(pull(districts[district], 'Postal Code'))
+		row.append(pull(districts[district], 'Avg Grade'))
+		row.append(pull(districts[district], 'Letter grade performance index'))
+		row.append(pull(districts[district], 'Charter Transfer'))
+		row.append(pull(districts[district], '% Spent in Classroom'))
+		row.append(pull(districts[district], 'Avg Teacher Exp'))
 		wr.writerow(row)
 	except:
 		pass
