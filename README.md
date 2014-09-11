@@ -23,8 +23,6 @@ The information between sheets is connected using the IRN.
 | State                  | Charter Report Card                                             | COMMSCHL                  | City and Zip code                    | 8  | Yes          |
 | Postal Code            | Charter Report Card                                             | COMMSCHL                  | City and Zip code                    | 8  | Yes          |
 | Virtual                | Charter Annual Report Academic Performance and Demographic Data | TABLE 1A_Trad Demo & Acad | School Type 2                        | 8  | Yes          |
-| Operator                | Charter Operator Data | Sheet1 | Charter Operator                        | 2  | No          |
-| Organizational Status                | Charter Operator Data | Sheet1 | Organization Status                        | 3  | No          |
 | Open Status            | Charter Report Card                                             | COMMSCHL                  | Open/Closed Status (as of 8/20/2013) | 12 | No           |
 | Avg Grade              | Charter Report Card                                             | COMMSCHL                  | *                                    | *  | Yes          |
 | Letter grade performance index     | Charter Report Card                                             | COMMSCHL                  | Letter grade of performance index         | 20  | No           |
@@ -104,7 +102,8 @@ The information between sheets is connected using the IRN.
 | Open Status                        | Charter Report Card                                             | COMMSCHL                  | Open/Closed Status (as of 8/20/2013)      | 12  | No           |
 | County                             | Charter Report Card                                             | COMMSCHL                  | County                                    | 5   | No           |
 | Sponsor                            | Charter Annual Report Academic Performance and Demographic Data | TABLE 1A_Trad Demo & Acad | Sponsor Name                              | 2   | No           |
-| Operator                           | Charter Operator Data                                           | Sheet1                    | Charter Operator                          | 3   | No           |
+| Operator                | Charter Operator Data | Sheet1 | Charter Operator                        | 3  | No          |
+| Organizational Status                | Charter Operator Data | Sheet1 | Organization Status                        | 4  | No          |
 | Years in operation                 | Charter Annual Report Academic Performance and Demographic Data | TABLE 1A_Trad Demo & Acad | First Year of Operation                   | 5   | Yes          |
 | Grades Served                      | Charter Report Card                                             | COMMSCHL                  | Grade Span                                | 11  | No
 | Specialization                     | Charter Annual Report Academic Performance and Demographic Data | TABLE 1A_Trad Demo & Acad | School Type 3                             | 9   | No           |

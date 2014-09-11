@@ -23,8 +23,11 @@ The information between sheets is connected using the IRN.
 | State                  | Charter Report Card                                             | COMMSCHL                  | City and Zip code                    | 8  | Yes          |
 | Postal Code            | Charter Report Card                                             | COMMSCHL                  | City and Zip code                    | 8  | Yes          |
 | Virtual                | Charter Annual Report Academic Performance and Demographic Data | TABLE 1A_Trad Demo & Acad | School Type 2                        | 8  | Yes          |
+| Operator                | Charter Operator Data | Sheet1 | Charter Operator                        | 2  | No          |
+| Organizational Status                | Charter Operator Data | Sheet1 | Organization Status                        | 3  | No          |
 | Open Status            | Charter Report Card                                             | COMMSCHL                  | Open/Closed Status (as of 8/20/2013) | 12 | No           |
 | Avg Grade              | Charter Report Card                                             | COMMSCHL                  | *                                    | *  | Yes          |
+| Letter grade performance index     | Charter Report Card                                             | COMMSCHL                  | Letter grade of performance index         | 20  | No           |
 | Public Funding         | District to Charter Transfer by Performance Data                | Sheet1                    | FY13 Total Funding Transfer          | 59 | Yes          |
 | % Spent in Classroom   | Charter-District Expenditure Data                               | EFM_Data                  | *                                    | *  | Yes          |
 | Avg Teacher Experience | Charter Teacher Data                                            | TEACHER                   | Average Years of teacher experience  | 9  | No           |
@@ -61,6 +64,7 @@ The information between sheets is connected using the IRN.
 | State                  | District Report Card                                            | DISTRICT                  | City and Zip code                    | 6  | Yes          |
 | Postal Code            | District Report Card                                            | DISTRICT                  | City and Zip code                    | 6  | Yes          |
 | Avg Grade              | District Report Card                                            | DISTRICT                  | *                                    | *  | Yes          |
+| Letter grade performance index     | District Report Card                                | DISTRICT                  | Letter grade of performance index         | 15  | No           |
 | Charter Transfer       | District to Charter Transfer by Performance Data                | Sheet1                    | FY13 Total Funding Transfer          | 59 | Yes          |
 | % Spent in Classroom   | Charter-District Expenditure Data                               | EFM_Data                  | *                                    | *  | Yes          |
 | Avg Teacher Experience | District Teacher Data                                           | TEACHER                   | Average Years of teacher experience  | 6  | No           |
