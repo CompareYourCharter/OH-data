@@ -3714,7 +3714,8 @@ for school in charters:
 		row.append(pull(charters[school], 'Public Funding'))
 		row.append(pull(charters[school], '% Spent in Classroom'))
 		row.append(pull(charters[school], 'Avg Teacher Exp'))
-		wr.writerow(row)
+		if 'Name' in charters[school]:
+			wr.writerow(row)
 	except:
 		pass
 
@@ -3753,7 +3754,8 @@ for district in districts:
 		row.append(pull(districts[district], 'Charter Transfer'))
 		row.append(pull(districts[district], '% Spent in Classroom'))
 		row.append(pull(districts[district], 'Avg Teacher Exp'))
-		wr.writerow(row)
+		if 'Name' in districts[district]:
+			wr.writerow(row)
 	except:
 		pass
 
