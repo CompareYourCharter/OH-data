@@ -3688,6 +3688,7 @@ headers					= [\
 						'Virtual', \
 						'Open Status', \
 						'Avg Grade', \
+						'Letter grade performance index',\
 						'Public Funding', \
 						'% Spent in Classroom', \
 						'Avg Teacher Experience']
@@ -3727,6 +3728,7 @@ headers					= [\
 						'State', \
 						'Postal Code', \
 						'Avg Grade', \
+						'Letter grade performance index',\
 						'Charter Transfer', \
 						'% Spent in Classroom', \
 						'Avg Teacher Experience']
@@ -3770,6 +3772,7 @@ headers					= [\
 						'County', \
 						'Sponsor', \
 						'Operator', \
+						'Organization Status', \
 						'Years in operation', \
 						'Grades Served', \
 						'Specialization', \
