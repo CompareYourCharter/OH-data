@@ -493,12 +493,18 @@ while curr_row < num_rows:
 			school_enrollment		= worksheet.cell_value(curr_row, 29)
 			school_attend_rate		= worksheet.cell_value(curr_row, 102)
 
-			avg_cell = 17
-			grade_list = []
-			while avg_cell < 30:
-				if row[avg_cell] in grade_dict:
-					grade_list.append(row[avg_cell])
-				avg_cell += 1
+			letters				= [school_ltr_perf, \
+								school_ltr_overall_value, \
+								school_ltr_gifted_value, \
+								school_ltr_disable_value, \
+								school_ltr_bottom_value, \
+								school_ltr_AMO, \
+								school_ltr_stand]
+
+			grade_list = []			
+			for grade in letters:
+				if grade in grade_dict:
+					grade_list.append(grade)
 
 			if len(grade_list) == 0:
 				school_avg_grade = '--'
@@ -657,12 +663,21 @@ while curr_row < num_rows:
 			district_enrollment		= worksheet.cell_value(curr_row, 24)
 			district_attend_rate		= worksheet.cell_value(curr_row, 97)
 
-			avg_cell = 12
+
+
+			letters				= [district_ltr_perf, \
+								district_ltr_overall_value, \
+								district_ltr_gifted_value, \
+								district_ltr_disable_value, \
+								district_ltr_bottom_value, \
+								district_ltr_AMO, \
+								district_ltr_stand]
+
 			grade_list = []			
-			while avg_cell < 25:
-				if row[avg_cell] in grade_dict:
-					grade_list.append(row[avg_cell])
-				avg_cell += 1
+			for grade in letters:
+				if grade in grade_dict:
+					grade_list.append(grade)
+
 
 			if len(grade_list) == 0:
 				district_avg_grade = '--'
