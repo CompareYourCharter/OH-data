@@ -501,18 +501,17 @@ while curr_row < num_rows:
 								school_ltr_AMO, \
 								school_ltr_stand]
 
-			grade_list = []			
+			grade_sum = 0
+			no_of_grades = 0		
 			for grade in letters:
 				if grade in grade_dict:
-					grade_list.append(grade)
+					grade_sum	+= grade_dict[grade]
+					no_of_grades	+= 1
 
-			if len(grade_list) == 0:
+			if grade_sum == 0:
 				school_avg_grade = '--'
 			else:
-				grade_sum = 0
-				for grade in grade_list:
-					grade_sum	= grade_dict[grade]
-				avg_grade_point		= grade_sum / len(grade_list)
+				avg_grade_point		= grade_sum / no_of_grades
 				school_avg_grade = point_to_grade(avg_grade_point)
 
 			try:
@@ -673,20 +672,18 @@ while curr_row < num_rows:
 								district_ltr_AMO, \
 								district_ltr_stand]
 
-			grade_list = []			
+			grade_sum = 0
+			no_of_grades = 0		
 			for grade in letters:
 				if grade in grade_dict:
-					grade_list.append(grade)
+					grade_sum	+= grade_dict[grade]
+					no_of_grades	+= 1
 
-
-			if len(grade_list) == 0:
+			if grade_sum == 0:
 				district_avg_grade = '--'
 			else:
-				grade_sum = 0
-				for grade in grade_list:
-					grade_sum	= grade_dict[grade]
-				avg_grade_point		= grade_sum / len(grade_list)
-				district_avg_grade = point_to_grade(avg_grade_point)
+				avg_grade_point		= grade_sum / no_of_grades
+				district_avg_grade	= point_to_grade(avg_grade_point)
 
 			try:
 				district_grad_rate	= float(worksheet.cell_value(curr_row, 102))
