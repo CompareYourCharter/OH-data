@@ -187,7 +187,9 @@ The information between sheets is connected using the IRN.
 | Letter grade of AMO                | District Report Card                             | DISTRICT                  | Letter grade of AMO                       | 20  | No           |
 | Attendance rate                    | District Report Card                             | DISTRICT                  | Attendance 2012-13                        | 98  | No           |
 | Graduation rate                    | District Report Card                             | DISTRICT                  | Multiple Columns                          | *   | Yes          |
-| State Funding per Student          | *                                                | *                         | *                                         | *   | Yes          |       
+| State Funding per Student          | June Funding Report                              | FY14_SFPR_JUN_2           | Multiple Columns                          | *   | Yes          |       
+| Charter cost per student           | June Funding Report                              | FY14_SFPR_JUN_2           | Community School Transfer                 | 34  | Yes          |       
+| Charter cost per classroom         | June Funding Report                              | FY14_SFPR_JUN_2           | Community School Transfer                 | 34  | Yes          |       
 | % Spent in Classroom               | Charter-District Expenditure Data                | EFM_Data                  | Multiple Columns                          | *   | Yes          |
 | % Spent on Administration          | *                                                | *                         | *                                         | *   | Yes          |       
 
@@ -209,6 +211,9 @@ The information between sheets is connected using the IRN.
 	1. Compute *State Funding* by taking *Charter Transfer* (see Zip Search - District.csv) and subtracting *Total Calculated State Funding* from the *June Funding Report*.
 	2. Compute *Adjusted ADM* by subtracting *Resident Community School ADM* from *Adjusted Total ADM* (both from the *June Funding Report*).
 	3. Divide *State Funding* by the *Adjusted ADM* and round to two decimal points.
+
+* **Charter cost per student** is computed by taking the *Community School Transfer* column and dividing by the *Adjusted ADM*.
+* **Charter cost per classroom** is computed by taking the *Community School Transfer* column and dividing by the *# of FT teachers* (this assumes approximately one classroom / FT teacher.
 
 * **% Spent in Classroom** is computed in the following manner:
 

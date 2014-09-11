@@ -3221,7 +3221,7 @@ while curr_row < num_rows:
 	# Basic School Information
 		# Operator
 			charters[school_IRN]['Operator']	= school_operator
-			charters[school_IRN]['Organization Status'] = school_org_status
+			charters[school_IRN]['Organization Status'] = clean(school_org_status)
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -3707,6 +3707,7 @@ for school in charters:
 		row.append(charters[school]['Virtual'])
 		row.append(charters[school]['Open Status'])
 		row.append(charters[school]['Avg Grade'])
+		row.append(charters[school]['Letter grade performance index'])
 		row.append(charters[school]['Public Funding'])
 		row.append(charters[school]['% Spent in Classroom'])
 		row.append(charters[school]['Avg Teacher Exp'])
@@ -3745,6 +3746,7 @@ for district in districts:
 		row.append(districts[district]['State'])
 		row.append(districts[district]['Postal Code'])
 		row.append(districts[district]['Avg Grade'])
+		row.append(districts[district]['Letter grade performance index'])
 		row.append(districts[district]['Charter Transfer'])
 		row.append(districts[district]['% Spent in Classroom'])
 		row.append(districts[district]['Avg Teacher Exp'])
