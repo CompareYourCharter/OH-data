@@ -3216,10 +3216,12 @@ while curr_row < num_rows:
 					charters[school_IRN]	= {}
 
 			school_operator			= worksheet.cell_value(curr_row, 2)
+			school_org_status		= worksheet.cell_value(curr_row, 3)
 		
 	# Basic School Information
 		# Operator
 			charters[school_IRN]['Operator']	= school_operator
+			charters[school_IRN]['Organization Status'] = school_org_status
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
