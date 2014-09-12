@@ -3767,7 +3767,7 @@ for school in charters:
 		row.append(pull(charters[school], 'Public Funding'))
 		row.append(pull(charters[school], '% Spent in Classroom'))
 		row.append(pull(charters[school], 'Avg Teacher Exp'))
-		if 'Name' in charters[school]:
+		if ('Name' in charters[school]) and ('Public Funding' in charters[school]):
 			wr.writerow(row)
 	except:
 		pass
@@ -3882,7 +3882,7 @@ for school in charters:
 	for i in range(1,len(headers)):
 		row.append(pull(charters[school], headers[i]))
 		
-	if 'Name' in charters[school]:
+	if ('Name' in charters[school]) and ('Public Funding' in charters[school]):
 		wr.writerow(row)
 
 write_file.close()
