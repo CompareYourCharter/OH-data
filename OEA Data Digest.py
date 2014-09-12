@@ -794,9 +794,7 @@ while curr_row < num_rows:
 		else:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 2)
-			school_IRN			= fixIRN(school_IRN)
-
-			
+			school_IRN			= fixIRN(school_IRN)	
 
 			try:
 				school_fy		= worksheet.cell_value(curr_row, 4)
@@ -808,14 +806,16 @@ while curr_row < num_rows:
 				else:
 					charters[school_IRN]['Years in operation']	= str(years_in_op)
 			except:
-				charters[school_IRN]['Years in operation']		= '--'
+				pass
 
 			school_sponsor			= worksheet.cell_value(curr_row, 1)
 			school_virtual			= worksheet.cell_value(curr_row, 7)
 			school_spec			= worksheet.cell_value(curr_row, 8)
-			charters[school_IRN]['Virtual']		= school_virtual
-			charters[school_IRN]['Specialization']	= school_spec
-			charters[school_IRN]['Sponsor']	= school_sponsor
+			school_grad_rate		= worksheet.cell_value(curr_row, 24)
+			charters[school_IRN]['Virtual']				= school_virtual
+			charters[school_IRN]['Specialization']			= school_spec
+			charters[school_IRN]['Sponsor']				= school_sponsor
+			charters[school_IRN]['Graduation rate']			= school_grad_rate
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -871,6 +871,27 @@ while curr_row < num_rows:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 2)
 			school_IRN			= fixIRN(school_IRN)
+
+			try:
+				school_fy		= worksheet.cell_value(curr_row, 4)
+				school_fy		= school_fy[-2:]
+				school_fy		= int(school_fy)
+				years_in_op		= 14 - school_fy
+				if years_in_op == 0:
+					charters[school_IRN]['Years in operation']	= 'First'
+				else:
+					charters[school_IRN]['Years in operation']	= str(years_in_op)
+			except:
+				pass
+
+			school_sponsor			= worksheet.cell_value(curr_row, 1)
+			school_virtual			= worksheet.cell_value(curr_row, 7)
+			school_spec			= worksheet.cell_value(curr_row, 8)
+			school_grad_rate		= worksheet.cell_value(curr_row, 13)
+			charters[school_IRN]['Virtual']				= school_virtual
+			charters[school_IRN]['Specialization']			= school_spec
+			charters[school_IRN]['Sponsor']				= school_sponsor
+			charters[school_IRN]['Graduation rate']			= school_grad_rate
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -3300,13 +3321,6 @@ while curr_row < num_rows:
 			school_gradespan		= worksheet.cell_value(curr_row, 10)
 			school_open			= worksheet.cell_value(curr_row, 11)
 
-			try:
-				school_grad_rate	= float(worksheet.cell_value(curr_row, 16))
-				school_grad_rate	= school_grad_rate \
-							/ float(worksheet.cell_value(curr_row, 17))
-				school_grad_rate	= '%.1f' % (100 * school_grad_rate)
-			except:
-				school_grad_rate	= '--'
 			city_state_zip				= worksheet.cell_value(curr_row, 7)
 			group					= city_state_zip.split(",")
 			school_city				= group[0]
@@ -3331,10 +3345,6 @@ while curr_row < num_rows:
 			charters[school_IRN]['Grades Served']	= school_gradespan
 				# Open Status
 			charters[school_IRN]['Open Status']	= school_open
-
-			# Performance Data
-				# Graduation rate
-			charters[school_IRN]['Graduation rate']			= school_grad_rate
 
 			if school_IRN not in charters:
 				charters[school_IRN]	= {}

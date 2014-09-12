@@ -194,7 +194,7 @@ The information between sheets is connected using the IRN.
 | Letter grade lowest 20% value-add  | District Report Card                             | DISTRICT                  | Letter grade of Lowest 20% Value-Added    | 19  | No           |
 | Letter grade of AMO                | District Report Card                             | DISTRICT                  | Letter grade of AMO                       | 20  | No           |
 | Attendance rate                    | District Report Card                             | DISTRICT                  | Attendance 2012-13                        | 98  | No           |
-| Graduation rate                    | District Report Card                             | DISTRICT                  | Multiple Columns                          | *   | Yes          |
+| Graduation rate                    | Charter Annual Report Academic Performance and Demographic Data              | *                  | 2012 4 Year Graduation Rate                    | *   | No          |
 | State Funding per Student          | June Funding Report                              | FY14_SFPR_JUN_2           | Multiple Columns                          | *   | Yes          |       
 | Charter cost per student           | June Funding Report                              | FY14_SFPR_JUN_2           | Community School Transfer                 | 34  | Yes          |       
 | Charter cost per classroom         | June Funding Report                              | FY14_SFPR_JUN_2           | Community School Transfer                 | 34  | Yes          |       
@@ -207,12 +207,6 @@ The information between sheets is connected using the IRN.
 * **Student-teacher ratio** is computed by dividing the **# of students** by **# of FT teachers** and rounding to one decimal place.
 * **% non-white** is computed by subtracting **% white** from 1.
 * **% enrolled less than 3 years** is computed by subtracting *% of total enrollment* for *Longevity3orMore* from 1.
-* **Graduation rate** is computed in the following manner:
-
-
-	1. Four-Year Graduation Rate Numerator 2012 is divided by Four-Year Graduation Rate Denominator 2012. 
-	2. Graduation rate is then rounded to three significant digits
-
 * **State Funding per Student** is computed in the following manner:
 
 

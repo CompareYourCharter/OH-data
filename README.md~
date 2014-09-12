@@ -48,6 +48,8 @@ The information between sheets is connected using the IRN.
 	2. classroom expenditure is computed by subtracting column 8 (administrative) from total expenses
 	3. classroom percentage is then computed by dividing classroom expenditure by total expenses
 	4. classroom percentage is then rounded to three significant digits
+
+* All **Dropout Recovery Schools** which have an entry in the *Dropout Recovery Report Card* will first take available data from that sheet. If there is no entry in *Charter Report Card* it will leave the grade metrics blank as they do not appear in the *Dropout Recovery Report Card*.
 	
 ### Zip Search - Districts.csv
 
@@ -156,6 +158,8 @@ The information between sheets is connected using the IRN.
 	4. classroom percentage is then rounded to three significant digits
 	
 * **% Spent on Administration** is computed by subtracting **% Spent in Classroom** from 1.
+
+* All **Dropout Recovery Schools** which have an entry in the *Dropout Recovery Report Card* will first take available data from that sheet. If there is no entry in *Charter Report Card* it will leave the grade metrics blank as they do not appear in the *Dropout Recovery Report Card*.
 
 ### Detail - Districts.csv
 
