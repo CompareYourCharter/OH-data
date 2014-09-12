@@ -593,7 +593,7 @@ write_file.close()
 # District Report Card
 
 filename	= 'District Report Card'
-xls_file	= xls_path + 'RAW' + ' ' + filename + '.xls'
+xls_file	= xls_path + 'RAW' + ' ' + filename + '.xlsx'
 workbook	= xlrd.open_workbook(xls_file)
 
 worksheet 	= workbook.sheet_by_name('DISTRICT')
