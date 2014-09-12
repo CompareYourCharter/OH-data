@@ -504,6 +504,13 @@ while curr_row < num_rows:
 								school_ltr_AMO, \
 								school_ltr_stand]
 
+			try:		
+				school_grad_rate	= float(worksheet.cell_value(curr_row, 16))		
+				school_grad_rate	= school_grad_rate / float(worksheet.cell_value(curr_row, 17))		
+				school_grad_rate	= '%.1f' % (100 * school_grad_rate)		
+			except:		
+				school_grad_rate	= '--'
+
 			grade_sum = 0
 			no_of_grades = 0		
 			for grade in letters:
@@ -519,11 +526,11 @@ while curr_row < num_rows:
 
 			try:
 				school_grad_rate	= float(worksheet.cell_value(curr_row, 107))
-				school_grad_rate	= school_grad_rate \
-							/ float(worksheet.cell_value(curr_row, 108))
+				school_grad_rate	= school_grad_rate / float(worksheet.cell_value(curr_row, 108))
 				school_grad_rate	= '%.1f' % (100 * school_grad_rate)
 			except:
 				school_grad_rate	= '--'
+
 			city_state_zip				= worksheet.cell_value(curr_row, 7)
 			group					= city_state_zip.split(",")
 			school_city				= group[0]
@@ -811,11 +818,9 @@ while curr_row < num_rows:
 			school_sponsor			= worksheet.cell_value(curr_row, 1)
 			school_virtual			= worksheet.cell_value(curr_row, 7)
 			school_spec			= worksheet.cell_value(curr_row, 8)
-			school_grad_rate		= worksheet.cell_value(curr_row, 24)
 			charters[school_IRN]['Virtual']				= school_virtual
 			charters[school_IRN]['Specialization']			= school_spec
 			charters[school_IRN]['Sponsor']				= school_sponsor
-			charters[school_IRN]['Graduation rate']			= school_grad_rate
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
