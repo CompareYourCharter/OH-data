@@ -931,9 +931,15 @@ while curr_row < num_rows:
 		else:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 2)
-			if type(school_IRN) is float:
-				school_IRN		= str(round(school_IRN)).rstrip('0').rstrip('.')
-			school_IRN			= school_IRN.zfill(6)
+			school_IRN			= fixIRN(school_IRN)
+			
+			try:
+				school_enrollment	= float(worksheet.cell_value(curr_row, 18))
+				school_enrollment	+= .5
+				school_enrollment	= int(school_enrollment)
+				charters[school_IRN]['# of students']	= school_enrollment
+			except:
+				pass
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -3280,8 +3286,55 @@ while curr_row < num_rows:
 			footer_row		= True
 		else:
 			wr.writerow(row)
+
 			school_IRN			= worksheet.cell_value(curr_row, 0)
 			school_IRN			= fixIRN(school_IRN)
+			school_name			= worksheet.cell_value(curr_row, 1)
+			school_address			= worksheet.cell_value(curr_row, 6)
+
+			school_district_IRN		= worksheet.cell_value(curr_row, 2)
+			school_district_IRN		= fixIRN(school_district_IRN)
+			school_district_name		= worksheet.cell_value(curr_row, 3)
+
+			school_county			= worksheet.cell_value(curr_row, 4)
+			school_gradespan		= worksheet.cell_value(curr_row, 10)
+			school_open			= worksheet.cell_value(curr_row, 11)
+
+			try:
+				school_grad_rate	= float(worksheet.cell_value(curr_row, 16))
+				school_grad_rate	= school_grad_rate \
+							/ float(worksheet.cell_value(curr_row, 17))
+				school_grad_rate	= '%.1f' % (100 * school_grad_rate)
+			except:
+				school_grad_rate	= '--'
+			city_state_zip				= worksheet.cell_value(curr_row, 7)
+			group					= city_state_zip.split(",")
+			school_city				= group[0]
+			school_group				= group[1].split(" ")
+			school_state				= school_group[1]
+			school_postal_code			= school_group[-1]
+
+			# Basic School Information
+				# School Name
+			charters[school_IRN]['Name']		= school_name
+				# Address
+			charters[school_IRN]['Address']		= school_address
+			charters[school_IRN]['City']		= school_city
+			charters[school_IRN]['State']		= school_state
+			charters[school_IRN]['Postal Code']	= school_postal_code
+				# County
+			charters[school_IRN]['County']		= school_county
+				# District
+			charters[school_IRN]['District IRN']	= school_district_IRN
+			charters[school_IRN]['District Name']	= school_district_name
+				# Grades served
+			charters[school_IRN]['Grades Served']	= school_gradespan
+				# Open Status
+			charters[school_IRN]['Open Status']	= school_open
+
+			# Performance Data
+				# Graduation rate
+			charters[school_IRN]['Graduation rate']			= school_grad_rate
 
 			if school_IRN not in charters:
 				charters[school_IRN]	= {}

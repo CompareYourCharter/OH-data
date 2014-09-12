@@ -48,6 +48,8 @@ The information between sheets is connected using the IRN.
 	2. classroom expenditure is computed by subtracting column 8 (administrative) from total expenses
 	3. classroom percentage is then computed by dividing classroom expenditure by total expenses
 	4. classroom percentage is then rounded to three significant digits
+
+* All **Dropout Recovery Schools** which have an entry in the *Dropout Recovery Report Card* will first take available data from that sheet. If there is no entry in *Charter Report Card* it will leave the grade metrics blank as they do not appear in the *Dropout Recovery Report Card*.
 	
 ### Zip Search - Districts.csv
 
@@ -110,7 +112,7 @@ The information between sheets is connected using the IRN.
 | Avg Teacher Exp                    | Charter Teacher Data                                            | TEACHER                   | Average Years of teacher experience       | 9   | No           |
 | % of teachers with masters degrees | Charter Teacher Data                                            | TEACHER                   | % of Teachers who have at least a masters | 16  | No           |
 | Teacher attendance %               | Charter Teacher Data                                            | TEACHER                   | Teachers attendance rate 2012-13          | 8   | No           |
-| # of students                      | Charter Report Card                                             | COMMSCHL                  | Enrollment                                | 30  | No           |
+| # of students                      | *                                             | *                  | *                                | *  | Yes           |
 | # of FT teachers                   | Charter Teacher Data                                            | TEACHER                   | Number of Full Time teachers              | 10  | No           |
 | Student-teacher ratio              | *                                                               | *                         | *                                         | *   | Yes          |       
 | % of kids in poverty               | Charter Economically Disadvantaged Data                         | BLDG_ECONOMIC_13          | % of total enrollment                     | 39  | No           |
@@ -138,6 +140,7 @@ The information between sheets is connected using the IRN.
 * **City**, **State**, and **Postal Code** are seperated out from a single text field.
 * All charters without data for **Virtual** are assumed to be *Site Based*.
 * **Years in Operation** is computed by subtracting the first year in service from 14. If the result is zero, the value 'First' is returned.
+* **# of students** is first computed by rounding the most recent figure from the *Charter Annual Report Enrollment History Data*. If this is not available, it will instead be set to the *Enrollment* column of the *Charter Report Card*.
 * **Student-teacher ratio** is computed by dividing the **# of students** by **# of FT teachers** and rounding to one decimal place.
 * **% non-white** is computed by subtracting **% white** from 1.
 * **% enrolled less than 3 years** is computed by subtracting *% of total enrollment* for *Longevity3orMore* from 1.
@@ -155,6 +158,8 @@ The information between sheets is connected using the IRN.
 	4. classroom percentage is then rounded to three significant digits
 	
 * **% Spent on Administration** is computed by subtracting **% Spent in Classroom** from 1.
+
+* All **Dropout Recovery Schools** which have an entry in the *Dropout Recovery Report Card* will first take available data from that sheet. If there is no entry in *Charter Report Card* it will leave the grade metrics blank as they do not appear in the *Dropout Recovery Report Card*.
 
 ### Detail - Districts.csv
 
