@@ -3752,25 +3752,22 @@ headers					= [\
 wr.writerow(headers)
 
 for school in charters:
-	try:
-		row 			= []
-		row.append(school)
-		row.append(pull(charters[school], 'Name'))
-		row.append(pull(charters[school], 'Address'))
-		row.append(pull(charters[school], 'City'))
-		row.append(pull(charters[school], 'State'))
-		row.append(pull(charters[school], 'Postal Code'))
-		row.append(pull(charters[school], 'Virtual'))
-		row.append(pull(charters[school], 'Open Status'))
-		row.append(pull(charters[school], 'Avg Grade'))
-		row.append(pull(charters[school], 'Letter grade performance index'))
-		row.append(pull(charters[school], 'Public Funding'))
-		row.append(pull(charters[school], '% Spent in Classroom'))
-		row.append(pull(charters[school], 'Avg Teacher Exp'))
-		if ('Name' in charters[school]) and ('Public Funding' in charters[school]):
-			wr.writerow(row)
-	except:
-		pass
+	row 			= []
+	row.append(school)
+	row.append(pull(charters[school], 'Name'))
+	row.append(pull(charters[school], 'Address'))
+	row.append(pull(charters[school], 'City'))
+	row.append(pull(charters[school], 'State'))
+	row.append(pull(charters[school], 'Postal Code'))
+	row.append(pull(charters[school], 'Virtual'))
+	row.append(pull(charters[school], 'Open Status'))
+	row.append(pull(charters[school], 'Avg Grade'))
+	row.append(pull(charters[school], 'Letter grade performance index'))
+	row.append(pull(charters[school], 'Public Funding'))
+	row.append(pull(charters[school], '% Spent in Classroom'))
+	row.append(pull(charters[school], 'Avg Teacher Exp'))
+	if ('Name' in charters[school]) and ('Public Funding' in charters[school]) and ('# of students' in charters[school]):
+		wr.writerow(row)
 
 write_file.close()
 
@@ -3882,7 +3879,7 @@ for school in charters:
 	for i in range(1,len(headers)):
 		row.append(pull(charters[school], headers[i]))
 		
-	if ('Name' in charters[school]) and ('Public Funding' in charters[school]):
+	if ('Name' in charters[school]) and ('Public Funding' in charters[school]) and ('# of students' in charters[school]):
 		wr.writerow(row)
 
 write_file.close()
