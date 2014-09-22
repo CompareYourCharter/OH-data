@@ -505,8 +505,8 @@ while curr_row < num_rows:
 								school_ltr_stand]
 
 			try:		
-				school_grad_rate	= float(worksheet.cell_value(curr_row, 16))		
-				school_grad_rate	= school_grad_rate / float(worksheet.cell_value(curr_row, 17))		
+				school_grad_rate	= float(worksheet.cell_value(curr_row, 107))		
+				school_grad_rate	= school_grad_rate / float(worksheet.cell_value(curr_row, 108))		
 				school_grad_rate	= '%.1f' % (100 * school_grad_rate)		
 			except:		
 				school_grad_rate	= '--'
@@ -1429,7 +1429,7 @@ filename	= 'Charter Gifted Data'
 xls_file	= xls_path + 'RAW' + ' ' + filename + '.xls'
 workbook	= xlrd.open_workbook(xls_file)
 
-worksheet 	= workbook.sheet_by_name('BLDG_GIFTED_13')
+worksheet 	= workbook.sheet_by_name('BLDG_GIFTED_14')
 
 # Two rows per charter
 
@@ -1525,9 +1525,10 @@ while curr_row < num_rows:
 		else:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 0)
-			if type(school_IRN) is float:
-				school_IRN		= str(round(school_IRN)).rstrip('0').rstrip('.')
-			school_IRN			= school_IRN.zfill(6)
+			school_IRN			= fixIRN(school_IRN)
+
+			if school_IRN not in charters:
+				charters[school_IRN]	= {}
 
 			curr_cell			= 9
 			while curr_cell < num_cells:
@@ -1544,12 +1545,9 @@ while curr_row < num_rows:
 
 				else:
 					row_constant	= 19
-				header			= headers[curr_cell + row_constant]
-				if school_IRN in charters:
-					charters[school_IRN][header]			= cell_value
-				else:
-					charters[school_IRN]				= {}
-					charters[school_IRN][header]			= cell_value
+
+				header				= headers[curr_cell + row_constant]
+
 
 write_file.close()
 
@@ -1691,7 +1689,7 @@ filename	= 'Charter LEP Data'
 xls_file	= xls_path + 'RAW' + ' ' + filename + '.xls'
 workbook	= xlrd.open_workbook(xls_file)
 
-worksheet 	= workbook.sheet_by_name('BLDG_LEP_13')
+worksheet 	= workbook.sheet_by_name('BLDG_LEP_14')
 
 # Two rows per charter
 
@@ -1942,7 +1940,7 @@ filename	= 'Charter Economically Disadvantaged Data'
 xls_file	= xls_path + 'RAW' + ' ' + filename + '.xls'
 workbook	= xlrd.open_workbook(xls_file)
 
-worksheet 	= workbook.sheet_by_name('BLDG_ECONOMIC_13')
+worksheet 	= workbook.sheet_by_name('BLDG_ECONOMIC_14')
 
 # Two rows per charter
 
@@ -2201,7 +2199,7 @@ filename	= 'Charter Mobility Data'
 xls_file	= xls_path + 'RAW' + ' ' + filename + '.xls'
 workbook	= xlrd.open_workbook(xls_file)
 
-worksheet 	= workbook.sheet_by_name('BLDG_MOBILE_13')
+worksheet 	= workbook.sheet_by_name('BLDG_MOBILE_14')
 
 # Three rows per charter
 
@@ -3617,13 +3615,13 @@ while curr_row < num_rows:
 			charterADM			= row[89]
 			statefunding			= row[27]
 			adjustedADM			= totalADM - charterADM
-			communitySchoolTrans		= float(row[33]) * -1.0
+			communitySchoolTrans		= float(row[33]) * 1.0
 			try:
-				costPerStudent		= communitySchoolTrans / float(adjustedADM)
+				costPerStudent		= (-1.0 * communitySchoolTrans) / float(adjustedADM)
 			except:
 				pass
 			try:
-				costPerClassroom	= communitySchoolTrans / float(districts[district_IRN]['# of FT teachers'])
+				costPerClassroom	= (-1.0 * communitySchoolTrans) / float(districts[district_IRN]['# of FT teachers'])
 			except:
 				pass
 
@@ -3631,6 +3629,7 @@ while curr_row < num_rows:
 			districts[district_IRN]['In District Charter ADM']		= charterADM
 			districts[district_IRN]['State Funding']			= '%.2f' % statefunding
 			districts[district_IRN]['Charter Adjusted District ADM']	= adjustedADM
+			districts[district_IRN]['Community School Transfer']		= '%.2f' % communitySchoolTrans
 			try:
 				districts[district_IRN]['Charter cost per student']	= '%.2f' % costPerStudent
 			except:
@@ -3645,6 +3644,58 @@ while curr_row < num_rows:
 				curr_cell 		+= 1
 				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
 				districts[district_IRN][headers[curr_cell]]	= cell_value
+
+write_file.close()
+
+###### CHARTER NAME CHANGES #######
+
+filename	= 'Charter Name Changes'
+xls_file	= xls_path + filename + '.xlsx'
+workbook	= xlrd.open_workbook(xls_file)
+
+worksheet 	= workbook.sheet_by_name('Sheet1')
+
+# One row per district
+
+csv_file	= csv_path + filename + '.csv'
+write_file	= open(csv_file, 'w')
+wr 		= csv.writer(write_file, quoting=csv.QUOTE_ALL)
+
+num_rows 					= worksheet.nrows - 1
+num_cells 					= worksheet.ncols - 1
+curr_row 					= 8
+header_row					= True
+headers						= ['New IRN', \
+							'New Name', \
+							'Old IRN', \
+							'Old Name']
+wr.writerow(headers)
+
+footer_row					= False
+district_count					= 0
+new_district					= 0
+
+while curr_row < num_rows:
+	curr_row 				+= 1
+	if not(footer_row):
+		row				= worksheet.row_values(curr_row)
+		if len(str(row[0])) > 0:
+			wr.writerow(row)
+			school_IRN			= int(row[0])
+			school_IRN			= fixIRN(school_IRN)
+
+			if district_IRN not in districts:
+				districts[district_IRN]	= {}
+
+			newName				= row[1]
+
+			charters[school_IRN]['Name']	= newName
+			
+			curr_cell			= -1
+			while curr_cell < num_cells:
+				curr_cell 				+= 1
+				cell_value 				= clean(worksheet.cell_value(curr_row, curr_cell))
+				charters[school_IRN][headers[curr_cell]]	= cell_value
 
 write_file.close()
 
@@ -3801,7 +3852,8 @@ headers					= [\
 						'Letter grade performance index',\
 						'Charter Transfer', \
 						'% Spent in Classroom', \
-						'Avg Teacher Experience']
+						'Avg Teacher Experience', \
+						'Community School Transfer']
 
 wr.writerow(headers)
 
@@ -3819,6 +3871,7 @@ for district in districts:
 		row.append(pull(districts[district], 'Charter Transfer'))
 		row.append(pull(districts[district], '% Spent in Classroom'))
 		row.append(pull(districts[district], 'Avg Teacher Exp'))
+		row.append(pull(districts[district], 'Community School Transfer'))
 		if 'Name' in districts[district]:
 			wr.writerow(row)
 	except:
@@ -3939,7 +3992,8 @@ headers					= [\
 						'Charter cost per student', \
 						'Charter cost per classroom', \
 						'% Spent in Classroom',\
-						'% Spent on Administration']
+						'% Spent on Administration', \
+						'Community School Transfer']
 
 wr.writerow(headers)
 

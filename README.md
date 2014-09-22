@@ -16,6 +16,7 @@ The information between sheets is connected using the IRN.
 |------------------------|-----------------------------------------------------------------|---------------------------|--------------------------------------|----|--------------|
 | School IRN             | District to Charter Transfer by Performance Data                | Sheet1                    | Community School IRN                 | 23 | No           |
 |                        | Charter Report Card                                             | COMMSCHL                  | Building IRN                         | 1  | No           |
+|                        | Charter Name Changes                                             | Sheet1                  | New Name                         | 1  | No           |
 | School Name            | District to Charter Transfer by Performance Data                | Sheet1                    | Community School                     | 24 | No           |
 |                        | Charter Report Card                                             | COMMSCHL                  | Building Name                        | 2  | No           |
 | Street Address         | Charter Report Card                                             | COMMSCHL                  | Street address                       | 7  | No           |
@@ -68,6 +69,7 @@ The information between sheets is connected using the IRN.
 | Charter Transfer       | District to Charter Transfer by Performance Data                | Sheet1                    | FY13 Total Funding Transfer          | 59 | Yes          |
 | % Spent in Classroom   | Charter-District Expenditure Data                               | EFM_Data                  | *                                    | *  | Yes          |
 | Avg Teacher Experience | District Teacher Data                                           | TEACHER                   | Average Years of teacher experience  | 6  | No           |
+| Community School Transfer       | June Funding Report                | FY14_SFPR_JUN_2           | FY13 Total Funding Transfer          | 34 | No          |
 
 #### Transformations
 
@@ -96,6 +98,7 @@ The information between sheets is connected using the IRN.
 |                                    | Charter Report Card                                             | COMMSCHL                  | Building IRN                              | 1   | No           |
 | Name                               | District to Charter Transfer by Performance Data                | Sheet1                    | Community School                          | 24  | No           |
 |                                    | Charter Report Card                                             | COMMSCHL                  | Building Name                             | 2   | No           |
+|                        | Charter Name Changes                                             | Sheet1                  | New Name                         | 1  | No           |
 | Address                            | Charter Report Card                                             | COMMSCHL                  | Street address                            | 7   | No           |
 | City                               | Charter Report Card                                             | COMMSCHL                  | City and Zip code                         | 8   | Yes          |
 | State                              | Charter Report Card                                             | COMMSCHL                  | City and Zip code                         | 8   | Yes          |
@@ -179,9 +182,9 @@ The information between sheets is connected using the IRN.
 | # of students                      | District Report Card                             | DISTRICT                  | Enrollment                                | 25  | No           |
 | # of FT teachers                   | District Teacher Data                            | TEACHER                   | Number of Full Time teachers              | 7   | No           |
 | Student-teacher ratio              | *                                                | *                         | *                                         | *   | Yes          |       
-| % of kids in poverty               | District Economically Disadvantaged Data         | DIST_ECONOMIC_13          | % of total enrollment                     | 34  | No           |
-| % of kids with special needs       | District Disability Data                         | DIST_DISABILITY_13        | % of total enrollment                     | 34  | No           |
-| % gifted                           | District Gifted Data                             | DIST_GIFTED_13            | % of total enrollment                     | 34  | No           |
+| % of kids in poverty               | District Economically Disadvantaged Data         | DIST_ECONOMIC_14          | % of total enrollment                     | 34  | No           |
+| % of kids with special needs       | District Disability Data                         | DIST_DISABILITY_14        | % of total enrollment                     | 34  | No           |
+| % gifted                           | District Gifted Data                             | DIST_GIFTED_14            | % of total enrollment                     | 34  | No           |
 | % white                            | District Racial Data                             | DIST_ETHNIC_13            | % of total enrollment                     | 34  | No           |
 | % non-white                        | District Racial Data                             | DIST_ETHNIC_13            | % of total enrollment                     | 34  | Yes          |     
 | % enrolled less than 3 years       | District Mobility Data                           | DIST_ETHNIC_13            | % of total enrollment                     | 34  | Yes          |   
@@ -200,6 +203,7 @@ The information between sheets is connected using the IRN.
 | Charter cost per classroom         | June Funding Report                              | FY14_SFPR_JUN_2           | Community School Transfer                 | 34  | Yes          |       
 | % Spent in Classroom               | Charter-District Expenditure Data                | EFM_Data                  | Multiple Columns                          | *   | Yes          |
 | % Spent on Administration          | *                                                | *                         | *                                         | *   | Yes          |       
+| Community School Transfer       | June Funding Report                | FY14_SFPR_JUN_2           | FY13 Total Funding Transfer          | 34 | No          |
 
 #### Transformations
 
