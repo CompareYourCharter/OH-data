@@ -3867,7 +3867,7 @@ for district in districts:
 		districts[district]['State Funding per Student'] = '%.2F' % stateFundADM
 		funding			= stateFunding + additonalAid
 		breakpoint		= 'funding'
-		FundADM			= adjStateFunding / totalADM
+		FundADM			= funding / totalADM
 		breakpoint		= 'Dictionary Assign'
 		districts[district]['Funding per Student'] = '%.2F' % FundADM
 	except:
