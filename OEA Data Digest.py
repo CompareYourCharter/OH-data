@@ -494,6 +494,7 @@ while curr_row < num_rows:
 			school_ltr_bottom_value		= worksheet.cell_value(curr_row, 23)
 			school_ltr_AMO			= worksheet.cell_value(curr_row, 24)
 			school_enrollment		= worksheet.cell_value(curr_row, 29)
+			school_3rdRead			= worksheet.cell_value(curr_row, 30)
 			school_attend_rate		= worksheet.cell_value(curr_row, 102)
 
 			letters				= [school_ltr_perf, \
@@ -584,6 +585,7 @@ while curr_row < num_rows:
 			charters[school_IRN]['Attendance rate']			= school_attend_rate
 				# Graduation rate
 			charters[school_IRN]['Graduation rate']			= school_grad_rate
+			charters[school_IRN]['Read 3rd Grade % at or above Proficient'] = school_3rdRead
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -670,6 +672,7 @@ while curr_row < num_rows:
 			district_ltr_bottom_value	= worksheet.cell_value(curr_row, 18)
 			district_ltr_AMO		= worksheet.cell_value(curr_row, 19)
 			district_enrollment		= worksheet.cell_value(curr_row, 24)
+			district_3rdRead		= worksheet.cell_value(curr_row, 25)
 			district_attend_rate		= worksheet.cell_value(curr_row, 97)
 
 
@@ -749,6 +752,9 @@ while curr_row < num_rows:
 			districts[district_IRN]['Attendance rate']	= district_attend_rate
 				# Graduation rate
 			districts[district_IRN]['Graduation rate']	= district_grad_rate
+
+			districts[district_IRN]['Graduation rate']	= district_grad_rate			
+			districts[district_IRN]['Read 3rd Grade % at or above Proficient'] = district_3rdRead
 
 write_file.close()
 
@@ -3614,6 +3620,8 @@ while curr_row < num_rows:
 			totalADM			= row[47]
 			charterADM			= row[89]
 			statefunding			= row[27]
+			additionalaid			= row[30]
+
 			adjustedADM			= totalADM - charterADM
 			communitySchoolTrans		= float(row[33]) * 1.0
 			try:
@@ -3628,6 +3636,7 @@ while curr_row < num_rows:
 			districts[district_IRN]['Total ADM']				= totalADM
 			districts[district_IRN]['In District Charter ADM']		= charterADM
 			districts[district_IRN]['State Funding']			= '%.2f' % statefunding
+			districts[district_IRN]['Total Additional Aid']			= '%.2f' % additionalaid
 			districts[district_IRN]['Charter Adjusted District ADM']	= adjustedADM
 			districts[district_IRN]['Community School Transfer']		= '%.2f' % communitySchoolTrans
 			try:
@@ -3663,7 +3672,7 @@ wr 		= csv.writer(write_file, quoting=csv.QUOTE_ALL)
 
 num_rows 					= worksheet.nrows - 1
 num_cells 					= worksheet.ncols - 1
-curr_row 					= 8
+curr_row 					= 1
 header_row					= True
 headers						= ['New IRN', \
 							'New Name', \
@@ -3677,6 +3686,7 @@ new_district					= 0
 
 while curr_row < num_rows:
 	curr_row 				+= 1
+		
 	if not(footer_row):
 		row				= worksheet.row_values(curr_row)
 		if len(str(row[0])) > 0:
@@ -3699,9 +3709,128 @@ while curr_row < num_rows:
 
 write_file.close()
 
+# Charter - District Third Grade Reading Guarantee
+
+filename	= 'Charter District Third Grade Reading Guarantee'
+xls_file	= xls_path + 'RAW' + ' ' + filename + '.xlsx'
+workbook	= xlrd.open_workbook(xls_file)
+
+worksheet 	= workbook.sheet_by_name('community_school_2014')
+
+# One row per charter
+
+csv_file	= csv_path + filename + '-charters.csv'
+write_file	= open(csv_file, 'w')
+wr 		= csv.writer(write_file, quoting=csv.QUOTE_ALL)
+
+num_rows 					= worksheet.nrows - 1
+num_cells 					= worksheet.ncols - 1
+curr_row 					= 1
+header_row					= True
+headers						= ['County', \
+								'IRN', \
+								'Organization Name', \
+								'Student Count', \
+								'Student Count At or Above 392', \
+								'Percentage', \
+                                				'Status as of 6/13/2014']
+wr.writerow(headers)
+
+footer_row					    = False
+district_count					= 0
+
+while curr_row < num_rows:
+	curr_row 				+= 1
+	if not(footer_row):
+		row				= worksheet.row_values(curr_row)
+		if row[0] == 'Community School Total':
+			footer_row		= True
+		elif len(str(row[1])) > 0:
+			wr.writerow(row)
+			school_IRN			= int(row[1])
+			school_IRN			= fixIRN(school_IRN)
+
+			if school_IRN not in charters:
+				charters[school_IRN]	= {}
+
+			thirdReadStudentCount               = row[3]
+			thirdReadStudentCount392            = row[4]
+			try:
+				thirdReadPer                = float(row[5]) * 100.0
+			except:
+				thirdReadPer                = None
+			charters[school_IRN]['Third Grade Reading Student Count']			            = thirdReadStudentCount
+			charters[school_IRN]['Third Grade Reading Student Count At or Above 392']		    = thirdReadStudentCount392
+			if thirdReadPer:
+				charters[school_IRN]['Third Grade Reading Percentage']			            = '%.1f' % thirdReadPer
+
+			curr_cell			= -1
+			while curr_cell < num_cells:
+				curr_cell 		+= 1
+				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
+				charters[school_IRN][headers[curr_cell]]	= cell_value
+
+write_file.close()
+
+worksheet 	= workbook.sheet_by_name('public_district_2014')
+
+# One row per district
+
+csv_file	= csv_path + filename + '-districts.csv'
+write_file	= open(csv_file, 'w')
+wr 		= csv.writer(write_file, quoting=csv.QUOTE_ALL)
+
+num_rows 					= worksheet.nrows - 1
+num_cells 					= worksheet.ncols - 1
+curr_row 					= 1
+header_row					= True
+headers						= ['County', \
+								'IRN', \
+								'Organization Name', \
+								'Student Count', \
+								'Student Count At or Above 392', \
+								'Percentage']
+wr.writerow(headers)
+
+footer_row					= False
+district_count					= 0
+
+while curr_row < num_rows:
+	curr_row 				+= 1
+	if not(footer_row):
+		row				= worksheet.row_values(curr_row)
+		if row[0] == 'Traditional Public District Total':
+			footer_row		= True
+		elif len(str(row[1])) > 0:
+			wr.writerow(row)
+			district_IRN			= int(row[1])
+			district_IRN			= fixIRN(district_IRN)
+
+			if district_IRN not in districts:
+				districts[district_IRN]	= {}
+
+			thirdReadStudentCount               = row[3]
+			thirdReadStudentCount392            = row[4]
+			try:
+				thirdReadPer                = float(row[5]) * 100.0
+			except:
+				thirdReadPer                = None
+			districts[district_IRN]['Third Grade Reading Student Count']			                = thirdReadStudentCount
+			districts[district_IRN]['Third Grade Reading Student Count At or Above 392']		    	= thirdReadStudentCount392
+			if thirdReadPer:
+				districts[district_IRN]['Third Grade Reading Percentage']			                = '%.1f' % thirdReadPer
+
+			curr_cell			= -1
+			while curr_cell < num_cells:
+				curr_cell 		+= 1
+				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
+				districts[district_IRN][headers[curr_cell]]	= cell_value
+
+write_file.close()
+
 ###### DATA PROCESSING #######
 
-#sys.exit()
+#sys.exit()f
 
 for charter in charters:
 	try:
@@ -3718,8 +3847,12 @@ for district in districts:
 	breakpoint			= 'stateFunding'
 	try:
 		stateFunding		= float(districts[district]['State Funding'])
+		breakpoint		= 'additonalAid'
+		additonalAid		= float(districts[district]['Total Additional Aid'])
 		breakpoint		= 'charterTrans'
 		charterTrans		= float(districts[district]['Charter Transfer'])
+		breakpoint		= 'totalADM'
+		totalADM		= float(districts[district_IRN]['Total ADM'])
 		breakpoint		= 'adjADM'
 		adjADM			= float(districts[district]['Charter Adjusted District ADM'])
 		breakpoint		= 'adjStateFunding'
@@ -3728,6 +3861,11 @@ for district in districts:
 		stateFundADM		= adjStateFunding / adjADM
 		breakpoint		= 'Dictionary Assign'
 		districts[district]['State Funding per Student'] = '%.2F' % stateFundADM
+		funding			= stateFunding + additonalAid
+		breakpoint		= 'funding'
+		FundADM			= adjStateFunding / totalADM
+		breakpoint		= 'Dictionary Assign'
+		districts[district]['Funding per Student'] = '%.2F' % FundADM
 	except:
 		pass
 
@@ -3928,7 +4066,11 @@ headers					= [\
 						\
 						'State Funding per Student',\
 						'% Spent in Classroom',\
-						'% Spent on Administration']
+						'% Spent on Administration', \
+						'Third Grade Reading Student Count', \
+						'Third Grade Reading Student Count At or Above 392', \
+						'Third Grade Reading Percentage', \
+						'Read 3rd Grade % at or above Proficient']
 
 wr.writerow(headers)
 
@@ -3993,7 +4135,12 @@ headers					= [\
 						'Charter cost per classroom', \
 						'% Spent in Classroom',\
 						'% Spent on Administration', \
-						'Community School Transfer']
+						'Community School Transfer', \
+						'Funding per Student', \
+						'Third Grade Reading Student Count', \
+						'Third Grade Reading Student Count At or Above 392', \
+						'Third Grade Reading Percentage', \
+						'Read 3rd Grade % at or above Proficient']
 
 wr.writerow(headers)
 
