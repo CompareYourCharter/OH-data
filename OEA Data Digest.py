@@ -4144,7 +4144,10 @@ headers					= [\
 						'Third Grade Reading Student Count', \
 						'Third Grade Reading Student Count At or Above 392', \
 						'Third Grade Reading Percentage', \
-						'Read 3rd Grade % at or above Proficient']
+						'Read 3rd Grade % at or above Proficient', \
+						'TOTAL CALCULATED STATE FUNDING', \
+						'TOTAL ADDITIONAL AID ITEMS', \
+						'TOTAL ADM']
 
 wr.writerow(headers)
 
