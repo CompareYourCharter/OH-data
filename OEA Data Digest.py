@@ -176,7 +176,7 @@ write_file2.close()
 
 # Charter-District Third Grade Reading Guarantee
 
-filename	= 'Charter-District Third Grade Reading Guarantee'
+filename	= 'Charter District Third Grade Reading Guarantee'
 xls_file	= xls_path + 'RAW' + ' ' + filename + '.xlsx'
 workbook	= xlrd.open_workbook(xls_file)
 
@@ -420,7 +420,7 @@ write_file.close()
 # Charter Report Card
 
 filename	= 'Charter Report Card'
-xls_file	= xls_path + 'RAW' + ' ' + filename + '.xls'
+xls_file	= xls_path + 'RAW' + ' ' + filename + '.xlsx'
 workbook	= xlrd.open_workbook(xls_file)
 
 worksheet 	= workbook.sheet_by_name('COMMSCHL')
@@ -474,6 +474,10 @@ while curr_row < num_rows:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 0)
 			school_IRN			= fixIRN(school_IRN)
+
+			if school_IRN not in charters:
+				charters[school_IRN]	= {}
+
 			school_name			= worksheet.cell_value(curr_row, 1)
 			school_address			= worksheet.cell_value(curr_row, 6)
 
