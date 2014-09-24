@@ -28,12 +28,17 @@ def fixIRN(value):
 	return value
 
 def pull(dictionary, key):
+	#try:
+	#	if (key == '% Spent in Classroom') and (dictionary['Name'] == 'Cleveland Municipal City'):
+	#		sys.exit()
+	#except:
+	#	pass
 
 	if key not in dictionary:
 		return 'NA'
 	else:
 		try:
-			if dictionary[key] in ('--', 'NR', 0, '', 0.0):
+			if dictionary[key] in ('--', 'NR'):
 				return 'NA'
 			else:
 				return dictionary[key]
@@ -377,8 +382,8 @@ while curr_row < num_rows:
 					admin_percent		= row[7] / total_expenses
 					classroom_percent	= 1.0 - admin_percent
 					
-					charters[IRN]['% Spent in Classroom']		= '%.1f' % (classroom_percent * 100.0)
-					charters[IRN]['% Spent on Administration']	= '%.1f' % (admin_percent * 100.0)
+					charters[IRN]['% Spent in Classroom']		= classroom_percent * 100.0
+					charters[IRN]['% Spent on Administration']	= admin_percent * 100.0
 
 			if IRN in districts:
 				curr_cell		= -1
@@ -391,10 +396,11 @@ while curr_row < num_rows:
 					admin_percent		= row[7] / total_expenses
 					classroom_percent	= 1.0 - admin_percent
 					
-					districts[IRN]['% Spent in Classtroom']		= '%.1f' % (classroom_percent * 100.0)
-					districts[IRN]['% Spent on Administration']	= '%.1f' % (admin_percent * 100.0)
+					districts[IRN]['% Spent in Classroom']		= classroom_percent * 100.0
+					districts[IRN]['% Spent on Administration']	= admin_percent * 100.0
 	
 write_file.close()
+
 
 ###################### REPORT CARDS #########################
 
@@ -949,17 +955,14 @@ while curr_row < num_rows:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 2)
 			school_IRN			= fixIRN(school_IRN)
-			if school_IRN not in charters:
-				charters[school_IRN]	= {}
-
-			if '# of students' not in charters[school_IRN]:			
-				try:
-					school_enrollment	= float(worksheet.cell_value(curr_row, 18))
-					school_enrollment	+= .5
-					school_enrollment	= int(school_enrollment)
-					charters[school_IRN]['# of students']	= school_enrollment
-				except:
-					pass
+			
+			try:
+				school_enrollment	= float(worksheet.cell_value(curr_row, 18))
+				school_enrollment	+= .5
+				school_enrollment	= int(school_enrollment)
+				charters[school_IRN]['# of students']	= school_enrollment
+			except:
+				pass
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -2157,15 +2160,10 @@ while curr_row < num_rows:
 			footer_row		= True
 		else:
 			wr.writerow(row)
-			district_IRN			= row[0]
-			district_IRN			= fixIRN(district_IRN)
-
-			if row[4] == 'Disadvantaged':
-				enroll_percent	= row[33]
-				if type(enroll_percent) is float:
-					districts[district_IRN]['% of kids in poverty'] = '%.1f' % enroll_percent
-				else:
-					districts[district_IRN]['% of kids in poverty'] = enroll_percent
+			district_IRN			= worksheet.cell_value(curr_row, 0)
+			if type(district_IRN) is float:
+				district_IRN		= str(round(district_IRN)).rstrip('0').rstrip('.')
+			district_IRN			= district_IRN.zfill(6)
 
 			curr_cell			= 4
 			while curr_cell < num_cells:
@@ -2174,12 +2172,21 @@ while curr_row < num_rows:
 				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
 				if row_type == 'Disadvantaged':
 					row_constant	= -5
+					if type(enroll_percent) is float:
+						districts[district_IRN]['% of kids in poverty'] = '%.1f' % enroll_percent
+					else:
+						districts[district_IRN]['% of kids in poverty'] = enroll_percent
 				else:
 					row_constant	= 24
 				header			= headers[curr_cell + row_constant]
-				districts[district_IRN][header]			= cell_value
+				if district_IRN in districts:
+					districts[district_IRN][header]			= cell_value
+				else:
+					districts[district_IRN]				= {}
+					districts[district_IRN][header]			= cell_value
 
 write_file.close()
+
 
 ##################### MOBILITY DATA ########################
 
@@ -2314,9 +2321,9 @@ while curr_row < num_rows:
 		else:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 0)
-			school_IRN			= fixIRN(school_IRN)
-
-			charters[school_IRN][row[9]]    = row[38]
+			if type(school_IRN) is float:
+				school_IRN		= str(round(school_IRN)).rstrip('0').rstrip('.')
+			school_IRN			= school_IRN.zfill(6)
 
 			curr_cell			= 9
 			while curr_cell < num_cells:
@@ -2337,6 +2344,7 @@ while curr_row < num_rows:
 					if type(enroll_percent) is float:
 						enroll_percent	= 100 - enroll_percent
 						charters[school_IRN]['% enrolled less than 3 years'] = '%.1f' % enroll_percent
+						charters[school_IRN]['% of kids in poverty'] = '%.1f' % enroll_percent
 
 				header			= headers[curr_cell + row_constant]
 				if school_IRN in charters:
@@ -2478,9 +2486,9 @@ while curr_row < num_rows:
 		else:
 			wr.writerow(row)
 			district_IRN			= worksheet.cell_value(curr_row, 0)
-			district_IRN			= fixIRN(district_IRN)
-
-			districts[district_IRN][row[4]] = row[33]
+			if type(district_IRN) is float:
+				district_IRN		= str(round(district_IRN)).rstrip('0').rstrip('.')
+			district_IRN			= district_IRN.zfill(6)
 
 			curr_cell			= 4
 			while curr_cell < num_cells:
@@ -3092,7 +3100,7 @@ while curr_row < num_rows:
 			school_teach_attend			= worksheet.cell_value(curr_row, 7)
 			school_teach_exp			= worksheet.cell_value(curr_row, 8)
 			school_no_teachers			= worksheet.cell_value(curr_row, 9)
-			school_per_masters			= worksheet.cell_value(curr_row, 14)
+			school_per_masters			= worksheet.cell_value(curr_row, 15)
 
 			charters[school_IRN]['Teacher attendance %'] = school_teach_attend
 			charters[school_IRN]['Avg Teacher Exp']	= school_teach_exp
@@ -3608,7 +3616,7 @@ while curr_row < num_rows:
 			adjustedADM			= totalADM - charterADM
 			communitySchoolTrans		= float(row[33]) * 1.0
 			try:
-				costPerStudent		= ((row[27]+row[30])/row[47])-((row[27]+row[30]+row[33])/(row[47]-row[89]))
+				costPerStudent		= (-1.0 * communitySchoolTrans) / float(adjustedADM)
 			except:
 				pass
 			try:
@@ -3827,35 +3835,6 @@ for charter in charters:
 		charters[charter]['State Funding per Student'] = '%.2F' % stateFundADM
 	except:
 		pass
-	
-	try:
-		Longevity0			= float(charters[charter]['Longevity0'])
-	except:
-		Longevity0 			= 'NA'
-	try:
-		Longevity1to2			= float(charters[charter]['Longevity1to2'])
-	except:
-		Longevity1to2			= 'NA'
-	try:
-		Longevity3orMore		= float(charters[charter]['Longevity3orMore'])
-	except:
-		Longevity3orMore 		= 'NA'
-
-	if type(Longevity3orMore) is float:
-		charters[charter]['% enrolled less than 3 years'] = 1.0 - Longevity3orMore
-	else:
-		charters[charter]['% enrolled less than 3 years'] = 0
-		try:
-			charters[charter]['% enrolled less than 3 years'] += Longevity1to2
-		except:
-			pass
-		try:
-			charters[charter]['% enrolled less than 3 years'] += Longevity0
-		except:
-			pass
-
-	if charters[charter]['% enrolled less than 3 years'] == 0:
-		charters[charter]['% enrolled less than 3 years'] = None
 
 for district in districts:
 	breakpoint			= 'stateFunding'
@@ -3879,37 +3858,9 @@ for district in districts:
 		breakpoint		= 'funding'
 		FundADM			= funding / totalADM
 		breakpoint		= 'Dictionary Assign'
+		# districts[district]['Funding per Student'] = '%.2F' % FundADM
 	except:
 		pass
-
-	try:
-		Longevity0			= float(districts[district]['Longevity0'])
-	except:
-		Longevity0 			= 'NA'
-	try:
-		Longevity1to2			= float(districts[district]['Longevity1to2'])
-	except:
-		Longevity1to2			= 'NA'
-	try:
-		Longevity3orMore		= float(districts[district]['Longevity3orMore'])
-	except:
-		Longevity3orMore 		= 'NA'
-
-	if type(Longevity3orMore) is float:
-		districts[district]['% enrolled less than 3 years'] = 1.0 - Longevity3orMore
-	else:
-		districts[district]['% enrolled less than 3 years'] = None
-		try:
-			districts[district]['% enrolled less than 3 years'] += Longevity1to2
-		except:
-			pass
-		try:
-			districts[district]['% enrolled less than 3 years'] += Longevity0
-		except:
-			pass
-
-	if districts[district]['% enrolled less than 3 years'] == 0:
-		districts[district]['% enrolled less than 3 years'] = None
 
 ############ OUTPUT COMPLETE CHARTER AND DISTRICT TABLES #########
 
@@ -4205,6 +4156,9 @@ for district in districts:
 		row.append(pull(districts[district], headers[i]))
 		
 	if 'Name' in districts[district]:
+		if district == watch_dist:
+			print headers
+			print row
 		wr.writerow(row)
 
 write_file.close()
