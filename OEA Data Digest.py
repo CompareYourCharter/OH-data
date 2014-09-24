@@ -371,23 +371,13 @@ while curr_row < num_rows:
 					curr_cell 	+= 1
 					cell_value 	= clean(worksheet.cell_value(curr_row, curr_cell))
 					charters[IRN][headers[curr_cell]]		= cell_value
-					total_expenses		+= worksheet.cell_value(curr_row, 3)
-					total_expenses		+= worksheet.cell_value(curr_row, 4)
-					total_expenses		+= worksheet.cell_value(curr_row, 5)
-					total_expenses		+= worksheet.cell_value(curr_row, 6)
-					total_expenses		+= worksheet.cell_value(curr_row, 7)
-					total_expenses		+= worksheet.cell_value(curr_row, 8)
-					classroom_percent	= float(total_expenses)
-					classroom_percent	-= worksheet.cell_value(curr_row, 7)
-					classroom_percent	= classroom_percent / total_expenses
-					classroom_percent	= classroom_percent * 100
-					classroom_percent	= round(classroom_percent, 1)
-					admin_percent		= 100.0 - classroom_percent
-					classroom_percent	= "%.1f" % classroom_percent
-					admin_percent		= "%.1f" % admin_percent
+
+					total_expenses		= row[3]+row[4]+row[5]+row[6]+row[7]+row[8]
+					admin_percent		= row[7] / total_expenses
+					classroom_percent	= 1.0 - admin_percent
 					
-					charters[IRN]['% Spent in Classroom']	= classroom_percent
-					charters[IRN]['% Spent on Administration']= admin_percent
+					charters[IRN]['% Spent in Classroom']		= classroom_percent * 100.0
+					charters[IRN]['% Spent on Administration']	= admin_percent * 100.0
 
 			if IRN in districts:
 				curr_cell		= -1
@@ -395,23 +385,13 @@ while curr_row < num_rows:
 					curr_cell 	+= 1
 					cell_value 	= clean(worksheet.cell_value(curr_row, curr_cell))
 					districts[IRN][headers[curr_cell]]	= cell_value
-					total_expenses		+= worksheet.cell_value(curr_row, 3)
-					total_expenses		+= worksheet.cell_value(curr_row, 4)
-					total_expenses		+= worksheet.cell_value(curr_row, 5)
-					total_expenses		+= worksheet.cell_value(curr_row, 6)
-					total_expenses		+= worksheet.cell_value(curr_row, 7)
-					total_expenses		+= worksheet.cell_value(curr_row, 8)
-					classroom_percent	= float(total_expenses)
-					classroom_percent	-= worksheet.cell_value(curr_row, 7)
-					classroom_percent	= classroom_percent / total_expenses
-					classroom_percent	= classroom_percent * 100
-					classroom_percent	= round(classroom_percent, 1)
-					admin_percent		= 100.0 - classroom_percent
-					classroom_percent	= "%.1f" % classroom_percent
-					admin_percent		= "%.1f" % admin_percent
+
+					total_expenses		= row[3]+row[4]+row[5]+row[6]+row[7]+row[8]
+					admin_percent		= row[7] / total_expenses
+					classroom_percent	= 1.0 - admin_percent
 					
-					districts[IRN]['% Spent in Classroom']	= classroom_percent
-					districts[IRN]['% Spent on Administration']= admin_percent
+					districts[IRN]['% Spent in Classroom']		= classroom_percent * 100.0
+					districts[IRN]['% Spent on Administration']	= admin_percent * 100.0
 	
 write_file.close()
 
