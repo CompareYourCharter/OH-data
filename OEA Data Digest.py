@@ -3849,7 +3849,7 @@ for charter in charters:
 	totalLong				= Longevity0 + Longevity1to2 + Longevity3orMore
 	
 	try:
-		charters[charter]['% enrolled less than 3 years'] = '%.1f' % (shortLong / totalLong)
+		charters[charter]['% enrolled less than 3 years'] = '%.1f' % ((100.0 * shortLong) / totalLong)
 	except:
 		charters[charter]['% enrolled less than 3 years'] = None
 
@@ -3895,7 +3895,7 @@ for district in districts:
 	totalLong				= Longevity0 + Longevity1to2 + Longevity3orMore
 	
 	try:
-		districts[district]['% enrolled less than 3 years'] = '%.1f' % (shortLong / totalLong)
+		districts[district]['% enrolled less than 3 years'] = '%.1f' % ((shortLong * 100.0) / totalLong)
 	except:
 		districts[district]['% enrolled less than 3 years'] = None
 
