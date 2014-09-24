@@ -33,7 +33,7 @@ def pull(dictionary, key):
 		return 'NA'
 	else:
 		try:
-			if dictionary[key] in ('--', 'NR', 0, ''):
+			if dictionary[key] in ('--', 'NR', 0, '', 0.0):
 				return 'NA'
 			else:
 				return dictionary[key]
@@ -3829,15 +3829,15 @@ for charter in charters:
 		pass
 	
 	try:
-		Longevity0			= charters[charter]['Longevity0']
+		Longevity0			= float(charters[charter]['Longevity0'])
 	except:
 		Longevity0 			= 'NA'
 	try:
-		Longevity1to2			= charters[charter]['Longevity1to2']
+		Longevity1to2			= float(charters[charter]['Longevity1to2'])
 	except:
 		Longevity1to2			= 'NA'
 	try:
-		Longevity3orMore		= charters[charter]['Longevity3orMore']
+		Longevity3orMore		= float(charters[charter]['Longevity3orMore'])
 	except:
 		Longevity3orMore 		= 'NA'
 
@@ -3856,6 +3856,9 @@ for charter in charters:
 
 	if charters[charter]['% enrolled less than 3 years'] == 0:
 		charters[charter]['% enrolled less than 3 years'] = None
+
+	if charter == '000304':
+		sys.exit()
 
 for district in districts:
 	breakpoint			= 'stateFunding'
@@ -3883,15 +3886,15 @@ for district in districts:
 		pass
 
 	try:
-		Longevity0			= districts[district]['Longevity0']
+		Longevity0			= float(districts[district]['Longevity0'])
 	except:
 		Longevity0 			= 'NA'
 	try:
-		Longevity1to2			= districts[district]['Longevity1to2']
+		Longevity1to2			= float(districts[district]['Longevity1to2'])
 	except:
 		Longevity1to2			= 'NA'
 	try:
-		Longevity3orMore		= districts[district]['Longevity3orMore']
+		Longevity3orMore		= float(districts[district]['Longevity3orMore'])
 	except:
 		Longevity3orMore 		= 'NA'
 
