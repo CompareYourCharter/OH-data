@@ -3653,7 +3653,7 @@ while curr_row < num_rows:
 			else:
 				pass
 			try:
-				districts[district_IRN]['State Funding per Student']	= (row[27] + row[30]) / row[47]
+				districts[district_IRN]['Funding per Student']		= (row[27] + row[30]) / row[47]
 			except:
 				pass
 			
