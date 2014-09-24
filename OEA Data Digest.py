@@ -3657,8 +3657,8 @@ while curr_row < num_rows:
 			except:
 				pass
 			
-			if district_IRN == watch_dist:
-				sys.exit()
+			#if district_IRN == watch_dist:
+			#	sys.exit()
 			curr_cell			= -1
 			while curr_cell < num_cells:
 				curr_cell 		+= 1
@@ -3871,7 +3871,7 @@ for district in districts:
 		breakpoint		= 'stateFundADM'
 		stateFundADM		= adjStateFunding / adjADM
 		breakpoint		= 'Dictionary Assign'
-		#districts[district]['State Funding per Student'] = '%.2F' % stateFundADM
+		districts[district]['State Funding per Student'] = '%.2F' % stateFundADM
 		funding			= stateFunding + additonalAid
 		breakpoint		= 'funding'
 		FundADM			= funding / totalADM
