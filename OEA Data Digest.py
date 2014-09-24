@@ -391,7 +391,7 @@ while curr_row < num_rows:
 					admin_percent		= row[7] / total_expenses
 					classroom_percent	= 1.0 - admin_percent
 					
-					districts[IRN]['% Spent in Classroom']		= '%.1f' % (classroom_percent * 100.0)
+					districts[IRN]['% Spent in Classtroom']		= '%.1f' % (classroom_percent * 100.0)
 					districts[IRN]['% Spent on Administration']	= '%.1f' % (admin_percent * 100.0)
 	
 write_file.close()
@@ -2338,7 +2338,6 @@ while curr_row < num_rows:
 					if type(enroll_percent) is float:
 						enroll_percent	= 100 - enroll_percent
 						charters[school_IRN]['% enrolled less than 3 years'] = '%.1f' % enroll_percent
-						charters[school_IRN]['% of kids in poverty'] = '%.1f' % enroll_percent
 
 				header			= headers[curr_cell + row_constant]
 				if school_IRN in charters:
@@ -3094,7 +3093,7 @@ while curr_row < num_rows:
 			school_teach_attend			= worksheet.cell_value(curr_row, 7)
 			school_teach_exp			= worksheet.cell_value(curr_row, 8)
 			school_no_teachers			= worksheet.cell_value(curr_row, 9)
-			school_per_masters			= worksheet.cell_value(curr_row, 15)
+			school_per_masters			= worksheet.cell_value(curr_row, 11)
 
 			charters[school_IRN]['Teacher attendance %'] = school_teach_attend
 			charters[school_IRN]['Avg Teacher Exp']	= school_teach_exp
