@@ -28,6 +28,12 @@ def fixIRN(value):
 	return value
 
 def pull(dictionary, key):
+	#try:
+	#	if (key == '% Spent in Classroom') and (dictionary['Name'] == 'Cleveland Municipal City'):
+	#		sys.exit()
+	#except:
+	#	pass
+
 	if key not in dictionary:
 		return 'NA'
 	else:
@@ -3637,8 +3643,6 @@ while curr_row < num_rows:
 			except:
 				pass
 			
-			#if district_IRN == watch_dist:
-			#	sys.exit()
 			curr_cell			= -1
 			while curr_cell < num_cells:
 				curr_cell 		+= 1
@@ -3820,8 +3824,6 @@ while curr_row < num_rows:
 write_file.close()
 
 ###### DATA PROCESSING #######
-
-#sys.exit()f
 
 for charter in charters:
 	try:
@@ -4154,6 +4156,9 @@ for district in districts:
 		row.append(pull(districts[district], headers[i]))
 		
 	if 'Name' in districts[district]:
+		if district == watch_dist:
+			print headers
+			print row
 		wr.writerow(row)
 
 write_file.close()
