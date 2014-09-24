@@ -33,7 +33,7 @@ def pull(dictionary, key):
 		return 'NA'
 	else:
 		try:
-			if dictionary[key] in ('--', 'NR'):
+			if dictionary[key] in ('--', 'NR', 0, ''):
 				return 'NA'
 			else:
 				return dictionary[key]
@@ -3844,7 +3844,7 @@ for charter in charters:
 	if type(Longevity3orMore) is float:
 		charters[charter]['% enrolled less than 3 years'] = 1.0 - Longevity3orMore
 	else:
-		charters[charter]['% enrolled less than 3 years'] = None
+		charters[charter]['% enrolled less than 3 years'] = 0
 		try:
 			charters[charter]['% enrolled less than 3 years'] += Longevity1to2
 		except:
@@ -3853,6 +3853,9 @@ for charter in charters:
 			charters[charter]['% enrolled less than 3 years'] += Longevity0
 		except:
 			pass
+
+	if charters[charter]['% enrolled less than 3 years'] == 0:
+		charters[charter]['% enrolled less than 3 years'] = None
 
 for district in districts:
 	breakpoint			= 'stateFunding'
@@ -3904,6 +3907,9 @@ for district in districts:
 			districts[district]['% enrolled less than 3 years'] += Longevity0
 		except:
 			pass
+
+	if districts[district]['% enrolled less than 3 years'] == 0:
+		districts[district]['% enrolled less than 3 years'] = None
 
 ############ OUTPUT COMPLETE CHARTER AND DISTRICT TABLES #########
 
