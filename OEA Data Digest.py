@@ -3857,9 +3857,6 @@ for charter in charters:
 	if charters[charter]['% enrolled less than 3 years'] == 0:
 		charters[charter]['% enrolled less than 3 years'] = None
 
-	if charter == '000304':
-		sys.exit()
-
 for district in districts:
 	breakpoint			= 'stateFunding'
 	try:
