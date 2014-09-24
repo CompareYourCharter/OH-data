@@ -7,6 +7,7 @@ csv_path	= "./charter-csv/"
 web_path	= "./charter-web/"
 districts	= {}
 charters	= {}
+watch_dist	= '043786'
 
 def clean(value):
 	if type(value) is float:
@@ -3652,10 +3653,12 @@ while curr_row < num_rows:
 			else:
 				pass
 			try:
-				districts[district_IRN]['State Funding per Student']	= row[27] + row[30] / row[47]
+				districts[district_IRN]['State Funding per Student']	= (row[27] + row[30]) / row[47]
 			except:
 				pass
 			
+			if district_IRN == watch_dist:
+				sys.exit()
 			curr_cell			= -1
 			while curr_cell < num_cells:
 				curr_cell 		+= 1
