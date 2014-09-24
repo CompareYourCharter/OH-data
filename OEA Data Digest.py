@@ -147,6 +147,7 @@ while curr_row < num_rows:
 		transfer			= worksheet.cell_value(curr_row, 59)
 		district_IRN			= fixIRN(district_IRN)
 		school_IRN			= fixIRN(school_IRN)
+		ADMtransfer			= row[52]
 
 		str_transfer			= '%.2f' % transfer
 
@@ -162,6 +163,11 @@ while curr_row < num_rows:
 			charters[school_IRN]['Public Funding']		+= transfer
 		else:
 			charters[school_IRN]['Public Funding']		= transfer
+
+		if 'ADM' in charters[school_IRN]:
+			charters[school_IRN]['ADM']			+= ADMtransfer
+		else:
+			charters[school_IRN]['ADM']			= ADMtransfer
 
 for charter in charters:
 	if 'Public Funding' in charters[charter]:
@@ -391,7 +397,7 @@ while curr_row < num_rows:
 					admin_percent		= row[7] / total_expenses
 					classroom_percent	= 1.0 - admin_percent
 					
-					districts[IRN]['% Spent in Classtroom']		= '%.1f' % (classroom_percent * 100.0)
+					districts[IRN]['% Spent in Classroom']		= '%.1f' % (classroom_percent * 100.0)
 					districts[IRN]['% Spent on Administration']	= '%.1f' % (admin_percent * 100.0)
 	
 write_file.close()
@@ -2316,7 +2322,7 @@ while curr_row < num_rows:
 			school_IRN			= worksheet.cell_value(curr_row, 0)
 			school_IRN			= fixIRN(school_IRN)
 
-			charters[school_IRN][row[9]]    = row[38]
+			charters[school_IRN][row[9]]    = row[37]
 
 			curr_cell			= 9
 			while curr_cell < num_cells:
@@ -2480,7 +2486,7 @@ while curr_row < num_rows:
 			district_IRN			= worksheet.cell_value(curr_row, 0)
 			district_IRN			= fixIRN(district_IRN)
 
-			districts[district_IRN][row[4]] = row[33]
+			districts[district_IRN][row[4]] = row[32]
 
 			curr_cell			= 4
 			while curr_cell < num_cells:
@@ -3164,7 +3170,7 @@ while curr_row < num_rows:
 			dist_teach_exp				= worksheet.cell_value(curr_row, 5)
 			dist_teach_attend			= worksheet.cell_value(curr_row, 4)
 			dist_no_teachers			= worksheet.cell_value(curr_row, 6)
-			dist_per_masters			= worksheet.cell_value(curr_row, 12)
+			dist_per_masters			= worksheet.cell_value(curr_row, 11)
 
 			districts[district_IRN]['Teacher attendance %'] = dist_teach_attend
 			districts[district_IRN]['Avg Teacher Exp']	= dist_teach_exp
@@ -3624,12 +3630,10 @@ while curr_row < num_rows:
 			districts[district_IRN]['Community School Transfer']		= '%.2f' % communitySchoolTrans
 			try:
 				districts[district_IRN]['Charter cost per student']	= '%.2f' % costPerStudent
+				districts[district_IRN]['Charter cost per classroom']   = '%.2f' % (costPerStudent * 25)
 			except:
 				pass
-			if type(costPerClassroom) is float:
-				districts[district_IRN]['Charter cost per classroom']	= '%.2f' % costPerClassroom
-			else:
-				pass
+
 			try:
 				districts[district_IRN]['Funding per Student']		= (row[27] + row[30]) / row[47]
 			except:
@@ -3831,30 +3835,22 @@ for charter in charters:
 	try:
 		Longevity0			= float(charters[charter]['Longevity0'])
 	except:
-		Longevity0 			= 'NA'
+		Longevity0 			= 0
 	try:
 		Longevity1to2			= float(charters[charter]['Longevity1to2'])
 	except:
-		Longevity1to2			= 'NA'
+		Longevity1to2			= 0
 	try:
 		Longevity3orMore		= float(charters[charter]['Longevity3orMore'])
 	except:
-		Longevity3orMore 		= 'NA'
+		Longevity3orMore 		= 0
 
-	if type(Longevity3orMore) is float:
-		charters[charter]['% enrolled less than 3 years'] = 1.0 - Longevity3orMore
-	else:
-		charters[charter]['% enrolled less than 3 years'] = 0
-		try:
-			charters[charter]['% enrolled less than 3 years'] += Longevity1to2
-		except:
-			pass
-		try:
-			charters[charter]['% enrolled less than 3 years'] += Longevity0
-		except:
-			pass
-
-	if charters[charter]['% enrolled less than 3 years'] == 0:
+	shortLong				= Longevity0 + Longevity1to2
+	totalLong				= Longevity0 + Longevity1to2 + Longevity3orMore
+	
+	try:
+		charters[charter]['% enrolled less than 3 years'] = '%.1f' % (shortLong / totalLong)
+	except:
 		charters[charter]['% enrolled less than 3 years'] = None
 
 for district in districts:
@@ -3885,30 +3881,22 @@ for district in districts:
 	try:
 		Longevity0			= float(districts[district]['Longevity0'])
 	except:
-		Longevity0 			= 'NA'
+		Longevity0 			= 0
 	try:
 		Longevity1to2			= float(districts[district]['Longevity1to2'])
 	except:
-		Longevity1to2			= 'NA'
+		Longevity1to2			= 0
 	try:
 		Longevity3orMore		= float(districts[district]['Longevity3orMore'])
 	except:
-		Longevity3orMore 		= 'NA'
+		Longevity3orMore 		= 0
 
-	if type(Longevity3orMore) is float:
-		districts[district]['% enrolled less than 3 years'] = 1.0 - Longevity3orMore
-	else:
-		districts[district]['% enrolled less than 3 years'] = None
-		try:
-			districts[district]['% enrolled less than 3 years'] += Longevity1to2
-		except:
-			pass
-		try:
-			districts[district]['% enrolled less than 3 years'] += Longevity0
-		except:
-			pass
-
-	if districts[district]['% enrolled less than 3 years'] == 0:
+	shortLong				= Longevity0 + Longevity1to2
+	totalLong				= Longevity0 + Longevity1to2 + Longevity3orMore
+	
+	try:
+		districts[district]['% enrolled less than 3 years'] = '%.1f' % (shortLong / totalLong)
+	except:
 		districts[district]['% enrolled less than 3 years'] = None
 
 ############ OUTPUT COMPLETE CHARTER AND DISTRICT TABLES #########
@@ -4203,7 +4191,7 @@ for district in districts:
 	
 	for i in range(1,len(headers)):
 		row.append(pull(districts[district], headers[i]))
-		
+
 	if 'Name' in districts[district]:
 		wr.writerow(row)
 
