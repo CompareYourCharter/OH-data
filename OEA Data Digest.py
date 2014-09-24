@@ -28,11 +28,6 @@ def fixIRN(value):
 	return value
 
 def pull(dictionary, key):
-	#try:
-	#	if (key == '% Spent in Classroom') and (dictionary['Name'] == 'Cleveland Municipal City'):
-	#		sys.exit()
-	#except:
-	#	pass
 
 	if key not in dictionary:
 		return 'NA'
@@ -382,8 +377,8 @@ while curr_row < num_rows:
 					admin_percent		= row[7] / total_expenses
 					classroom_percent	= 1.0 - admin_percent
 					
-					charters[IRN]['% Spent in Classroom']		= classroom_percent * 100.0
-					charters[IRN]['% Spent on Administration']	= admin_percent * 100.0
+					charters[IRN]['% Spent in Classroom']		= '%.1f' % (classroom_percent * 100.0)
+					charters[IRN]['% Spent on Administration']	= '%.1f' % (admin_percent * 100.0)
 
 			if IRN in districts:
 				curr_cell		= -1
@@ -396,11 +391,10 @@ while curr_row < num_rows:
 					admin_percent		= row[7] / total_expenses
 					classroom_percent	= 1.0 - admin_percent
 					
-					districts[IRN]['% Spent in Classroom']		= classroom_percent * 100.0
-					districts[IRN]['% Spent on Administration']	= admin_percent * 100.0
+					districts[IRN]['% Spent in Classroom']		= '%.1f' % (classroom_percent * 100.0)
+					districts[IRN]['% Spent on Administration']	= '%.1f' % (admin_percent * 100.0)
 	
 write_file.close()
-
 
 ###################### REPORT CARDS #########################
 
@@ -3858,7 +3852,6 @@ for district in districts:
 		breakpoint		= 'funding'
 		FundADM			= funding / totalADM
 		breakpoint		= 'Dictionary Assign'
-		# districts[district]['Funding per Student'] = '%.2F' % FundADM
 	except:
 		pass
 
@@ -4156,9 +4149,6 @@ for district in districts:
 		row.append(pull(districts[district], headers[i]))
 		
 	if 'Name' in districts[district]:
-		if district == watch_dist:
-			print headers
-			print row
 		wr.writerow(row)
 
 write_file.close()
