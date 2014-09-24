@@ -3651,6 +3651,10 @@ while curr_row < num_rows:
 				districts[district_IRN]['Charter cost per classroom']	= '%.2f' % costPerClassroom
 			else:
 				pass
+			try:
+				districts[district_IRN]['State Funding per Student']	= row[27] + row[30] / row[47]
+			except:
+				pass
 			
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -3864,12 +3868,12 @@ for district in districts:
 		breakpoint		= 'stateFundADM'
 		stateFundADM		= adjStateFunding / adjADM
 		breakpoint		= 'Dictionary Assign'
-		districts[district]['State Funding per Student'] = '%.2F' % stateFundADM
+		#districts[district]['State Funding per Student'] = '%.2F' % stateFundADM
 		funding			= stateFunding + additonalAid
 		breakpoint		= 'funding'
 		FundADM			= funding / totalADM
 		breakpoint		= 'Dictionary Assign'
-		districts[district]['Funding per Student'] = '%.2F' % FundADM
+		# districts[district]['Funding per Student'] = '%.2F' % FundADM
 	except:
 		pass
 
