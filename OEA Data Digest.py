@@ -949,14 +949,17 @@ while curr_row < num_rows:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 2)
 			school_IRN			= fixIRN(school_IRN)
-			
-			try:
-				school_enrollment	= float(worksheet.cell_value(curr_row, 18))
-				school_enrollment	+= .5
-				school_enrollment	= int(school_enrollment)
-				charters[school_IRN]['# of students']	= school_enrollment
-			except:
-				pass
+			if school_IRN not in charters:
+				charters[school_IRN]	= {}
+
+			if '# of students' not in charters[school_IRN]:			
+				try:
+					school_enrollment	= float(worksheet.cell_value(curr_row, 18))
+					school_enrollment	+= .5
+					school_enrollment	= int(school_enrollment)
+					charters[school_IRN]['# of students']	= school_enrollment
+				except:
+					pass
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -2178,7 +2181,6 @@ while curr_row < num_rows:
 
 write_file.close()
 
-
 ##################### MOBILITY DATA ########################
 
 # Charter Mobility Data
@@ -2312,9 +2314,9 @@ while curr_row < num_rows:
 		else:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 0)
-			if type(school_IRN) is float:
-				school_IRN		= str(round(school_IRN)).rstrip('0').rstrip('.')
-			school_IRN			= school_IRN.zfill(6)
+			school_IRN			= fixIRN(school_IRN)
+
+			charters[school_IRN][row[9]]    = row[38]
 
 			curr_cell			= 9
 			while curr_cell < num_cells:
@@ -2476,9 +2478,9 @@ while curr_row < num_rows:
 		else:
 			wr.writerow(row)
 			district_IRN			= worksheet.cell_value(curr_row, 0)
-			if type(district_IRN) is float:
-				district_IRN		= str(round(district_IRN)).rstrip('0').rstrip('.')
-			district_IRN			= district_IRN.zfill(6)
+			district_IRN			= fixIRN(district_IRN)
+
+			districts[district_IRN][row[4]] = row[33]
 
 			curr_cell			= 4
 			while curr_cell < num_cells:
@@ -3090,7 +3092,7 @@ while curr_row < num_rows:
 			school_teach_attend			= worksheet.cell_value(curr_row, 7)
 			school_teach_exp			= worksheet.cell_value(curr_row, 8)
 			school_no_teachers			= worksheet.cell_value(curr_row, 9)
-			school_per_masters			= worksheet.cell_value(curr_row, 11)
+			school_per_masters			= worksheet.cell_value(curr_row, 14)
 
 			charters[school_IRN]['Teacher attendance %'] = school_teach_attend
 			charters[school_IRN]['Avg Teacher Exp']	= school_teach_exp
@@ -3606,7 +3608,7 @@ while curr_row < num_rows:
 			adjustedADM			= totalADM - charterADM
 			communitySchoolTrans		= float(row[33]) * 1.0
 			try:
-				costPerStudent		= (-1.0 * communitySchoolTrans) / float(adjustedADM)
+				costPerStudent		= ((row[27]+row[30])/row[47])-((row[27]+row[30]+row[33])/(row[47]-row[89]))
 			except:
 				pass
 			try:
@@ -3825,6 +3827,32 @@ for charter in charters:
 		charters[charter]['State Funding per Student'] = '%.2F' % stateFundADM
 	except:
 		pass
+	
+	try:
+		Longevity0			= charters[charter]['Longevity0']
+	except:
+		Longevity0 			= 'NA'
+	try:
+		Longevity1to2			= charters[charter]['Longevity1to2']
+	except:
+		Longevity1to2			= 'NA'
+	try:
+		Longevity3orMore		= charters[charter]['Longevity3orMore']
+	except:
+		Longevity3orMore 		= 'NA'
+
+	if type(Longevity3orMore) is float:
+		charters[charter]['% enrolled less than 3 years'] = 1.0 - Longevity3orMore
+	else:
+		charters[charter]['% enrolled less than 3 years'] = None
+		try:
+			charters[charter]['% enrolled less than 3 years'] += Longevity1to2
+		except:
+			pass
+		try:
+			charters[charter]['% enrolled less than 3 years'] += Longevity0
+		except:
+			pass
 
 for district in districts:
 	breakpoint			= 'stateFunding'
@@ -3850,6 +3878,32 @@ for district in districts:
 		breakpoint		= 'Dictionary Assign'
 	except:
 		pass
+
+	try:
+		Longevity0			= districts[district]['Longevity0']
+	except:
+		Longevity0 			= 'NA'
+	try:
+		Longevity1to2			= districts[district]['Longevity1to2']
+	except:
+		Longevity1to2			= 'NA'
+	try:
+		Longevity3orMore		= districts[district]['Longevity3orMore']
+	except:
+		Longevity3orMore 		= 'NA'
+
+	if type(Longevity3orMore) is float:
+		districts[district]['% enrolled less than 3 years'] = 1.0 - Longevity3orMore
+	else:
+		districts[district]['% enrolled less than 3 years'] = None
+		try:
+			districts[district]['% enrolled less than 3 years'] += Longevity1to2
+		except:
+			pass
+		try:
+			districts[district]['% enrolled less than 3 years'] += Longevity0
+		except:
+			pass
 
 ############ OUTPUT COMPLETE CHARTER AND DISTRICT TABLES #########
 
