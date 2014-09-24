@@ -2154,10 +2154,15 @@ while curr_row < num_rows:
 			footer_row		= True
 		else:
 			wr.writerow(row)
-			district_IRN			= worksheet.cell_value(curr_row, 0)
-			if type(district_IRN) is float:
-				district_IRN		= str(round(district_IRN)).rstrip('0').rstrip('.')
-			district_IRN			= district_IRN.zfill(6)
+			district_IRN			= row[0]
+			district_IRN			= fixIRN(district_IRN)
+
+			if row[4] == 'Disadvantaged':
+				enroll_percent	= row[33]
+				if type(enroll_percent) is float:
+					districts[district_IRN]['% of kids in poverty'] = '%.1f' % enroll_percent
+				else:
+					districts[district_IRN]['% of kids in poverty'] = enroll_percent
 
 			curr_cell			= 4
 			while curr_cell < num_cells:
@@ -2166,18 +2171,10 @@ while curr_row < num_rows:
 				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
 				if row_type == 'Disadvantaged':
 					row_constant	= -5
-					if type(enroll_percent) is float:
-						districts[district_IRN]['% of kids in poverty'] = '%.1f' % enroll_percent
-					else:
-						districts[district_IRN]['% of kids in poverty'] = enroll_percent
 				else:
 					row_constant	= 24
 				header			= headers[curr_cell + row_constant]
-				if district_IRN in districts:
-					districts[district_IRN][header]			= cell_value
-				else:
-					districts[district_IRN]				= {}
-					districts[district_IRN][header]			= cell_value
+				districts[district_IRN][header]			= cell_value
 
 write_file.close()
 
