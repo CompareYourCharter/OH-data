@@ -3826,7 +3826,7 @@ for charter in charters:
 		if 'Virtual' not in charters[charter]:
 			charters[charter]['Virtual'] = 'Site Based'
 		stateFund		= float(charters[charter]['Public Funding'])
-		ADM			= float(charters[charter]['# of students'])
+		ADM			= float(charters[charter]['ADM'])
 		stateFundADM		= stateFund / ADM
 		charters[charter]['State Funding per Student'] = '%.2F' % stateFundADM
 	except:
