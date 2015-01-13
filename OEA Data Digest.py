@@ -7,6 +7,7 @@ csv_path	= "./charter-csv/"
 web_path	= "./charter-web/"
 districts	= {}
 charters	= {}
+charter_ids = []
 watch_dist	= '043786'
 
 def clean(value):
@@ -110,6 +111,8 @@ while curr_row < num_rows:
 		charters[school_IRN]		= {}
 	if district_IRN not in districts:
 		districts[district_IRN]		= {}
+
+	charter_ids.append(school_IRN)
 
 curr_row					= 0
 
@@ -406,11 +409,11 @@ write_file.close()
 
 # Charter Report Card
 
-filename	= 'Charter Report Card'
-xls_file	= xls_path + 'RAW' + ' ' + filename + '.xlsx'
+filename	= 'Report Card'
+xls_file	= xls_path + 'RAW' + ' ' + filename + '.xls'
 workbook	= xlrd.open_workbook(xls_file)
 
-worksheet 	= workbook.sheet_by_name('COMMSCHL')
+worksheet 	= workbook.sheet_by_name('BUILDING')
 
 # One row per charter
 
@@ -487,6 +490,7 @@ while curr_row < num_rows:
 			school_enrollment		= worksheet.cell_value(curr_row, 29)
 			school_3rdRead			= worksheet.cell_value(curr_row, 30)
 			school_attend_rate		= worksheet.cell_value(curr_row, 102)
+			school_4yrgrad = worksheet.cell_value(curr_row, 26)
 
 			letters				= [school_ltr_perf, \
 								school_ltr_overall_value, \
@@ -576,6 +580,8 @@ while curr_row < num_rows:
 			charters[school_IRN]['Attendance rate']			= school_attend_rate
 				# Graduation rate
 			charters[school_IRN]['Graduation rate']			= school_grad_rate
+
+			charters[school_IRN]['Letter grade of four year graduation rate']	= school_4yrgrad
 			charters[school_IRN]['Read 3rd Grade % at or above Proficient'] = school_3rdRead
 
 			curr_cell			= -1
@@ -665,7 +671,7 @@ while curr_row < num_rows:
 			district_enrollment		= worksheet.cell_value(curr_row, 24)
 			district_3rdRead		= worksheet.cell_value(curr_row, 25)
 			district_attend_rate		= worksheet.cell_value(curr_row, 97)
-
+			district_4yrgrad		= worksheet.cell_value(curr_row, 21)
 
 
 			letters				= [district_ltr_perf, \
@@ -744,7 +750,8 @@ while curr_row < num_rows:
 				# Graduation rate
 			districts[district_IRN]['Graduation rate']	= district_grad_rate
 
-			districts[district_IRN]['Graduation rate']	= district_grad_rate			
+			districts[district_IRN]['Letter grade of four year graduation rate']	= district_4yrgrad
+
 			districts[district_IRN]['Read 3rd Grade % at or above Proficient'] = district_3rdRead
 
 write_file.close()
@@ -3328,17 +3335,17 @@ while curr_row < num_rows:
 
 			# Basic School Information
 				# School Name
-			charters[school_IRN]['Name']		= school_name
+			#charters[school_IRN]['Name']		= school_name
 				# Address
-			charters[school_IRN]['Address']		= school_address
-			charters[school_IRN]['City']		= school_city
-			charters[school_IRN]['State']		= school_state
-			charters[school_IRN]['Postal Code']	= school_postal_code
+			#charters[school_IRN]['Address']		= school_address
+			#charters[school_IRN]['City']		= school_city
+			#charters[school_IRN]['State']		= school_state
+			#charters[school_IRN]['Postal Code']	= school_postal_code
 				# County
-			charters[school_IRN]['County']		= school_county
+			#charters[school_IRN]['County']		= school_county
 				# District
-			charters[school_IRN]['District IRN']	= school_district_IRN
-			charters[school_IRN]['District Name']	= school_district_name
+			#charters[school_IRN]['District IRN']	= school_district_IRN
+			#charters[school_IRN]['District Name']	= school_district_name
 				# Grades served
 			charters[school_IRN]['Grades Served']	= school_gradespan
 				# Open Status
@@ -3819,6 +3826,133 @@ while curr_row < num_rows:
 
 write_file.close()
 
+# Third Grade Reading Update
+
+filename  = 'Third Grade Reading Update'
+xls_file  = xls_path + 'RAW' + ' ' + filename + '.xlsx'
+workbook  = xlrd.open_workbook(xls_file)
+
+worksheet   = workbook.sheet_by_name('Schools')
+
+# One row per charter
+
+csv_file  = csv_path + filename + '-charters.csv'
+write_file  = open(csv_file, 'w')
+wr    = csv.writer(write_file, quoting=csv.QUOTE_ALL)
+
+num_rows          = worksheet.nrows - 1
+num_cells           = worksheet.ncols - 1
+curr_row          = 1
+header_row          = True
+headers           = ['School IRN', \
+                    'School Name', \
+                    'District IRN', \
+                    'District Name', \
+                    'County', \
+                    'Org Type', \
+                    'Grade Span', \
+                    'Open/Closed Status as of 9/1/2014', \
+                    'No. Third graders enrolled at end of school year and accountable to school', \
+                    'Perc. Exempt from TGRG promotion threshold', \
+                    'No. Subject to TGRG promotion threshold', \
+                    'Perc. Met promotion threshold', \
+                    'Perc. Did not meet promotion threshold']
+wr.writerow(headers)
+
+footer_row              = False
+district_count          = 0
+
+while curr_row < num_rows:
+  curr_row        += 1
+  row       = worksheet.row_values(curr_row)
+  if len(str(row[1])) > 0:
+    wr.writerow(row)
+    school_IRN      = int(row[0])
+    school_IRN      = fixIRN(school_IRN)
+
+    if school_IRN not in charters:
+      charters[school_IRN]  = {}
+
+    thirdReadStudentCount               = row[10]
+    try:
+    	thirdReadStudentCount392            = int(float(row[11])*float(row[10]))
+    except:
+    	pass
+    try:
+      thirdReadPer                = float(row[11]) * 100.0
+    except:
+      thirdReadPer                = None
+    charters[school_IRN]['Third Grade Reading Student Count']                 = thirdReadStudentCount
+    charters[school_IRN]['Third Grade Reading Student Count At or Above 392']       = thirdReadStudentCount392
+    if thirdReadPer:
+      charters[school_IRN]['Third Grade Reading Percentage']                  = '%.1f' % thirdReadPer
+
+    curr_cell     = -1
+    while curr_cell < num_cells:
+      curr_cell     += 1
+      cell_value    = clean(worksheet.cell_value(curr_row, curr_cell))
+      charters[school_IRN][headers[curr_cell]]  = cell_value
+
+write_file.close()
+
+worksheet   = workbook.sheet_by_name('Districts')
+
+# One row per district
+
+csv_file  = csv_path + filename + '-districts.csv'
+write_file  = open(csv_file, 'w')
+wr    = csv.writer(write_file, quoting=csv.QUOTE_ALL)
+
+num_rows          = worksheet.nrows - 1
+num_cells           = worksheet.ncols - 1
+curr_row          = 1
+header_row          = True
+headers           = ['District IRN', \
+                    'District Name', \
+                    'County', \
+                    'No. Third graders enrolled at end of school year and accountable to district', \
+                    'Perc. Exempt from TGRG promotion threshold', \
+                    'No. Subject to TGRG promotion threshold', \
+                    'Perc. Met promotion threshold', \
+                    'No. Did not meet promotion threshold']
+wr.writerow(headers)
+
+footer_row          = False
+district_count          = 0
+
+while curr_row < num_rows:
+  curr_row        += 1
+  row       = worksheet.row_values(curr_row)
+  if len(str(row[1])) > 0:
+    wr.writerow(row)
+    district_IRN      = int(row[0])
+    district_IRN      = fixIRN(district_IRN)
+
+    if district_IRN not in districts:
+      districts[district_IRN] = {}
+
+    thirdReadStudentCount               = row[5]
+    try:
+    	thirdReadStudentCount392          = int(float(row[6])*float(row[5]))
+    except:
+    	pass
+    try:
+      thirdReadPer                = float(row[6]) * 100.0
+    except:
+      thirdReadPer                = None
+    districts[district_IRN]['Third Grade Reading Student Count']                      = thirdReadStudentCount
+    districts[district_IRN]['Third Grade Reading Student Count At or Above 392']          = thirdReadStudentCount392
+    if thirdReadPer:
+      districts[district_IRN]['Third Grade Reading Percentage']                     = '%.1f' % thirdReadPer
+
+    curr_cell     = -1
+    while curr_cell < num_cells:
+      curr_cell     += 1
+      cell_value    = clean(worksheet.cell_value(curr_row, curr_cell))
+      districts[district_IRN][headers[curr_cell]] = cell_value
+
+write_file.close()
+
 ###### DATA PROCESSING #######
 
 for charter in charters:
@@ -4091,6 +4225,7 @@ headers					= [\
 						'Letter grade disabled value-add',\
 						'Letter grade lowest 20% value-add',\
 						'Letter grade of AMO',\
+						'Letter grade of four year graduation rate',\
 						'Attendance rate',\
 						'Graduation rate',\
 						\
@@ -4157,6 +4292,7 @@ headers					= [\
 						'Letter grade disabled value-add',\
 						'Letter grade lowest 20% value-add',\
 						'Letter grade of AMO',\
+						'Letter grade of four year graduation rate',\
 						'Attendance rate',\
 						'Graduation rate',\
 						\
@@ -4194,5 +4330,62 @@ for district in districts:
 
 	if 'Name' in districts[district]:
 		wr.writerow(row)
+
+write_file.close()
+
+csv_file				= web_path + 'Detail - Public Schools.csv'
+write_file				= open(csv_file, 'w')
+wr 					= csv.writer(write_file, quoting=csv.QUOTE_ALL)
+
+headers					= [\
+						'School IRN', \
+						'School Name', \
+						'Address', \
+						'City', \
+						'State', \
+						'Postal Code', \
+						'County', \
+						'District IRN', \
+						'District Name', \
+						'Grades Served', \
+						\
+						'# of students',\
+						\
+						'Letter grade standards met',\
+						'Letter grade performance index',\
+						'Performance index score',\
+						'Letter grade overall value-add',\
+						'Letter grade gifted value-add',\
+						'Letter grade disabled value-add',\
+						'Letter grade lowest 20% value-add',\
+						'Letter grade of AMO',\
+						'Letter grade of four year graduation rate',\
+						'Attendance rate',\
+						'Graduation rate',\
+						\
+						'Read 3rd Grade % at or above Proficient']
+
+wr.writerow(headers)
+
+for school in charters:
+	try:
+		enrollment		= float(charters[school]['# of students'])
+		teachers		= float(charters[school]['# of FT teachers'])
+		student_teacher		= '%.1f' % (enrollment/teachers)
+		charters[school]['Student-teacher ratio'] = student_teacher
+	except:
+		pass
+		
+	row 			= []
+	row.append(school)
+	
+	for i in range(1,len(headers)):
+		row.append(pull(charters[school], headers[i]))
+	
+	try:
+		if charters[school]['Org Type'] == 'Traditional School':
+			wr.writerow(row)
+	except:
+		pass
 
 write_file.close()
