@@ -4225,7 +4225,6 @@ headers					= [\
 						'Letter grade disabled value-add',\
 						'Letter grade lowest 20% value-add',\
 						'Letter grade of AMO',\
-						'Letter grade of four year graduation rate',\
 						'Attendance rate',\
 						'Graduation rate',\
 						\
@@ -4235,7 +4234,8 @@ headers					= [\
 						'Third Grade Reading Student Count', \
 						'Third Grade Reading Student Count At or Above 392', \
 						'Third Grade Reading Percentage', \
-						'Read 3rd Grade % at or above Proficient']
+						'Read 3rd Grade % at or above Proficient', \
+						'Letter grade of four year graduation rate']
 
 wr.writerow(headers)
 
@@ -4292,7 +4292,6 @@ headers					= [\
 						'Letter grade disabled value-add',\
 						'Letter grade lowest 20% value-add',\
 						'Letter grade of AMO',\
-						'Letter grade of four year graduation rate',\
 						'Attendance rate',\
 						'Graduation rate',\
 						\
@@ -4309,7 +4308,8 @@ headers					= [\
 						'Read 3rd Grade % at or above Proficient', \
 						'TOTAL CALCULATED STATE FUNDING', \
 						'TOTAL ADDITIONAL AID ITEMS', \
-						'TOTAL ADM']
+						'TOTAL ADM', \
+						'Letter grade of four year graduation rate']
 
 wr.writerow(headers)
 
@@ -4359,11 +4359,11 @@ headers					= [\
 						'Letter grade disabled value-add',\
 						'Letter grade lowest 20% value-add',\
 						'Letter grade of AMO',\
-						'Letter grade of four year graduation rate',\
 						'Attendance rate',\
 						'Graduation rate',\
 						\
-						'Read 3rd Grade % at or above Proficient']
+						'Read 3rd Grade % at or above Proficient', \
+						'Letter grade of four year graduation rate']
 
 wr.writerow(headers)
 
