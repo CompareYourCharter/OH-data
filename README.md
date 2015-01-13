@@ -277,9 +277,6 @@ The information between sheets is connected using the IRN.
 | School IRN             | District to Charter Transfer by Performance Data                | Sheet1                    | Community School IRN                 | 23 | No           |
 | School Name            | District to Charter Transfer by Performance Data                | Sheet1                    | Community School                     | 24 | No           |
 | Transfer               | District to Charter Transfer by Performance Data                | Sheet1                    | FY13 Total Funding Transfer          | 59 | No           |
-### Recently Added:
-
-* New column on all detail sheets for '4 Year Graduation Letter Grade'
 
 ### Recent Changes
 
