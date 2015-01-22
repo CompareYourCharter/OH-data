@@ -24,6 +24,10 @@ def clean(value):
 def fixIRN(value):
 	if type(value) is float:
 		value		= '%.0f' % value
+	if type(value) is str:
+		if len(value) > 0:
+			if value[0] == "'":
+				value   = value[1:]
 	value			= str(value)
 	value			= value.zfill(6)
 	return value
@@ -462,35 +466,32 @@ while curr_row < num_rows:
 			footer_row		= True
 		else:
 			wr.writerow(row)
-			school_IRN			= worksheet.cell_value(curr_row, 0)
-			school_IRN			= fixIRN(school_IRN)
+			school_IRN								= worksheet.cell_value(curr_row, 0)
+			school_IRN								= fixIRN(school_IRN)
 
 			if school_IRN not in charters:
-				charters[school_IRN]	= {}
+				charters[school_IRN]		= {}
 
-			school_name			= worksheet.cell_value(curr_row, 1)
-			school_address			= worksheet.cell_value(curr_row, 6)
-
-			school_district_IRN		= worksheet.cell_value(curr_row, 2)
-			school_district_IRN		= fixIRN(school_district_IRN)
-			school_district_name		= worksheet.cell_value(curr_row, 3)
-
-			school_county			= worksheet.cell_value(curr_row, 4)
-			school_gradespan		= worksheet.cell_value(curr_row, 10)
-			school_open			= worksheet.cell_value(curr_row, 11)
-
-			school_ltr_stand		= worksheet.cell_value(curr_row, 16)
-			school_perf_score		= worksheet.cell_value(curr_row, 17)
-			school_ltr_perf			= worksheet.cell_value(curr_row, 19)
+			school_name								= worksheet.cell_value(curr_row, 1)
+			school_address						= worksheet.cell_value(curr_row, 6)
+			school_district_IRN				= worksheet.cell_value(curr_row, 2)
+			school_district_IRN				= fixIRN(school_district_IRN)
+			school_district_name			= worksheet.cell_value(curr_row, 3)
+			school_county							= worksheet.cell_value(curr_row, 4)
+			school_gradespan					= worksheet.cell_value(curr_row, 10)
+			school_open								= worksheet.cell_value(curr_row, 11)
+			school_ltr_stand					= worksheet.cell_value(curr_row, 16)
+			school_perf_score					= worksheet.cell_value(curr_row, 17)
+			school_ltr_perf						= worksheet.cell_value(curr_row, 19)
 			school_ltr_overall_value	= worksheet.cell_value(curr_row, 20)
 			school_ltr_gifted_value		= worksheet.cell_value(curr_row, 21)
 			school_ltr_disable_value	= worksheet.cell_value(curr_row, 22)
 			school_ltr_bottom_value		= worksheet.cell_value(curr_row, 23)
-			school_ltr_AMO			= worksheet.cell_value(curr_row, 24)
-			school_enrollment		= worksheet.cell_value(curr_row, 29)
-			school_3rdRead			= worksheet.cell_value(curr_row, 30)
-			school_attend_rate		= worksheet.cell_value(curr_row, 102)
-			school_4yrgrad = worksheet.cell_value(curr_row, 26)
+			school_ltr_AMO						= worksheet.cell_value(curr_row, 24)
+			school_enrollment					= worksheet.cell_value(curr_row, 29)
+			school_3rdRead						= worksheet.cell_value(curr_row, 30)
+			school_attend_rate				= worksheet.cell_value(curr_row, 102)
+			school_4yrgrad 						= worksheet.cell_value(curr_row, 26)
 
 			letters				= [school_ltr_perf, \
 								school_ltr_overall_value, \
@@ -501,88 +502,58 @@ while curr_row < num_rows:
 								school_ltr_stand]
 
 			try:		
-				school_grad_rate	= float(worksheet.cell_value(curr_row, 107))		
-				school_grad_rate	= school_grad_rate / float(worksheet.cell_value(curr_row, 108))		
-				school_grad_rate	= '%.1f' % (100 * school_grad_rate)		
+				school_grad_rate		= float(worksheet.cell_value(curr_row, 107))		
+				school_grad_rate		= school_grad_rate / float(worksheet.cell_value(curr_row, 108))		
+				school_grad_rate		= '%.1f' % (100 * school_grad_rate)		
 			except:		
-				school_grad_rate	= '--'
+				school_grad_rate		= '--'
 
-			grade_sum = 0
-			no_of_grades = 0		
+			grade_sum 						= 0
+			no_of_grades 					= 0		
 			for grade in letters:
 				if grade in grade_dict:
-					grade_sum	+= grade_dict[grade]
-					no_of_grades	+= 1
+					grade_sum					+= grade_dict[grade]
+					no_of_grades			+= 1
 
 			if grade_sum == 0:
-				school_avg_grade = '--'
+				school_avg_grade 		= '--'
 			else:
-				avg_grade_point		= grade_sum / no_of_grades
-				school_avg_grade = point_to_grade(avg_grade_point)
-
-			try:
-				school_grad_rate	= float(worksheet.cell_value(curr_row, 107))
-				school_grad_rate	= school_grad_rate / float(worksheet.cell_value(curr_row, 108))
-				school_grad_rate	= '%.1f' % (100 * school_grad_rate)
-			except:
-				school_grad_rate	= '--'
+				avg_grade_point			= grade_sum / no_of_grades
+				school_avg_grade 		= point_to_grade(avg_grade_point)
 
 			city_state_zip				= worksheet.cell_value(curr_row, 7)
-			group					= city_state_zip.split(",")
-			school_city				= group[0]
-			school_group				= group[1].split(" ")
-			school_state				= school_group[1]
-			school_postal_code			= school_group[-1]
+			group									= city_state_zip.split(",")
+			school_city						= group[0]
+			school_group					= group[1].split(" ")
+			school_state					= school_group[1]
+			school_postal_code		= school_group[-1]
 
-			# Basic School Information
-				# School Name
-			charters[school_IRN]['Name']		= school_name
-				# Address
-			charters[school_IRN]['Address']		= school_address
-			charters[school_IRN]['City']		= school_city
-			charters[school_IRN]['State']		= school_state
-			charters[school_IRN]['Postal Code']	= school_postal_code
-				# County
-			charters[school_IRN]['County']		= school_county
-				# District
-			charters[school_IRN]['District IRN']	= school_district_IRN
-			charters[school_IRN]['District Name']	= school_district_name
-				# Grades served
-			charters[school_IRN]['Grades Served']	= school_gradespan
-				# Open Status
-			charters[school_IRN]['Open Status']	= school_open
-				# Average Grade
-			charters[school_IRN]['Avg Grade']	= school_avg_grade
 
-			# Studnets and Faculty
-				# # of students
-			charters[school_IRN]['# of students']	= school_enrollment
 
-			# Performance Data
-				# Report Card metrics
-					# Letter grade standards met
-			charters[school_IRN]['Letter grade standards met']	= school_ltr_stand
-					# Letter grade performance index
-			charters[school_IRN]['Letter grade performance index']	= school_ltr_perf
-					# Performance index score
-			charters[school_IRN]['Performance index score']		= school_perf_score
-					# Letter grade overall value-add
-			charters[school_IRN]['Letter grade overall value-add']	= school_ltr_overall_value
-					# Letter grade gifted value-add
-			charters[school_IRN]['Letter grade gifted value-add']	= school_ltr_gifted_value
-					# Letter grade disabled value-add
-			charters[school_IRN]['Letter grade disabled value-add']	= school_ltr_disable_value
-					# Letter grade lowest 20% value-add
-			charters[school_IRN]['Letter grade lowest 20% value-add']= school_ltr_bottom_value
-					# Letter grade of AMO
-			charters[school_IRN]['Letter grade of AMO']		= school_ltr_AMO
-				# Attendance rate
-			charters[school_IRN]['Attendance rate']			= school_attend_rate
-				# Graduation rate
-			charters[school_IRN]['Graduation rate']			= school_grad_rate
-
+			charters[school_IRN]['Name']																			= school_name
+			charters[school_IRN]['Address']																		= school_address
+			charters[school_IRN]['City']																			= school_city
+			charters[school_IRN]['State']																			= school_state
+			charters[school_IRN]['Postal Code']																= school_postal_code
+			charters[school_IRN]['County']																		= school_county
+			charters[school_IRN]['District IRN']															= school_district_IRN
+			charters[school_IRN]['District Name']															= school_district_name
+			charters[school_IRN]['Grades Served']															= school_gradespan
+			charters[school_IRN]['Open Status']																= school_open
+			charters[school_IRN]['Avg Grade']																	= school_avg_grade
+			charters[school_IRN]['# of students']															= school_enrollment
+			charters[school_IRN]['Letter grade standards met']								= school_ltr_stand
+			charters[school_IRN]['Letter grade performance index']						= school_ltr_perf
+			charters[school_IRN]['Performance index score']										= school_perf_score
+			charters[school_IRN]['Letter grade overall value-add']						= school_ltr_overall_value
+			charters[school_IRN]['Letter grade gifted value-add']							= school_ltr_gifted_value
+			charters[school_IRN]['Letter grade disabled value-add']						= school_ltr_disable_value
+			charters[school_IRN]['Letter grade lowest 20% value-add']					= school_ltr_bottom_value
+			charters[school_IRN]['Letter grade of AMO']												= school_ltr_AMO
+			charters[school_IRN]['Attendance rate']														= school_attend_rate
+			charters[school_IRN]['Graduation rate']														= school_grad_rate
 			charters[school_IRN]['Letter grade of four year graduation rate']	= school_4yrgrad
-			charters[school_IRN]['Read 3rd Grade % at or above Proficient'] = school_3rdRead
+			charters[school_IRN]['Read 3rd Grade % at or above Proficient'] 	= school_3rdRead
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -651,27 +622,26 @@ while curr_row < num_rows:
 			footer_row		= True
 		else:
 			wr.writerow(row)
-			district_IRN			= worksheet.cell_value(curr_row, 0)
-			district_IRN			= fixIRN(district_IRN)
+			district_IRN								= worksheet.cell_value(curr_row, 0)
+			district_IRN								= fixIRN(district_IRN)
 
 			if district_IRN not in districts:
-				districts[district_IRN]	= {}
+				districts[district_IRN]		= {}
 
-			district_name			= worksheet.cell_value(curr_row, 1)
-			district_address		= worksheet.cell_value(curr_row, 4)
-
-			district_ltr_stand		= worksheet.cell_value(curr_row, 11)
-			district_perf_score		= worksheet.cell_value(curr_row, 12)
-			district_ltr_perf		= worksheet.cell_value(curr_row, 14)
+			district_name								= worksheet.cell_value(curr_row, 1)
+			district_address						= worksheet.cell_value(curr_row, 4)
+			district_ltr_stand					= worksheet.cell_value(curr_row, 11)
+			district_perf_score					= worksheet.cell_value(curr_row, 12)
+			district_ltr_perf						= worksheet.cell_value(curr_row, 14)
 			district_ltr_overall_value	= worksheet.cell_value(curr_row, 15)
-			district_ltr_gifted_value	= worksheet.cell_value(curr_row, 16)
+			district_ltr_gifted_value		= worksheet.cell_value(curr_row, 16)
 			district_ltr_disable_value	= worksheet.cell_value(curr_row, 17)
-			district_ltr_bottom_value	= worksheet.cell_value(curr_row, 18)
-			district_ltr_AMO		= worksheet.cell_value(curr_row, 19)
-			district_enrollment		= worksheet.cell_value(curr_row, 24)
-			district_3rdRead		= worksheet.cell_value(curr_row, 25)
-			district_attend_rate		= worksheet.cell_value(curr_row, 97)
-			district_4yrgrad		= worksheet.cell_value(curr_row, 21)
+			district_ltr_bottom_value		= worksheet.cell_value(curr_row, 18)
+			district_ltr_AMO						= worksheet.cell_value(curr_row, 19)
+			district_enrollment					= worksheet.cell_value(curr_row, 24)
+			district_3rdRead						= worksheet.cell_value(curr_row, 25)
+			district_attend_rate				= worksheet.cell_value(curr_row, 97)
+			district_4yrgrad						= worksheet.cell_value(curr_row, 21)
 
 
 			letters				= [district_ltr_perf, \
@@ -682,77 +652,53 @@ while curr_row < num_rows:
 								district_ltr_AMO, \
 								district_ltr_stand]
 
-			grade_sum = 0
-			no_of_grades = 0		
+			grade_sum 								= 0
+			no_of_grades 							= 0		
 			for grade in letters:
 				if grade in grade_dict:
-					grade_sum	+= grade_dict[grade]
-					no_of_grades	+= 1
+					grade_sum							+= grade_dict[grade]
+					no_of_grades					+= 1
 
 			if grade_sum == 0:
-				district_avg_grade = '--'
+				district_avg_grade 			= '--'
 			else:
-				avg_grade_point		= grade_sum / no_of_grades
-				district_avg_grade	= point_to_grade(avg_grade_point)
+				avg_grade_point					= grade_sum / no_of_grades
+				district_avg_grade			= point_to_grade(avg_grade_point)
 
 			try:
-				district_grad_rate	= float(worksheet.cell_value(curr_row, 102))
-				district_grad_rate	= district_grad_rate \
-							/ float(worksheet.cell_value(curr_row, 103))
-				district_grad_rate	= '%.1f' % (100 * district_grad_rate)
+				district_grad_rate			= float(worksheet.cell_value(curr_row, 102))
+				district_grad_rate			= district_grad_rate / float(worksheet.cell_value(curr_row, 103))
+				district_grad_rate			= '%.1f' % (100 * district_grad_rate)
 			except:
-				district_grad_rate	= '--'
-			city_state_zip				= worksheet.cell_value(curr_row, 5)
-			group					= city_state_zip.split(",")
-			district_city				= group[0]
-			district_group				= group[1].split(" ")
-			district_state				= district_group[1]
+				district_grad_rate			= '--'
+			city_state_zip						= worksheet.cell_value(curr_row, 5)
+			group											= city_state_zip.split(",")
+			district_city							= group[0]
+			district_group						= group[1].split(" ")
+			district_state						= district_group[1]
 			district_postal_code			= district_group[-1]
 
-			# Basic School Information
-				# School Name
-			districts[district_IRN]['Name']			= district_name
-				# Address
-			districts[district_IRN]['Address']		= district_address
-			districts[district_IRN]['City']			= district_city
-			districts[district_IRN]['State']		= district_state
-			districts[district_IRN]['Postal Code']		= district_postal_code
-			districts[district_IRN]['Avg Grade']		= district_avg_grade	
 
-			# Studnets and Faculty
-				# # of students
-			districts[district_IRN]['# of students']	= district_enrollment
 
-			# Performance Data
-				# Report Card metrics
-					# Letter grade standards met
-			districts[district_IRN]['Letter grade standards met']	= district_ltr_stand
-					# Letter grade performance index
-			districts[district_IRN]['Letter grade performance index']= district_ltr_perf
-					# Performance index score
-			districts[district_IRN]['Performance index score']	= district_perf_score
-					# Letter grade overall value-add
-			districts[district_IRN]['Letter grade overall value-add']	= \
-									district_ltr_overall_value
-					# Letter grade gifted value-add
-			districts[district_IRN]['Letter grade gifted value-add']	= \
-									district_ltr_gifted_value
-					# Letter grade disabled value-add
-			districts[district_IRN]['Letter grade disabled value-add']	= \
-									district_ltr_disable_value
-					# Letter grade lowest 20% value-add
-			districts[district_IRN]['Letter grade lowest 20% value-add']	= \
-									district_ltr_bottom_value
-					# Letter grade of AMO
-			districts[district_IRN]['Letter grade of AMO']	= district_ltr_AMO
-				# Attendance rate
-			districts[district_IRN]['Attendance rate']	= district_attend_rate
-				# Graduation rate
-			districts[district_IRN]['Graduation rate']	= district_grad_rate
-
+			districts[district_IRN]['Name']																				= district_name
+			districts[district_IRN]['Address']																		= district_address
+			districts[district_IRN]['City']																				= district_city
+			districts[district_IRN]['State']																			= district_state
+			districts[district_IRN]['Postal Code']																= district_postal_code
+			districts[district_IRN]['Avg Grade']																	= district_avg_grade
+			districts[district_IRN]['# of students']															= district_enrollment
+			districts[district_IRN]['Letter grade standards met']									= district_ltr_stand
+			districts[district_IRN]['Letter grade performance index']							= district_ltr_perf
+			districts[district_IRN]['Performance index score']										= district_perf_score
+			districts[district_IRN]['Letter grade overall value-add']							= district_ltr_overall_value
+			districts[district_IRN]['Letter grade gifted value-add']							= district_ltr_gifted_value
+			districts[district_IRN]['Letter grade disabled value-add']						= district_ltr_disable_value
+			districts[district_IRN]['Letter grade lowest 20% value-add']					= district_ltr_bottom_value
+			districts[district_IRN]['Letter grade of AMO']												= district_ltr_AMO
+			districts[district_IRN]['Attendance rate']														= district_attend_rate
+			districts[district_IRN]['Graduation rate']														= district_grad_rate
 			districts[district_IRN]['Letter grade of four year graduation rate']	= district_4yrgrad
-
-			districts[district_IRN]['Read 3rd Grade % at or above Proficient'] = district_3rdRead
+			districts[district_IRN]['Read 3rd Grade % at or above Proficient'] 		= district_3rdRead
 
 write_file.close()
 
