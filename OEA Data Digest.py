@@ -4363,7 +4363,12 @@ headers					= [\
 						'Graduation rate',\
 						\
 						'Read 3rd Grade % at or above Proficient', \
-						'Letter grade of four year graduation rate']
+						'Letter grade of four year graduation rate',
+						'% of kids in poverty',\
+						'% of kids with special needs',\
+						'% gifted',\
+						'% white',\
+						'% non-white']
 
 wr.writerow(headers)
 
