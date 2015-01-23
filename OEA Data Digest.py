@@ -485,6 +485,7 @@ while curr_row < num_rows:
 			school_district_name			= worksheet.cell_value(curr_row, 3)
 			school_county							= worksheet.cell_value(curr_row, 4)
 			school_gradespan					= worksheet.cell_value(curr_row, 10)
+			school_type								= worksheet.cell_value(curr_row, 12)
 			school_open								= worksheet.cell_value(curr_row, 11)
 			school_ltr_stand					= worksheet.cell_value(curr_row, 16)
 			school_perf_score					= worksheet.cell_value(curr_row, 17)
@@ -560,6 +561,7 @@ while curr_row < num_rows:
 			charters[school_IRN]['Graduation rate']														= school_grad_rate
 			charters[school_IRN]['Letter grade of four year graduation rate']	= school_4yrgrad
 			charters[school_IRN]['Read 3rd Grade % at or above Proficient'] 	= school_3rdRead
+			charters[school_IRN]['School Type'] 															= school_type
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
@@ -4347,7 +4349,7 @@ for school in charters:
 		row.append(pull(charters[school], headers[i]))
 	
 	try:
-		if charters[school]['Org Type'] == 'Traditional School':
+		if 'Community' not in charters[school]['School Type']:
 			wr.writerow(row)
 	except:
 		pass
