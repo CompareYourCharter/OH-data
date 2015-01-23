@@ -4100,7 +4100,7 @@ for school in charters:
 	row.append(pull(charters[school], '% Spent in Classroom'))
 	row.append(pull(charters[school], 'Avg Teacher Exp'))
  	try:
-		if 'Community' not in charters[school]['School Type']:
+		if ('Community' in charters[school]['School Type']) or ('Dropout' in charters[school]['School Type']):
 			wr.writerow(row)
 	except:
 		pass
@@ -4222,7 +4222,7 @@ for school in charters:
 		row.append(pull(charters[school], headers[i]))
 		
 	try:
-		if 'Community' in charters[school]['School Type']:
+		if ('Community' in charters[school]['School Type']) or ('Dropout' in charters[school]['School Type']):
 			wr.writerow(row)
 	except:
 		pass
