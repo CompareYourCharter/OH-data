@@ -538,6 +538,8 @@ while curr_row < num_rows:
 
 
 			charters[school_IRN]['Name']																			= school_name
+			charters[school_IRN]['School Name']																= school_name
+			charters[school_IRN]['Building Name']															= school_name
 			charters[school_IRN]['Address']																		= school_address
 			charters[school_IRN]['City']																			= school_city
 			charters[school_IRN]['State']																			= school_state
@@ -4095,8 +4097,11 @@ for school in charters:
 	row.append(pull(charters[school], 'Public Funding'))
 	row.append(pull(charters[school], '% Spent in Classroom'))
 	row.append(pull(charters[school], 'Avg Teacher Exp'))
-	if ('Name' in charters[school]) and ('Public Funding' in charters[school]) and ('# of students' in charters[school]):
-		wr.writerow(row)
+ 	try:
+		if 'Community' not in charters[school]['School Type']:
+			wr.writerow(row)
+	except:
+		pass
 
 write_file.close()
 
@@ -4135,8 +4140,7 @@ for district in districts:
 		row.append(pull(districts[district], '% Spent in Classroom'))
 		row.append(pull(districts[district], 'Avg Teacher Exp'))
 		row.append(pull(districts[district], 'Community School Transfer'))
-		if 'Name' in districts[district]:
-			wr.writerow(row)
+		wr.writerow(row)
 	except:
 		pass
 
@@ -4215,8 +4219,11 @@ for school in charters:
 	for i in range(1,len(headers)):
 		row.append(pull(charters[school], headers[i]))
 		
-	if ('Name' in charters[school]) and ('Public Funding' in charters[school]) and ('# of students' in charters[school]):
-		wr.writerow(row)
+	try:
+		if 'Community' in charters[school]['School Type']:
+			wr.writerow(row)
+	except:
+		pass
 
 write_file.close()
 
