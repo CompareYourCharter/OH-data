@@ -22,13 +22,19 @@ def clean(value):
 	return value
 
 def fixIRN(value):
-	if type(value) is float:
-		value		= '%.0f' % value
-	if type(value) is str:
-		if len(value) > 0:
-			if value[0] == "'":
-				value   = value[1:]
-	value			= str(value)
+	if value:
+		value_str			= str(value)
+		new_value     = []
+		for i in value_str:
+			try:
+				x 				= int(x)
+				new_value.append(i)
+			except:
+				pass
+	else:
+		return value
+
+	value     = ''.join(value_str)
 	value			= value.zfill(6)
 	return value
 
@@ -753,6 +759,12 @@ while curr_row < num_rows:
 			school_IRN			= worksheet.cell_value(curr_row, 2)
 			school_IRN			= fixIRN(school_IRN)	
 
+			if school_IRN in charters:
+				charters[school_IRN][headers[curr_cell]]	= cell_value
+			else:
+				charters[school_IRN]				= {}
+				charters[school_IRN][headers[curr_cell]]	= cell_value
+
 			try:
 				school_fy		= worksheet.cell_value(curr_row, 4)
 				school_fy		= school_fy[-2:]
@@ -765,22 +777,17 @@ while curr_row < num_rows:
 			except:
 				pass
 
-			school_sponsor			= worksheet.cell_value(curr_row, 1)
-			school_virtual			= worksheet.cell_value(curr_row, 7)
-			school_spec			= worksheet.cell_value(curr_row, 8)
-			charters[school_IRN]['Virtual']				= school_virtual
-			charters[school_IRN]['Specialization']			= school_spec
-			charters[school_IRN]['Sponsor']				= school_sponsor
+			school_sponsor													= worksheet.cell_value(curr_row, 1)
+			school_virtual													= worksheet.cell_value(curr_row, 7)
+			school_spec															= worksheet.cell_value(curr_row, 8)
+			charters[school_IRN]['Virtual']					= school_virtual
+			charters[school_IRN]['Specialization']	= school_spec
+			charters[school_IRN]['Sponsor']					= school_sponsor
 
 			curr_cell			= -1
 			while curr_cell < num_cells:
 				curr_cell 		+= 1
 				cell_value 		= clean(worksheet.cell_value(curr_row, curr_cell))
-				if school_IRN in charters:
-					charters[school_IRN][headers[curr_cell]]	= cell_value
-				else:
-					charters[school_IRN]				= {}
-					charters[school_IRN][headers[curr_cell]]	= cell_value
 
 write_file.close()
 
@@ -826,6 +833,12 @@ while curr_row < num_rows:
 			wr.writerow(row)
 			school_IRN			= worksheet.cell_value(curr_row, 2)
 			school_IRN			= fixIRN(school_IRN)
+
+			if school_IRN in charters:
+				charters[school_IRN][headers[curr_cell]]	= cell_value
+			else:
+				charters[school_IRN]				= {}
+				charters[school_IRN][headers[curr_cell]]	= cell_value
 
 			try:
 				school_fy		= worksheet.cell_value(curr_row, 4)
