@@ -23,6 +23,8 @@ def clean(value):
 
 def fixIRN(value):
 	if value:
+		if type(value) is float:
+			value 			= int(value)
 		value_str			= str(value)
 		new_value     = []
 		for i in value_str:
@@ -153,14 +155,14 @@ while curr_row < num_rows:
 		row				= worksheet.row_values(curr_row)
 		wr.writerow(row)
 
-		district_IRN			= worksheet.cell_value(curr_row, 0)
-		district_Name			= worksheet.cell_value(curr_row, 1)
-		school_IRN			= worksheet.cell_value(curr_row, 22)
-		school_Name			= worksheet.cell_value(curr_row, 23)
-		transfer			= worksheet.cell_value(curr_row, 59)
-		district_IRN			= fixIRN(district_IRN)
-		school_IRN			= fixIRN(school_IRN)
-		ADMtransfer			= row[52]
+		district_IRN				= worksheet.cell_value(curr_row, 0)
+		district_Name				= worksheet.cell_value(curr_row, 1)
+		school_IRN					= worksheet.cell_value(curr_row, 22)
+		school_Name					= worksheet.cell_value(curr_row, 23)
+		transfer						= worksheet.cell_value(curr_row, 59)
+		district_IRN				= fixIRN(district_IRN)
+		school_IRN					= fixIRN(school_IRN)
+		ADMtransfer					= row[52]
 
 		str_transfer			= '%.2f' % transfer
 
@@ -3923,7 +3925,7 @@ for charter in charters:
 		if 'Virtual' not in charters[charter]:
 			charters[charter]['Virtual'] = 'Site Based'
 		stateFund		= float(charters[charter]['Public Funding'])
-		ADM			= float(charters[charter]['ADM'])
+		ADM													= float(charters[charter]['ADM'])
 		stateFundADM		= stateFund / ADM
 		charters[charter]['State Funding per Student'] = '%.2F' % stateFundADM
 	except:
@@ -4207,7 +4209,7 @@ wr.writerow(headers)
 for school in charters:
 	try:
 		enrollment		= float(charters[school]['# of students'])
-		teachers		= float(charters[school]['# of FT teachers'])
+		teachers		  = float(charters[school]['# of FT teachers'])
 		student_teacher		= '%.1f' % (enrollment/teachers)
 		charters[school]['Student-teacher ratio'] = student_teacher
 	except:
