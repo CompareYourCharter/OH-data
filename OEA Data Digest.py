@@ -501,6 +501,7 @@ while curr_row < num_rows:
 			school_3rdRead						= worksheet.cell_value(curr_row, 30)
 			school_attend_rate				= worksheet.cell_value(curr_row, 102)
 			school_4yrgrad 						= worksheet.cell_value(curr_row, 26)
+			school_grad_rate					= worksheet.cell_value(curr_row, 25)
 
 			letters				= [school_ltr_perf, \
 								school_ltr_overall_value, \
@@ -509,13 +510,6 @@ while curr_row < num_rows:
 								school_ltr_bottom_value, \
 								school_ltr_AMO, \
 								school_ltr_stand]
-
-			try:		
-				school_grad_rate		= float(worksheet.cell_value(curr_row, 107))		
-				school_grad_rate		= school_grad_rate / float(worksheet.cell_value(curr_row, 108))		
-				school_grad_rate		= '%.1f' % (100 * school_grad_rate)		
-			except:		
-				school_grad_rate		= '--'
 
 			grade_sum 						= 0
 			no_of_grades 					= 0		
@@ -654,6 +648,7 @@ while curr_row < num_rows:
 			district_3rdRead						= worksheet.cell_value(curr_row, 25)
 			district_attend_rate				= worksheet.cell_value(curr_row, 97)
 			district_4yrgrad						= worksheet.cell_value(curr_row, 21)
+			district_grad_rate					= worksheet.cell_value(curr_row, 20)
 
 
 			letters				= [district_ltr_perf, \
@@ -677,12 +672,6 @@ while curr_row < num_rows:
 				avg_grade_point					= grade_sum / no_of_grades
 				district_avg_grade			= point_to_grade(avg_grade_point)
 
-			try:
-				district_grad_rate			= float(worksheet.cell_value(curr_row, 102))
-				district_grad_rate			= district_grad_rate / float(worksheet.cell_value(curr_row, 103))
-				district_grad_rate			= '%.1f' % (100 * district_grad_rate)
-			except:
-				district_grad_rate			= '--'
 			city_state_zip						= worksheet.cell_value(curr_row, 5)
 			group											= city_state_zip.split(",")
 			district_city							= group[0]
