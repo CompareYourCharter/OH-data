@@ -3840,6 +3840,7 @@ while curr_row < num_rows:
     charters[school_IRN]['Third Grade Reading Student Count At or Above 392']       = thirdReadStudentCount392
     if thirdReadPer:
       charters[school_IRN]['Third Grade Reading Percentage']                  = '%.1f' % thirdReadPer
+      charters[school_IRN]['Read 3rd Grade % at or above Proficient']					= '%.1f' % thirdReadPer
 
     curr_cell     = -1
     while curr_cell < num_cells:
@@ -3898,7 +3899,7 @@ while curr_row < num_rows:
     districts[district_IRN]['Third Grade Reading Student Count At or Above 392']          = thirdReadStudentCount392
     if thirdReadPer:
       districts[district_IRN]['Third Grade Reading Percentage']                     = '%.1f' % thirdReadPer
-
+      districts[district_IRN]['Read 3rd Grade % at or above Proficient']						= '%.1f' % thirdReadPer
     curr_cell     = -1
     while curr_cell < num_cells:
       curr_cell     += 1
