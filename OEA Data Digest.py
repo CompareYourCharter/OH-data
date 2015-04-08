@@ -128,47 +128,33 @@ while curr_row < num_rows:
 
 curr_row					= 0
 
+curr_cell			= -1
+while curr_cell < num_cells:
+	curr_cell 		+= 1
+	cell_value 		= worksheet.cell_value(curr_row, curr_cell)
+	headers.append(cell_value)
+
+current_row = 5
 while curr_row < num_rows:
 	curr_row 				+= 1
-	if curr_row == 6:
-		header_row 			= False
-		for each in headers:
-			each 			= clean(each)
-		wr.writerow(headers)
-		new_headers			= []
-		for each in headers:
-			each			= filename + ' - ' + each
-			each 			= clean(each)
-			new_headers.append(each)
-		headers				= new_headers	
-	if header_row:
-		curr_cell			= -1
-		while curr_cell < num_cells:
-			curr_cell 		+= 1
-			cell_value 		= worksheet.cell_value(curr_row, curr_cell)
-			if len(headers) > curr_cell:
-				headers.append(cell_value)
-			else:
-				headers[curr_cell - 1] += " "
-				headers[curr_cell - 1] = cell_value
-	else:
-		row				= worksheet.row_values(curr_row)
-		wr.writerow(row)
+	row				= worksheet.row_values(curr_row)
+	wr.writerow(row)
 
-		district_IRN				= worksheet.cell_value(curr_row, 0)
-		district_Name				= worksheet.cell_value(curr_row, 1)
-		school_IRN					= worksheet.cell_value(curr_row, 22)
-		school_Name					= worksheet.cell_value(curr_row, 23)
-		transfer						= worksheet.cell_value(curr_row, 59)
-		district_IRN				= fixIRN(district_IRN)
-		school_IRN					= fixIRN(school_IRN)
-		ADMtransfer					= row[52]
+	district_IRN				= worksheet.cell_value(curr_row, 0)
+	district_Name				= worksheet.cell_value(curr_row, 1)
+	school_IRN					= worksheet.cell_value(curr_row, 22)
+	school_Name					= worksheet.cell_value(curr_row, 23)
+	transfer						= worksheet.cell_value(curr_row, 52)
+	district_IRN				= fixIRN(district_IRN)
+	school_IRN					= fixIRN(school_IRN)
+	ADMtransfer					= row[43]
 
-		str_transfer			= '%.2f' % transfer
+	str_transfer			= '%.2f' % transfer
 
-		short_row	= [district_IRN, district_Name, school_IRN, school_Name, str_transfer]
-		wr2.writerow(short_row)
+	short_row	= [district_IRN, district_Name, school_IRN, school_Name, str_transfer]
+	wr2.writerow(short_row)
 
+	if int(district_IRN) > 0 and int(school_IRN) > 0:
 		if 'Charter Transfer' in districts[district_IRN]:
 			districts[district_IRN]['Charter Transfer'] 	+= transfer
 		else:
